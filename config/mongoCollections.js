@@ -14,6 +14,6 @@ const getCollectionFn = (collection) => {
 };
 
 // Note: You will need to change the code below to have the collection required by the assignment!
-export const products = getCollectionFn("peppers");
+export const peppers = getCollectionFn("peppers");
 export const users = getCollectionFn("users");
 export const trades = getCollectionFn("trades");
