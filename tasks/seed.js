@@ -310,5 +310,17 @@ try {
   console.error(error);
 }
 
+// try{
+//   let foundUser = await usersData.login("AkiraKurosawa", "SevenSamurai1954");
+//   console.log(foundUser);
+// } catch (error){
+//   console.error(error);
+// }
+// try{
+//   let foundUser = await usersData.login("AkiraKurosawa", "SevenSamurai1955");
+//   console.log(foundUser);
+// } catch (error){
+//   console.error(error);
+// }
 
 await closeConnection();

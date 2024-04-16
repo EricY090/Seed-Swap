@@ -217,4 +217,27 @@ const getUserById = async (userId) => {
   }
   return findingUser;
 };
-export default { createUser, userNameExists, emailInUse, getUserByName, getUserById };
+
+
+const login = async (username, password) => {
+  // TODO
+  // check if username exists
+  // check if password is correct
+  // return user object
+  if (!username || !password) throw "fields incomplete";
+  if(username !== xss(username)) throw "Username or password incorrect";
+  if(password !== xss(password)) throw "Username or password incorrect";
+  if(username !== usersValidation.validateUsername(username)) throw "Username or password incorrect";
+  if(password !== usersValidation.validatePassword(password)) throw "Username or password incorrect";
+  const userCollection = await users();
+  const findingUser = await userCollection.findOne({ username: username});
+  if (!findingUser) throw "Username or password incorrect";
+  const passwordMatch = await bcryptjs.compare(password, findingUser.hashedPassword);
+  if (!passwordMatch) throw "Username or password incorrect";
+  else{
+    return findingUser;
+  }
+};
+
+
+export default { createUser, userNameExists, emailInUse, getUserByName, getUserById, login };
