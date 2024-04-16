@@ -1,16 +1,6 @@
 import { peppers } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
-import {
-  validatePepperName,
-  validateAlternativeNames,
-  validateSpecies,
-  validateHeatLevel,
-  validateColor,
-  validateSizeCM,
-  validateDaysToHarvest,
-  validateCountryCode,
-  validatePepperId,
-} from "../pepperValidation.js";
+import pepperValidation from "../pepperValidation.js";
 
 /* 
     heat levels are from 0 to 6.
@@ -28,7 +18,7 @@ import {
 // country is encoded as the 2 letter country code by ISO 3166 standardm, or as '__" for unknown
 //sizeCM is encoded as a two-element array. [0] being lower bound, [1] being upper bound
 //creates moderatorApproved flag set to FALSE.
-export const createPepper = async (
+const createPepper = async (
   varietyName,
   alternativeNames,
   species,
@@ -40,14 +30,14 @@ export const createPepper = async (
 ) => {
   //validation comes here later
   try {
-    varietyName = validatePepperName(varietyName);
-    alternativeNames = validateAlternativeNames(alternativeNames);
-    species = validateSpecies(species);
-    heatLevel = validateHeatLevel(heatLevel);
-    color = validateColor(color);
-    sizeCM = validateSizeCM(sizeCM);
-    daysToHarvest = validateDaysToHarvest(daysToHarvest);
-    originCountryCode = validateCountryCode(originCountryCode);
+    varietyName = pepperValidation.validatePepperName(varietyName);
+    alternativeNames = pepperValidation.validateAlternativeNames(alternativeNames);
+    species = pepperValidation.validateSpecies(species);
+    heatLevel = pepperValidation.validateHeatLevel(heatLevel);
+    color = pepperValidation.validateColor(color);
+    sizeCM = pepperValidation.validateSizeCM(sizeCM);
+    daysToHarvest = pepperValidation.validateDaysToHarvest(daysToHarvest);
+    originCountryCode = pepperValidation.validateCountryCode(originCountryCode);
   } catch (error) {
     throw error;
   }
@@ -74,7 +64,7 @@ export const createPepper = async (
 };
 
 // exactly the same as createPepper, but with moderatorApproved set to TRUE
-export const createPepperDev = async (
+const createPepperDev = async (
   varietyName,
   alternativeNames,
   species,
@@ -85,14 +75,14 @@ export const createPepperDev = async (
   originCountryCode
 ) => {
   try {
-    varietyName = validatePepperName(varietyName);
-    alternativeNames = validateAlternativeNames(alternativeNames);
-    species = validateSpecies(species);
-    heatLevel = validateHeatLevel(heatLevel);
-    color = validateColor(color);
-    sizeCM = validateSizeCM(sizeCM);
-    daysToHarvest = validateDaysToHarvest(daysToHarvest);
-    originCountryCode = validateCountryCode(originCountryCode);
+    varietyName = pepperValidation.validatePepperName(varietyName);
+    alternativeNames = pepperValidation.validateAlternativeNames(alternativeNames);
+    species = pepperValidation.validateSpecies(species);
+    heatLevel = pepperValidation.validateHeatLevel(heatLevel);
+    color = pepperValidation.validateColor(color);
+    sizeCM = pepperValidation.validateSizeCM(sizeCM);
+    daysToHarvest = pepperValidation.validateDaysToHarvest(daysToHarvest);
+    originCountryCode = pepperValidation.validateCountryCode(originCountryCode);
   } catch (error) {
     throw error;
   }
@@ -118,9 +108,9 @@ export const createPepperDev = async (
   return pepper;
 };
 
-export const getPepperById = async (pepperId) => {
+const getPepperById = async (pepperId) => {
   try {
-    pepperId = validatePepperId(pepperId);
+    pepperId = pepperValidation.validatePepperId(pepperId);
   } catch (error) {
     throw error;
   }
@@ -134,3 +124,27 @@ export const getPepperById = async (pepperId) => {
   pepper._id = pepper._id.toString();
   return pepper;
 };
+
+/**
+ * 
+ * @param {string} pepperName 
+ * @returns pepper object || null
+ */
+const getPepperByName = async (pepperName) => {
+  try {
+    pepperName = pepperValidation.validatePepperName(pepperName);
+  } catch (error) {
+    throw error;
+  }
+  const pepperCollection = await peppers();
+  const pepper = await pepperCollection.findOne({
+    varietyName: { $regex: pepperName, $options: "i" },
+  });
+  if (pepper === null) {
+    return null;
+  }
+  pepper._id = pepper._id.toString();
+  return pepper;
+}
+
+export default { createPepper, createPepperDev, getPepperById, getPepperByName };

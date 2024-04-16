@@ -1,12 +1,12 @@
 import { ObjectId } from "mongodb";
-export const validatePepperName = (pepperName) => {
+const validatePepperName = (pepperName) => {
   if (typeof pepperName === "undefined") throw "Pepper name is undefined";
   if (typeof pepperName !== "string") throw "Pepper name is not a string";
   if (pepperName.trim().length === 0) throw "Pepper name is an empty string";
   return pepperName.trim().toLowerCase(); //we save things lowercased in db;
 };
 
-export const validateAlternativeNames = (alternativeNames) => {
+const validateAlternativeNames = (alternativeNames) => {
   if (typeof alternativeNames === "undefined")
     throw "Alternative names are undefined";
   if (!Array.isArray(alternativeNames))
@@ -22,7 +22,7 @@ export const validateAlternativeNames = (alternativeNames) => {
   return alternativeNames;
 };
 
-export const validateSpecies = (species) => {
+const validateSpecies = (species) => {
   const capsicumSpecies = [
     "annuum",
     "baccatum",
@@ -39,7 +39,7 @@ export const validateSpecies = (species) => {
   return species; //we save things lowercased in db;
 };
 
-export const validateHeatLevel = (heatLevel) => {
+const validateHeatLevel = (heatLevel) => {
   if (typeof heatLevel === "undefined") throw "Heat level is undefined";
   if (typeof heatLevel !== "number") throw "Heat level is not a number";
   if (heatLevel < 0 || heatLevel > 6) throw "Heat level is not in range 0-6";
@@ -47,7 +47,7 @@ export const validateHeatLevel = (heatLevel) => {
 };
 
 //peppers can have a color of black, brown, cream, golden, green, orange, pink, purple, red, white, yellow
-export const validateColor = (color) => {
+const validateColor = (color) => {
   const capsicumColors = [
     "black",
     "brown",
@@ -71,7 +71,7 @@ export const validateColor = (color) => {
   return color;
 };
 
-export const validateSizeCM = (sizeCM) => {
+const validateSizeCM = (sizeCM) => {
   if (!Array.isArray(sizeCM)) {
     throw new Error("sizeCM must be an array");
   }
@@ -94,7 +94,7 @@ export const validateSizeCM = (sizeCM) => {
 };
 
 //In practice we will have days to harvest max out at 120
-export const validateDaysToHarvest = (daysToHarvest) => {
+const validateDaysToHarvest = (daysToHarvest) => {
   if (typeof daysToHarvest === "undefined")
     throw "Days to harvest is undefined";
   if (typeof daysToHarvest !== "number")
@@ -359,7 +359,7 @@ const countrySet = [
   { name: "Zimbabwe", code: "ZW" },
 ];
 
-export const validateCountryCode = (countryCode) => {
+const validateCountryCode = (countryCode) => {
   if (typeof countryCode === "undefined") throw "Country is undefined";
   if (typeof countryCode !== "string") throw "Country is not a string";
   if (countryCode.trim().length != 2) throw "Country code is not 2 characters";
@@ -370,7 +370,7 @@ export const validateCountryCode = (countryCode) => {
   return countryCode;
 };
 
-export const validatePepperId = (pepperId) => {
+const validatePepperId = (pepperId) => {
   if (!pepperId) throw "Pepper ID is not provided";
   if (typeof pepperId === "undefined") throw "Pepper ID is not provided";
   if (typeof pepperId !== "string") throw "Pepper ID is not a string";
@@ -379,3 +379,4 @@ export const validatePepperId = (pepperId) => {
   if (!ObjectId.isValid(pepperId)) throw "invalid object ID";
   return pepperId.trim();
 };
+export default {validatePepperName, validateAlternativeNames, validateSpecies, validateHeatLevel, validateColor, validateSizeCM, validateDaysToHarvest, validateCountryCode, validatePepperId}

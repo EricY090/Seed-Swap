@@ -254,7 +254,7 @@ const countrySet = [
   { name: "Zimbabwe", code: "ZW" },
 ];
 
-export const validateBoolean = (bool, varName) => {
+const validateBoolean = (bool, varName) => {
   if (typeof bool === "undefined") {
     throw `${varName} must be defined`;
   }
@@ -263,7 +263,7 @@ export const validateBoolean = (bool, varName) => {
   }
   return bool;
 };
-export const validateUsername = (username) => {
+const validateUsername = (username) => {
   // This does NOT check if the username is in use, only if it is valid
   if (typeof username !== "string") {
     throw "Username must be a string";
@@ -290,25 +290,106 @@ export const validateUsername = (username) => {
   return username;
 };
 
-export const validatePassword = (password) => {
-  if (typeof password !== "string") {
-    throw "Password must be a string";
-  }
-  if (password.length < 8) {
-    throw "Password must be at least 8 characters";
-  }
-  if (password.length > 20) {
-    throw "Password must be at most 20 characters";
-  }
-  if (password.includes(" ")) {
-    throw "password must not contain spaces";
-  }
-  if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password)) {
-    throw "Password must Minimum eight characters, at least one uppercase letter, one lowercase letter and one number";
-  }
+const validatePhoneNumber = (phoneNumber) => {
+  if (typeof phoneNumber === "undefined") throw "Phone number is undefined";
+  if (typeof phoneNumber !== "string") throw "Phone number is not a string";
+  if (phoneNumber.trim().length < 10) throw "Phone number is too short";
+  if (phoneNumber.trim().length > 15) throw "Phone number is too long";
+  if (!/^\+?[0-9]+$/.test(phoneNumber)) throw "Phone number is not valid";
+  return phoneNumber;
 };
-export const validateEmail = (email) => {
-  email = email.toLowerCase();
+
+const validateCity = (city) => {
+  if (typeof city === "undefined") throw "City is undefined";
+  if (typeof city !== "string") throw "City is not a string";
+  if (city.trim().length === 0) throw "City is empty";
+  if (city.length > 50) throw "City name is too long";
+  return city;
+};
+const USStates = {
+  AL: "Alabama",
+  AK: "Alaska",
+  AS: "American Samoa",
+  AZ: "Arizona",
+  AR: "Arkansas",
+  CA: "California",
+  CO: "Colorado",
+  CT: "Connecticut",
+  DE: "Delaware",
+  DC: "District Of Columbia",
+  FM: "Federated States Of Micronesia",
+  FL: "Florida",
+  GA: "Georgia",
+  GU: "Guam",
+  HI: "Hawaii",
+  ID: "Idaho",
+  IL: "Illinois",
+  IN: "Indiana",
+  IA: "Iowa",
+  KS: "Kansas",
+  KY: "Kentucky",
+  LA: "Louisiana",
+  ME: "Maine",
+  MH: "Marshall Islands",
+  MD: "Maryland",
+  MA: "Massachusetts",
+  MI: "Michigan",
+  MN: "Minnesota",
+  MS: "Mississippi",
+  MO: "Missouri",
+  MT: "Montana",
+  NE: "Nebraska",
+  NV: "Nevada",
+  NH: "New Hampshire",
+  NJ: "New Jersey",
+  NM: "New Mexico",
+  NY: "New York",
+  NC: "North Carolina",
+  ND: "North Dakota",
+  MP: "Northern Mariana Islands",
+  OH: "Ohio",
+  OK: "Oklahoma",
+  OR: "Oregon",
+  PW: "Palau",
+  PA: "Pennsylvania",
+  PR: "Puerto Rico",
+  RI: "Rhode Island",
+  SC: "South Carolina",
+  SD: "South Dakota",
+  TN: "Tennessee",
+  TX: "Texas",
+  UT: "Utah",
+  VT: "Vermont",
+  VI: "Virgin Islands",
+  VA: "Virginia",
+  WA: "Washington",
+  WV: "West Virginia",
+  WI: "Wisconsin",
+  WY: "Wyoming",
+};
+
+const validateState = (state) => {
+  if (typeof state === "undefined") throw "State is undefined";
+  if (typeof state !== "string") throw "State is not a string";
+  if (state.trim().length === 0) throw "State is empty";
+  state = state.trim().toUpperCase();
+  if (typeof USStates[state] === "undefined")
+    throw `US State abbrev  ${state} does not exist`;
+  return state;
+};
+const validateCountryCode = (countryCode) => {
+  //DOESNT allow unknown country
+  if (typeof countryCode === "undefined") throw "Country is undefined";
+  if (typeof countryCode !== "string") throw "Country is not a string";
+  if (countryCode.trim().length != 2) throw "Country code is not 2 characters";
+  countryCode = countryCode.trim().toUpperCase();
+  let country = countrySet.find((c) => c.code === countryCode);
+  if (typeof country === "undefined") throw "Country code is not valid";
+  return countryCode;
+};
+
+const validateEmail = (email) => {
+//   email = email.toLowerCase();
   if (typeof email !== "string") {
     throw "Email must be a string";
   }
@@ -331,17 +412,63 @@ export const validateEmail = (email) => {
   if (emailDomain.length === 0) {
     throw "Email domain must not be empty";
   }
-  if (emailDomain.includes(".")) {
+  if (!emailDomain.includes(".")) {
     throw "Email domain must contain a period";
   }
+  return email;
 };
-export const validateCountryCode = (countryCode) => {
-  //DOESNT allow unknown country
-  if (typeof countryCode === "undefined") throw "Country is undefined";
-  if (typeof countryCode !== "string") throw "Country is not a string";
-  if (countryCode.trim().length != 2) throw "Country code is not 2 characters";
-  countryCode = countryCode.trim().toUpperCase();
-  let country = countrySet.find((c) => c.code === countryCode);
-  if (typeof country === "undefined") throw "Country code is not valid";
-  return countryCode;
+
+const validateDiscord = (discord) => {
+  if (typeof discord === "undefined") {
+    return undefined;
+  }
+  if (typeof discord !== "string") {
+    throw "Discord username must be a string";
+  }
+  if (discord.trim().length === 0) {
+    throw "Discord username must not be empty";
+  }
+  if (discord.includes(" ")) {
+    throw "Discord username must not contain spaces";
+  }
+  if (discord.length < 2) {
+    throw "Discord username must be >=2 characters";
+  }
+  if (discord.length > 32) {
+    throw "Discord username must be <=32 characters";
+  }
+  return discord;
 };
+const validatePassword = (password) => {
+  if (typeof password !== "string") {
+    throw "Password must be a string";
+  }
+  if (password.length < 8) {
+    throw "Password must be at least 8 characters";
+  }
+  if (password.length > 20) {
+    throw "Password must be at most 20 characters";
+  }
+  if (password.includes(" ")) {
+    throw "password must not contain spaces";
+  }
+  if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password)) {
+    throw "Password must Minimum eight characters, at least one uppercase letter, one lowercase letter and one number";
+  }
+  return password
+};
+
+const validateUserId = (userId) => {
+  if (typeof userId === "undefined") {
+    throw "userId is undefined";
+  }
+  if (typeof userId !== "string") {
+    throw "userId is not a string";
+  }
+  if (!ObjectId.isValid(userId)) {
+    throw "userId is not a valid ObjectId";
+  }
+  return userId;
+}
+
+export default {validateBoolean, validateUsername, validatePhoneNumber, validateCity, validateState, validateCountryCode, validateEmail, validateDiscord, validatePassword, validateUserId};
