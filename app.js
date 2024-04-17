@@ -2,12 +2,13 @@ import express from "express";
 const app = express();
 import configRoutes from "./routes/index.js";
 import session from "express-session";
+import exphbs from "express-handlebars";
 
 app.use(express.json());
 app.use(
   session({
     name: "sessionCookie",
-    secret: "SevenSamurai",
+    secret: "SevenSamurai", //this is one of my favorite movies
     saveUninitialized: false,
     resave: false,
     cookie: { maxAge: 1000 * 60 * 30 }, // maxAge = 30 minutes
@@ -27,4 +28,3 @@ app.listen(3000, () => {
   console.log("We've now got a server!");
   console.log("Your routes will be running on http://localhost:3000");
 });
-node;

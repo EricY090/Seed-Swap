@@ -63,7 +63,19 @@ const createPepper = async (
   return pepper;
 };
 
-// exactly the same as createPepper, but with moderatorApproved set to TRUE
+/**
+ * 
+ * @param {string} varietyName 
+ * @param {string[]} alternativeNames 
+ * @param {string} species 
+ * @param {number} heatLevel 
+ * @param {string} color 
+ * @param {number[]} sizeCM 
+ * @param {number} daysToHarvest 
+ * @param {string} originCountryCode 
+ * @returns pepper object
+ * @throws {string} invalid fields, mongo couldnt add
+ */
 const createPepperDev = async (
   varietyName,
   alternativeNames,
@@ -108,6 +120,12 @@ const createPepperDev = async (
   return pepper;
 };
 
+/**
+ * 
+ * @param {string} pepperId 
+ * @returns pepper object
+ * @throws {string} invalid field, pepper not found
+ */
 const getPepperById = async (pepperId) => {
   try {
     pepperId = pepperValidation.validatePepperId(pepperId);

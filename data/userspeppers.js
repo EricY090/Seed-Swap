@@ -9,7 +9,8 @@ import xss from "xss";
  * 
  * @param {string} userId 
  * @param {string} pepperName 
- * @returns user object || error
+ * @returns user object
+ * @throws {string} invalid fields, xss vulnerability detected, user not found, pepper not found
  */
 const addPepperToUserInv = async (userId, pepperName) => {
     if (!userId || !pepperName) throw "fields incomplete";
@@ -38,12 +39,29 @@ const addPepperToUserInv = async (userId, pepperName) => {
 
     pepperName = pepperName.toLowerCase();
     const userCollection = await users();
-    await userCollection.updateOne({ _id: new ObjectId(userId) }, { $addToSet: { inventory: pepperName } });
 
-    foundUser = await usersData.getUserById(userId);
+    try{
+        await userCollection.updateOne({ _id: new ObjectId(userId) }, { $addToSet: { inventory: pepperName } });
+    }catch(error){
+        throw error;
+    }
+    try{
+        foundUser = await usersData.getUserById(userId);
+    } catch (error) {
+        throw error;
+    }
+    
     return foundUser;
 }
 
+
+/**
+ * 
+ * @param {string} userId 
+ * @param {string} pepperName 
+ * @returns user object
+ * @throws {string} invalid fields, xss vulnerability detected, user not found, pepper not found
+ */
 const addPepperToUserWL = async (userId, pepperName) => {
     if (!userId || !pepperName) throw "fields incomplete";
     if (typeof userId !== "string" || typeof pepperName !== "string") throw "fields not strings";

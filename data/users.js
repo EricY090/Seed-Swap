@@ -7,9 +7,9 @@ import usersValidation from "../usersValidation.js";
 // discord, phone are allowed to be undefined. just be sure to enter them as undefined when calling function
 /**
  * city and state cannot be used without countryCode being US.
- * 
+ *
  * if city is used, state must be used
- * 
+ *
  * @param {boolean} moderator
  * @param {string} username
  * @param {boolean} displayWishlist
@@ -21,6 +21,7 @@ import usersValidation from "../usersValidation.js";
  * @param {string | undefined} email
  * @param {string} password
  * @returns {string} userId
+ * @throws {string} invalid fields
  */
 
 const createUser = async (
@@ -39,13 +40,14 @@ const createUser = async (
   // check if username is in use, regardless of case
 
   //validating the required fields (moderator, userName, displayWishlist, countryCode, password)
-  
 
-  
   try {
     moderator = usersValidation.validateBoolean(moderator, "moderator");
     username = usersValidation.validateUsername(username);
-    displayWishlist = usersValidation.validateBoolean(displayWishlist, "displayWishlist");
+    displayWishlist = usersValidation.validateBoolean(
+      displayWishlist,
+      "displayWishlist"
+    );
     countryCode = usersValidation.validateCountryCode(countryCode);
     password = usersValidation.validatePassword(password);
   } catch (error) {
@@ -54,7 +56,6 @@ const createUser = async (
   //xss sanitizing mandatory string fields (userName, countryCode, password)
   username = xss(username);
   countryCode = xss(countryCode);
-
 
   if (password !== xss(password)) {
     throw `${password}Password is an xss vulnerability`;
@@ -122,21 +123,21 @@ const createUser = async (
     moderator: moderator,
     username: username,
     displayWishlist: displayWishlist,
-		hashedPassword: hashedPassword,
+    hashedPassword: hashedPassword,
     city: city,
     state: state,
     countryCode: countryCode,
-		wishlist: [],
+    wishlist: [],
     inventory: [],
     discord: discord,
     phone: phone,
     email: email,
-		trades: [],
-		avgRating: 0,
-		growLog: [],
-		profileComments: [],
+    trades: [],
+    avgRating: 0,
+    growLog: [],
+    profileComments: [],
   };
-	const userCollection = await users();
+  const userCollection = await users();
   const insertInfo = await userCollection.insertOne(newUser);
   if (!insertInfo.acknowledged || !insertInfo.insertedId) {
     throw "Could not add user";
@@ -148,6 +149,8 @@ const createUser = async (
  *
  * @param {string} username
  * @returns boolean
+ *
+ * case insensitive search
  */
 const userNameExists = async (username) => {
   const userCollection = await users();
@@ -163,9 +166,11 @@ const userNameExists = async (username) => {
  *
  * @param {string} email
  * @returns boolean
+ *
+ * case insensitive search
  */
 const emailInUse = async (email) => {
-	const userCollection = await users();
+  const userCollection = await users();
   const findingUser = await userCollection.findOne({
     email: { $regex: email, $options: "i" },
   });
@@ -178,6 +183,7 @@ const emailInUse = async (email) => {
  *
  * @param {string} username
  * @returns {object} user object
+ * @throws {string} "User not found"
  */
 const getUserByName = async (username) => {
   const findingUser = await userCollection.findOne({
@@ -193,7 +199,7 @@ const getUserByName = async (username) => {
  *
  * @param {string} userId
  * @returns {object} user object
- * @throws {string} "Invalid userId, User not found"
+ * @throws {string} "Invalid userId, User not found", xss vulnerability
  */
 const getUserById = async (userId) => {
   //userId is a string
@@ -218,26 +224,40 @@ const getUserById = async (userId) => {
   return findingUser;
 };
 
-
+/**
+ *
+ * @param {string} username
+ * @param {string} password
+ * @returns user object
+ * @throws {string} "fields incomplete", "Username or password incorrect"
+ */
 const login = async (username, password) => {
-  // TODO
-  // check if username exists
-  // check if password is correct
-  // return user object
   if (!username || !password) throw "fields incomplete";
-  if(username !== xss(username)) throw "Username or password incorrect";
-  if(password !== xss(password)) throw "Username or password incorrect";
-  if(username !== usersValidation.validateUsername(username)) throw "Username or password incorrect";
-  if(password !== usersValidation.validatePassword(password)) throw "Username or password incorrect";
+  if (username !== xss(username)) throw "Username or password incorrect";
+  if (password !== xss(password)) throw "Username or password incorrect";
+  if (username !== usersValidation.validateUsername(username))
+    throw "Username or password incorrect";
+  if (password !== usersValidation.validatePassword(password))
+    throw "Username or password incorrect";
   const userCollection = await users();
-  const findingUser = await userCollection.findOne({ username: username});
+  //case insensitive search
+  const findingUser = await userCollection.findOne({ username: username });
   if (!findingUser) throw "Username or password incorrect";
-  const passwordMatch = await bcryptjs.compare(password, findingUser.hashedPassword);
+  const passwordMatch = await bcryptjs.compare(
+    password,
+    findingUser.hashedPassword
+  );
   if (!passwordMatch) throw "Username or password incorrect";
-  else{
+  else {
     return findingUser;
   }
 };
 
-
-export default { createUser, userNameExists, emailInUse, getUserByName, getUserById, login };
+export default {
+  createUser,
+  userNameExists,
+  emailInUse,
+  getUserByName,
+  getUserById,
+  login,
+};
