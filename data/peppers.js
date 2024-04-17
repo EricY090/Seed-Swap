@@ -11,7 +11,7 @@ import pepperValidation from "../pepperValidation.js";
     // 4 common habanero types, scotch bonnet, thai
     // 5 hotter habanero-scotch bonnet types (red savina habanero, choclate scotch bonnets)
     // 6 carolina reaper, 7 pots, ghost peppers. insanely hot stuff that you wouldnt eat with an ulcer
-    // peppers can have a color of black, brown, cream, golden, green, orange, pink, purple, red, white, yellow
+    // peppers can have a color of black, brown, golden, green, orange, pink, purple, red, white, yellow
 */
 
 // only valid species are annuum, chinense, baccatum, frutescens, pubescens
@@ -31,7 +31,8 @@ const createPepper = async (
   //validation comes here later
   try {
     varietyName = pepperValidation.validatePepperName(varietyName);
-    alternativeNames = pepperValidation.validateAlternativeNames(alternativeNames);
+    alternativeNames =
+      pepperValidation.validateAlternativeNames(alternativeNames);
     species = pepperValidation.validateSpecies(species);
     heatLevel = pepperValidation.validateHeatLevel(heatLevel);
     color = pepperValidation.validateColor(color);
@@ -64,15 +65,15 @@ const createPepper = async (
 };
 
 /**
- * 
- * @param {string} varietyName 
- * @param {string[]} alternativeNames 
- * @param {string} species 
- * @param {number} heatLevel 
- * @param {string} color 
- * @param {number[]} sizeCM 
- * @param {number} daysToHarvest 
- * @param {string} originCountryCode 
+ *
+ * @param {string} varietyName
+ * @param {string[]} alternativeNames
+ * @param {string} species
+ * @param {number} heatLevel
+ * @param {string} color
+ * @param {number[]} sizeCM
+ * @param {number} daysToHarvest
+ * @param {string} originCountryCode
  * @returns pepper object
  * @throws {string} invalid fields, mongo couldnt add
  */
@@ -88,7 +89,8 @@ const createPepperDev = async (
 ) => {
   try {
     varietyName = pepperValidation.validatePepperName(varietyName);
-    alternativeNames = pepperValidation.validateAlternativeNames(alternativeNames);
+    alternativeNames =
+      pepperValidation.validateAlternativeNames(alternativeNames);
     species = pepperValidation.validateSpecies(species);
     heatLevel = pepperValidation.validateHeatLevel(heatLevel);
     color = pepperValidation.validateColor(color);
@@ -121,9 +123,9 @@ const createPepperDev = async (
 };
 
 /**
- * 
- * @param {string} pepperId 
- * @returns pepper object
+ *
+ * @param {string} pepperId
+ * @returns pepper object || null if not found
  * @throws {string} invalid field, pepper not found
  */
 const getPepperById = async (pepperId) => {
@@ -137,15 +139,39 @@ const getPepperById = async (pepperId) => {
     _id: new ObjectId(pepperId),
   });
   if (pepper === null) {
-    throw "No pepper found with that ID";
+    return null;
   }
   pepper._id = pepper._id.toString();
   return pepper;
 };
 
 /**
- * 
- * @param {string} pepperName 
+ *
+ * @param {string} pepperId
+ * @returns pepper object || null if not found
+ * @throws {string} invalid field, pepper not found
+ */
+const getPepperByIdAppr = async (pepperId) => {
+  try {
+    pepperId = pepperValidation.validatePepperId(pepperId);
+  } catch (error) {
+    throw error;
+  }
+  const pepperCollection = await peppers();
+  const pepper = await pepperCollection.findOne({
+    _id: new ObjectId(pepperId),
+    moderatorApproved: true,
+  });
+  if (pepper === null) {
+    return null;
+  }
+  pepper._id = pepper._id.toString();
+  return pepper;
+};
+
+/**
+ *
+ * @param {string} pepperName
  * @returns pepper object || null
  */
 const getPepperByName = async (pepperName) => {
@@ -163,6 +189,71 @@ const getPepperByName = async (pepperName) => {
   }
   pepper._id = pepper._id.toString();
   return pepper;
-}
+};
 
-export default { createPepper, createPepperDev, getPepperById, getPepperByName };
+/**
+ *
+ * @param {string} pepperName
+ * @returns pepper object || null
+ */
+const getPepperByNameAppr = async (pepperName) => {
+  try {
+    pepperName = pepperValidation.validatePepperName(pepperName);
+  } catch (error) {
+    throw error;
+  }
+  const pepperCollection = await peppers();
+  const pepper = await pepperCollection.findOne({
+    varietyName: { $regex: pepperName, $options: "i" },
+    moderatorApproved: true,
+  });
+  if (pepper === null) {
+    return null;
+  }
+  pepper._id = pepper._id.toString();
+  return pepper;
+};
+
+const getAllPeppers = async () => {
+  const pepperCollection = await peppers();
+  const allPeppers = await pepperCollection.find({}).toArray();
+  allPeppers.forEach((pepper) => {
+    pepper._id = pepper._id.toString();
+  });
+  return allPeppers;
+};
+
+const getAllPeppersAppr = async () => {
+  const pepperCollection = await peppers();
+  const allPeppers = await pepperCollection
+    .find({ moderatorApproved: true })
+    .toArray();
+  allPeppers.forEach((pepper) => {
+    pepper._id = pepper._id.toString();
+  });
+  return allPeppers;
+};
+
+const getAllPeppersUnappr = async () => {
+  const pepperCollection = await peppers();
+  const allPeppers = await pepperCollection
+    .find({ moderatorApproved: false })
+    .toArray();
+  allPeppers.forEach((pepper) => {
+    pepper._id = pepper._id.toString();
+  });
+  return allPeppers;
+};
+
+export default {
+  createPepper,
+  createPepperDev,
+  getPepperById,
+  getPepperByIdAppr,
+  getPepperByNameAppr,
+  getPepperByName,
+  getPepperByNameAppr,
+  getAllPeppers,
+  getAllPeppersAppr,
+  getAllPeppersUnappr,
+};

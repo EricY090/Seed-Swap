@@ -1,8 +1,8 @@
 import { ObjectId } from "mongodb";
 
 /**
- * 
- * @param {string} pepperName 
+ *
+ * @param {string} pepperName
  * @returns string pepperName
  * @throws {string}
  */
@@ -14,8 +14,8 @@ const validatePepperName = (pepperName) => {
 };
 
 /**
- * 
- * @param {string[]} alternativeNames 
+ *
+ * @param {string[]} alternativeNames
  * @returns {string[]} alternativeNames
  * @throws {string}
  */
@@ -36,8 +36,8 @@ const validateAlternativeNames = (alternativeNames) => {
 };
 
 /**
- * 
- * @param {string} species 
+ *
+ * @param {string} species
  * @returns {string} species
  * @throws {string}
  */
@@ -59,8 +59,8 @@ const validateSpecies = (species) => {
 };
 
 /**
- * 
- * @param {number} heatLevel 
+ *
+ * @param {number} heatLevel
  * @returns {number} heatLevel
  * @throws {string}
  */
@@ -73,8 +73,8 @@ const validateHeatLevel = (heatLevel) => {
 
 //peppers can have a color of black, brown, cream, golden, green, orange, pink, purple, red, white, yellow
 /**
- * 
- * @param {string} color 
+ *
+ * @param {string} color
  * @returns {string} color
  * @throws {string}
  */
@@ -82,7 +82,6 @@ const validateColor = (color) => {
   const capsicumColors = [
     "black",
     "brown",
-    "cream",
     "golden",
     "green",
     "orange",
@@ -103,8 +102,8 @@ const validateColor = (color) => {
 };
 
 /**
- * 
- * @param {number[2]} sizeCM 
+ *
+ * @param {number[2]} sizeCM
  * @returns {number[2]} sizeCM
  * @throws {string}
  */
@@ -132,8 +131,8 @@ const validateSizeCM = (sizeCM) => {
 
 //In practice we will have days to harvest max out at 120
 /**
- * 
- * @param {number} daysToHarvest 
+ *
+ * @param {number} daysToHarvest
  * @returns {number} daysToHarvest
  * @throws {string}
  */
@@ -403,8 +402,8 @@ const countrySet = [
 ];
 
 /**
- * 
- * @param {string} countryCode 
+ *
+ * @param {string} countryCode
  * @returns {string} countryCode
  * @throws {string}
  */
@@ -420,8 +419,8 @@ const validateCountryCode = (countryCode) => {
 };
 
 /**
- * 
- * @param {string} pepperId 
+ *
+ * @param {string} pepperId
  * @returns {string} pepperId
  * @throws {string}
  */
@@ -434,4 +433,14 @@ const validatePepperId = (pepperId) => {
   if (!ObjectId.isValid(pepperId)) throw "invalid object ID";
   return pepperId.trim();
 };
-export default {validatePepperName, validateAlternativeNames, validateSpecies, validateHeatLevel, validateColor, validateSizeCM, validateDaysToHarvest, validateCountryCode, validatePepperId}
+export default {
+  validatePepperName,
+  validateAlternativeNames,
+  validateSpecies,
+  validateHeatLevel,
+  validateColor,
+  validateSizeCM,
+  validateDaysToHarvest,
+  validateCountryCode,
+  validatePepperId,
+};
