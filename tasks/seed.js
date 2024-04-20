@@ -1,5 +1,10 @@
 import { dbConnection, closeConnection } from "../config/mongoConnection.js";
-import { peppersData, usersData, usersPeppersData } from "../data/index.js";
+import {
+  peppersData,
+  usersData,
+  usersPeppersData,
+  commentsData,
+} from "../data/index.js";
 import { ObjectId } from "mongodb";
 
 const db = await dbConnection();
@@ -554,34 +559,6 @@ try {
   console.error(error);
 }
 
-// const errUsers = async () => {
-//     //username in use
-//     try{
-//         let usernameInUse = await usersData.createUser(false, "AkiraKurosawa", false, undefined, undefined, "JP", "AKkurosawa", "5659021954",undefined, "SevenSamurai1954");
-//     } catch (error){
-//         console.error(error);
-//         console.log("successfully caught username in use error\n");
-//     }
-//     try {
-//         let emailInUse = await usersData.createUser(false, "KiyoshiKurosawa", false, undefined, undefined, "JP", undefined, undefined, "AkiraKurosawa@Toho.com", "Cure1997");
-//     } catch (error) {
-//         console.error(error);
-//         console.log("successfully caught email in use error\n");
-//     }
-//     try{
-//         let emailDiffCase = await usersData.createUser(true, "QuentinTarantino", false, "Los Angeles", "CA", "US", "QTPie1990", undefined, "sammo@GOLDENHARVEST.com", "ReservoirDogs1992");
-//     } catch (error){
-//         console.error(error);
-//         console.log("successfully caught email in diff case error\n");
-//     }
-// }
-
-// try {
-//     await errUsers();
-// } catch (error) {
-//     console.log("should not be in this block")
-// }
-
 const addPeppersToUsers = async () => {
   await usersPeppersData.addPepperToUserInv(AkiraKurosawa, "scotch bonnet red");
   await usersPeppersData.addPepperToUserInv(AkiraKurosawa, "Peter Pepper");
@@ -626,6 +603,7 @@ const addPeppersToUsers = async () => {
     MichaelMann,
     "scotch bonnet yellow"
   );
+  await usersPeppersData.addPepperToUserInv(MichaelMann, "lemon starrburst");
   await usersPeppersData.addPepperToUserInv(MichaelMann, "sugar rush peach");
   await usersPeppersData.addPepperToUserWL(MichaelMann, "chiltepin");
   await usersPeppersData.addPepperToUserWL(MichaelMann, "pimenta de neyde");
@@ -681,7 +659,7 @@ const addPeppersToUsers = async () => {
   );
   await usersPeppersData.addPepperToUserInv(
     DavidCronenberg,
-    "cayeene long slim"
+    "cayenne long slim"
   );
   await usersPeppersData.addPepperToUserWL(DavidCronenberg, "carolina reaper");
   await usersPeppersData.addPepperToUserWL(DavidCronenberg, "pimenta de neyde");
@@ -696,6 +674,16 @@ const addPeppersToUsers = async () => {
   await usersPeppersData.addPepperToUserWL(SpikeLee, "banana pepper");
   await usersPeppersData.addPepperToUserWL(SpikeLee, "serrano");
   await usersPeppersData.addPepperToUserWL(SpikeLee, "peter pepper");
+
+  await usersPeppersData.addPepperToUserInv(AndrewLau, "big bertha");
+  await usersPeppersData.addPepperToUserInv(AndrewLau, "pimenta de neyde");
+  await usersPeppersData.addPepperToUserInv(
+    AndrewLau,
+    "scotch bonnet chocolate"
+  );
+  await usersPeppersData.addPepperToUserWL(AndrewLau, "sugar rush peach");
+  await usersPeppersData.addPepperToUserWL(AndrewLau, "scotch bonnet red");
+  await usersPeppersData.addPepperToUserWL(AndrewLau, "marconi golden");
 };
 
 try {
@@ -705,17 +693,89 @@ try {
   console.error(error);
 }
 
-// try{
-//   let foundUser = await usersData.login("AkiraKurosawa", "SevenSamurai1954");
-//   console.log(foundUser);
-// } catch (error){
-//   console.error(error);
-// }
-// try{
-//   let foundUser = await usersData.login("AkiraKurosawa", "SevenSamurai1955");
-//   console.log(foundUser);
-// } catch (error){
-//   console.error(error);
-// }
+const addCommentsToUsers = async () => {
+  try {
+    await commentsData.addComment(
+      AkiraKurosawa,
+      JohnWoo1,
+      "I love your movies, especially Bullet in the Head. that being said, please update your contact information"
+    );
+    await commentsData.addComment(
+      AkiraKurosawa,
+      PedroAlmodovar,
+      "The Skin I Live In was one of the most messed up vile movies I have ever seen. almost as messed up and vile as the Chocolate Bhutlah"
+    );
+    await commentsData.addComment(
+      JohnWoo1,
+      JohnnieTo,
+      "Throw Down was a great movie. the experience of eating one of your scotch bonnets made me wanna Throw Up"
+    );
+    await commentsData.addComment(
+      JohnWoo1,
+      ChristopherNolan,
+      "trying the carolina reaper was like sitting in front of an nuclear explosion. your reapers would make Oppy proud"
+    );
+    await commentsData.addComment(
+      PedroAlmodovar,
+      MartinScorcese,
+      "loved the color of money. the color of your thors thunderbolts is even better"
+    );
+    await commentsData.addComment(
+      JohnnieTo,
+      IshiroHonda,
+      "Godzilla was a great movie. your scotch bonnets are as monstrous as him"
+    );
+    await commentsData.addComment(
+      DavidCronenberg,
+      AkiraKurosawa,
+      "i've been looking high and low for peter pepper seeds. looks like you've got what i want"
+    );
+    await commentsData.addComment(
+      AkiraKurosawa,
+      AndrewLau,
+      "I love the infernal affairs trilogy. your scotch bonnets gave me a trilogy of infernal ulcers"
+    );
+    await commentsData.addComment(
+      ChristopherNolan,
+      MichaelMann,
+      "Heat is one of my favorites. actually an inspiration for The Dark Knight. the heat of your scotch bonnets is even better"
+    );
+    await commentsData.addComment(
+      SpikeLee,
+      JackieChan,
+      "your peppers pack punches just like you"
+    );
+    await commentsData.addComment(
+      JohnnieTo,
+      AkiraKurosawa,
+      "Sanshiro Sugata was an influence on Throw Down. your trinidad scorpions would make me throw down a glass of milk"
+    );
+    await commentsData.addComment(
+      ChristopherNolan,
+      SammoHung,
+      "big fan of dragons forever. your ghost peppers would probably make me breathe fire like a dragon"
+    );
+    await commentsData.addComment(
+      PedroAlmodovar,
+      DavidCronenberg,
+      "your thunderbolts would probably invoke body horror in the bathroom"
+    );
+    await commentsData.addComment(
+      IshiroHonda,
+      SpikeLee,
+      "do the right thing and update your contact information"
+    );
+    await commentsData.addComment(
+      AndrewLau,
+      AkiraKurosawa,
+      "your peppers are as legendary as your movies. Ran? more like Ran out the house and into a lake after trying the reaper"
+    );
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+await addCommentsToUsers();
+console.log("done adding comments to users");
 
 await closeConnection();
