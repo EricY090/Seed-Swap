@@ -216,11 +216,14 @@ const getPepperByNameAppr = async (pepperName) => {
 
 /**
  *
- * @returns all peppers array
+ * @returns all peppers array in alphabetical order
  */
 const getAllPeppers = async () => {
   const pepperCollection = await peppers();
-  const allPeppers = await pepperCollection.find({}).toArray();
+  const allPeppers = await pepperCollection
+    .find({})
+    .sort({ varietyName: 1 })
+    .toArray();
   allPeppers.forEach((pepper) => {
     pepper._id = pepper._id.toString();
   });

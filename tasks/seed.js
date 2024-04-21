@@ -1,3 +1,4 @@
+import { all } from "axios";
 import { dbConnection, closeConnection } from "../config/mongoConnection.js";
 import {
   peppersData,
@@ -557,7 +558,7 @@ const seedUsers = async () => {
   );
   JamesCameron = await usersData.createUser(
     false,
-    "JimmyC",
+    "JimmyCamera",
     true,
     undefined,
     undefined,
@@ -871,4 +872,6 @@ const addCommentsToUsers = async () => {
 await addCommentsToUsers();
 console.log("done adding comments to users");
 
+// let allPeppers = await peppersData.getAllPeppers();
+// await console.log(allPeppers);
 await closeConnection();
