@@ -15,6 +15,11 @@ app.use(
   })
 );
 
+//middleware for login and registration
+
+
+//
+
 app.use("/public", express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

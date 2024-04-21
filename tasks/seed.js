@@ -557,7 +557,7 @@ const seedUsers = async () => {
   );
   JamesCameron = await usersData.createUser(
     false,
-    "JimmyC",
+    "JimmyCamera",
     true,
     undefined,
     undefined,
