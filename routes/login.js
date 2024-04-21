@@ -29,21 +29,23 @@ router.post("/", async (req, res) => {
   }
   try {
     usersValidation.validateUsername(username);
-    //console.log(username);
     usersValidation.validatePassword(password);
-    //console.log(password);
   } catch (error) {
+    // some error in validation will be printed here
     res.status(400).json({ error: error });
     return;
   }
   let foundUser;
   try {
+    // found user returns user object WITH HASHED PASSWORD
+    //could throw a bunch of things, b
     foundUser = await usersData.login(username, password);
   } catch (error) {
     res.status(400).json({ error: "Username or password incorrect" });
     return;
   }
   if (foundUser) {
+    //usersData.login should only ever return a user object or throw an error. so this is just overkill
     req.session.user = foundUser;
     console.log(req.session.user);
     res.status(200).json({ message: "Login success" });

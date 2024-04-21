@@ -146,7 +146,7 @@ const getPepperById = async (pepperId) => {
 };
 
 /**
- *
+ * onlt returns pepper if pepper is moderator approved
  * @param {string} pepperId
  * @returns pepper object || null if not found
  * @throws {string} invalid field, pepper not found
@@ -214,6 +214,10 @@ const getPepperByNameAppr = async (pepperName) => {
   return pepper;
 };
 
+/**
+ *
+ * @returns all peppers array
+ */
 const getAllPeppers = async () => {
   const pepperCollection = await peppers();
   const allPeppers = await pepperCollection.find({}).toArray();
@@ -223,6 +227,10 @@ const getAllPeppers = async () => {
   return allPeppers;
 };
 
+/**
+ *
+ * @returns all moderator approved peppers array
+ */
 const getAllPeppersAppr = async () => {
   const pepperCollection = await peppers();
   const allPeppers = await pepperCollection
@@ -234,6 +242,11 @@ const getAllPeppersAppr = async () => {
   return allPeppers;
 };
 
+/**
+ * 
+ * @returns all unapproved peppers array
+ 
+ */
 const getAllPeppersUnappr = async () => {
   const pepperCollection = await peppers();
   const allPeppers = await pepperCollection

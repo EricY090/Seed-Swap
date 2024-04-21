@@ -6,12 +6,13 @@ import xss from "xss";
 
 /**
  *
- * @param {sting} commenterId
+ * @param {string} commenterId
  * @param {string} pageBeingCommentedId
  * @param {object} comment
  * @returns
  */
 const addComment = async (commenterId, pageBeingCommentedId, comment) => {
+  //check if params provided
   if (!commenterId || !pageBeingCommentedId || !comment)
     throw "fields incomplete";
   if (
@@ -20,18 +21,22 @@ const addComment = async (commenterId, pageBeingCommentedId, comment) => {
     typeof comment !== "string"
   )
     throw "fields not strings";
+
+  //validation
   try {
     commenterId = usersValidation.validateUserId(commenterId);
     pageBeingCommentedId = usersValidation.validateUserId(pageBeingCommentedId);
   } catch (error) {
     throw error;
   }
+  //xss check
   if (commenterId !== xss(commenterId))
     throw "commenterId is an xss vulnerability";
   if (pageBeingCommentedId !== xss(pageBeingCommentedId))
     throw "pageBeingCommented is an xss vulnerability";
   comment = xss(comment);
 
+  //grabbing users collection, checking if users exist
   const userCollection = await users();
   let commentingUser;
   let commentedUser;
@@ -44,12 +49,14 @@ const addComment = async (commenterId, pageBeingCommentedId, comment) => {
   if (!commentingUser) throw "User making comment not found";
   if (!commentedUser) throw "User being commented on not found";
 
+  //creating new comment object
   let newComment = {
     _id: new ObjectId(),
     commenterUsername: commentingUser.username,
     text: comment,
   };
 
+  //updating user collection with new comment
   let updateRes;
   try {
     updateRes = await userCollection.updateOne(
@@ -59,6 +66,7 @@ const addComment = async (commenterId, pageBeingCommentedId, comment) => {
   } catch (error) {
     throw error;
   }
+  //throwing if some mongo error
   if (updateRes.modifiedCount === 0) throw "Comment not added";
   if (updateRes.acknowledged === false) throw "Comment not added";
 

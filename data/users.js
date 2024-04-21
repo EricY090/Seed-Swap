@@ -21,7 +21,7 @@ import usersValidation from "../usersValidation.js";
  * @param {string | undefined} email
  * @param {string} password
  * @returns {string} userId
- * @throws {string} invalid fields
+ * @throws {string} invalid fields, errors in validatoin, xss vulnerability, user already exists, mongo error "could not add user"
  */
 
 const createUser = async (
@@ -149,14 +149,23 @@ const createUser = async (
  *
  * @param {string} username
  * @returns boolean
- *
+ * @throws {string} "field incomplete", "field not string", mongo error
  * case insensitive search
  */
 const userNameExists = async (username) => {
   const userCollection = await users();
-  const findingUser = await userCollection.findOne({
-    username: { $regex: username, $options: "i" },
-  });
+  if (!username) throw "field incomplete";
+  if (typeof username !== "string") throw "field not string";
+  username = xss(username);
+  let findingUser;
+  try {
+    const findingUser = await userCollection.findOne({
+      username: { $regex: username, $options: "i" },
+    });
+  } catch (error) {
+    throw error;
+  }
+
   if (findingUser) {
     return true;
   }
@@ -165,15 +174,26 @@ const userNameExists = async (username) => {
 /**
  *
  * @param {string} email
- * @returns boolean
- *
+ * @returns {boolean} true if email is in use, false otherwise
+ * @throws {string} "field incomplete", "field not string", mongo error
  * case insensitive search
  */
 const emailInUse = async (email) => {
+  if (!email) throw "field incomplete";
+  if (typeof email !== "string") throw "field not string";
+  email = xss(email);
+
   const userCollection = await users();
-  const findingUser = await userCollection.findOne({
-    email: { $regex: email, $options: "i" },
-  });
+  let findingUser;
+
+  try {
+    findingUser = await userCollection.findOne({
+      email: { $regex: email, $options: "i" },
+    });
+  } catch (error) {
+    throw error;
+  }
+
   if (findingUser) {
     return true;
   }
@@ -183,12 +203,22 @@ const emailInUse = async (email) => {
  *
  * @param {string} username
  * @returns {object} user object
- * @throws {string} "User not found"
+ * @throws {string} "field incomplete", "field not string", "User not found", mongo error
  */
 const getUserByName = async (username) => {
-  const findingUser = await userCollection.findOne({
-    username: { $regex: username, $options: "i" },
-  });
+  if (!username) throw "field incomplete";
+  if (typeof username !== "string") throw "field not string";
+  username = xss(username);
+  const userCollection = await users();
+  let findingUser;
+  try {
+    findingUser = await userCollection.findOne({
+      username: { $regex: username, $options: "i" },
+    });
+  } catch (error) {
+    throw error;
+  }
+
   if (!findingUser) {
     throw "User not found";
   }
@@ -199,10 +229,12 @@ const getUserByName = async (username) => {
  *
  * @param {string} userId
  * @returns {object} user object
- * @throws {string} "Invalid userId, User not found", xss vulnerability
+ * @throws {string} "Invalid userId, User not found", xss vulnerability, inocmplete fields, type mismatch
  */
 const getUserById = async (userId) => {
   //userId is a string
+  if (!userId) throw "field incomplete";
+  if (typeof userId !== "string") throw "field not string";
   try {
     userId = usersValidation.validateUserId(userId);
   } catch (error) {

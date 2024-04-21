@@ -376,7 +376,12 @@ let AkiraKurosawa,
   IshiroHonda,
   DavidCronenberg,
   SpikeLee,
-  AndrewLau;
+  AndrewLau,
+  JamesCameron,
+  DenisVilleneuve,
+  MasakiKobayashi,
+  AlanJPaluka,
+  BongJoonHo;
 
 const seedUsers = async () => {
   AkiraKurosawa = await usersData.createUser(
@@ -550,6 +555,66 @@ const seedUsers = async () => {
     "AndrewLau@MediaAsia.com",
     "InfernalAffairs2002"
   );
+  JamesCameron = await usersData.createUser(
+    false,
+    "JimmyC",
+    true,
+    undefined,
+    undefined,
+    "CA",
+    "JamesCam",
+    "8093456781",
+    "JimmyC@TwentiethC.com",
+    "WayOfWater2021"
+  );
+  DenisVilleneuve = await usersData.createUser(
+    true,
+    "DenisVilleneuve",
+    true,
+    undefined,
+    undefined,
+    "CA",
+    "DenisVilleneuve",
+    "9340128857",
+    undefined,
+    "Sicario2015"
+  );
+  MasakiKobayashi = await usersData.createUser(
+    false,
+    "MasakiKobayashi",
+    false,
+    undefined,
+    undefined,
+    "JP",
+    undefined,
+    "9094568273",
+    "MasakiKobayashi@Shochiku.com",
+    "Harakiri1962"
+  );
+  AlanJPaluka = await usersData.createUser(
+    false,
+    "AlanJPaluka",
+    true,
+    "Hollywood",
+    "CA",
+    "US",
+    "AlanJPaluka",
+    undefined,
+    "AlanJPak@Wildwood.com",
+    "AllThePresidents1976"
+  );
+  BongJoonHo = await usersData.createUser(
+    false,
+    "BongJoonHo",
+    false,
+    undefined,
+    undefined,
+    "KR",
+    "BongHive",
+    undefined,
+    undefined,
+    "MemoriesOfMurder2003"
+  );
 };
 
 try {
@@ -684,6 +749,34 @@ const addPeppersToUsers = async () => {
   await usersPeppersData.addPepperToUserWL(AndrewLau, "sugar rush peach");
   await usersPeppersData.addPepperToUserWL(AndrewLau, "scotch bonnet red");
   await usersPeppersData.addPepperToUserWL(AndrewLau, "marconi golden");
+
+  await usersPeppersData.addPepperToUserInv(JamesCameron, "ghost pepper");
+  await usersPeppersData.addPepperToUserInv(JamesCameron, "habanada");
+  await usersPeppersData.addPepperToUserInv(JamesCameron, "lemon drop");
+  await usersPeppersData.addPepperToUserWL(JamesCameron, "peter pepper");
+  await usersPeppersData.addPepperToUserWL(JamesCameron, "lemon starrburst");
+
+  await usersPeppersData.addPepperToUserInv(
+    DenisVilleneuve,
+    "lemon starrburst"
+  );
+  await usersPeppersData.addPepperToUserInv(
+    DenisVilleneuve,
+    "cayenne long slim"
+  );
+  await usersPeppersData.addPepperToUserWL(DenisVilleneuve, "zebrange");
+  await usersPeppersData.addPepperToUserWL(DenisVilleneuve, "bishop crown");
+
+  await usersPeppersData.addPepperToUserInv(
+    MasakiKobayashi,
+    "brazilian starfish"
+  );
+  await usersPeppersData.addPepperToUserInv(MasakiKobayashi, "big bertha");
+  await usersPeppersData.addPepperToUserWL(MasakiKobayashi, "chiltepin");
+
+  await usersPeppersData.addPepperToUserInv(AlanJPaluka, "sugar rush peach");
+  await usersPeppersData.addPepperToUserInv(AlanJPaluka, "scotch bonnet red");
+  await usersPeppersData.addPepperToUserWL(AlanJPaluka, "lemon starrburst");
 };
 
 try {

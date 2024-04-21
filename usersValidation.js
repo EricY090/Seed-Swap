@@ -263,6 +263,13 @@ const validateBoolean = (bool, varName) => {
   }
   return bool;
 };
+
+/**
+ * does not do xss checking here.
+ * @param {string} username
+ * @returns username
+ * @throws {string} a myriad of error messages
+ */
 const validateUsername = (username) => {
   // This does NOT check if the username is in use, only if it is valid
   if (typeof username !== "string") {
@@ -389,7 +396,7 @@ const validateCountryCode = (countryCode) => {
 };
 
 const validateEmail = (email) => {
-//   email = email.toLowerCase();
+  //   email = email.toLowerCase();
   if (typeof email !== "string") {
     throw "Email must be a string";
   }
@@ -455,7 +462,7 @@ const validatePassword = (password) => {
   if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password)) {
     throw "Password must Minimum eight characters, at least one uppercase letter, one lowercase letter and one number";
   }
-  return password
+  return password;
 };
 
 const validateUserId = (userId) => {
@@ -469,6 +476,17 @@ const validateUserId = (userId) => {
     throw "userId is not a valid ObjectId";
   }
   return userId;
-}
+};
 
-export default {validateBoolean, validateUsername, validatePhoneNumber, validateCity, validateState, validateCountryCode, validateEmail, validateDiscord, validatePassword, validateUserId};
+export default {
+  validateBoolean,
+  validateUsername,
+  validatePhoneNumber,
+  validateCity,
+  validateState,
+  validateCountryCode,
+  validateEmail,
+  validateDiscord,
+  validatePassword,
+  validateUserId,
+};

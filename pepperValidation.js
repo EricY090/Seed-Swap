@@ -1,7 +1,8 @@
 import { ObjectId } from "mongodb";
+import xss from "xss";
 
 /**
- *
+ * does trimming, lowercasing, and xss check
  * @param {string} pepperName
  * @returns string pepperName
  * @throws {string}
@@ -9,15 +10,17 @@ import { ObjectId } from "mongodb";
 const validatePepperName = (pepperName) => {
   if (typeof pepperName === "undefined") throw "Pepper name is undefined";
   if (typeof pepperName !== "string") throw "Pepper name is not a string";
+  pepperName = xss(pepperName);
+
   if (pepperName.trim().length === 0) throw "Pepper name is an empty string";
   return pepperName.trim().toLowerCase(); //we save things lowercased in db;
 };
 
 /**
- *
+ * empty arrays are allowed
  * @param {string[]} alternativeNames
  * @returns {string[]} alternativeNames
- * @throws {string}
+ * @throws {string} undefined, not an array, invalid pepper names
  */
 const validateAlternativeNames = (alternativeNames) => {
   if (typeof alternativeNames === "undefined")
@@ -51,6 +54,7 @@ const validateSpecies = (species) => {
   ];
   if (typeof species === "undefined") throw "Species is undefined";
   if (typeof species !== "string") throw "Species is not a string";
+  species = xss(species);
   if (species.trim().length === 0) throw "Species is an empty string";
   species = species.trim().toLowerCase();
   if (!capsicumSpecies.includes(species))
