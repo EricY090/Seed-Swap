@@ -1,16 +1,18 @@
 // import pepperRoutes from "./peppers.js";
 // import userRoutes from "./users.js";
 // import tradeRoutes from "./trades.js";
-import loginRoutes from "./login.js";
+import authroutes from "./auth_routes.js";
+import homepageRoutes from "./homepage.js"
 
 const constructorMethod = (app) => {
+  app.use("/", authroutes); //base route
+  app.use("/homepage", homepageRoutes);
   // app.use("/peppers", pepperRoutes);
   // app.use("/users", userRoutes);
   // app.use("/trades", tradeRoutes);
-  app.use("/login", loginRoutes);
 
   app.use("*", (req, res) => {
-    res.status(404).json({ error: "Not found" });
+    res.status(404).json({ error: req.url });
   });
 };
 
