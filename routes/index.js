@@ -1,4 +1,4 @@
-// import pepperRoutes from "./peppers.js";
+import pepperRoutes from "./peppers.js";
 // import userRoutes from "./users.js";
 // import tradeRoutes from "./trades.js";
 import authroutes from "./auth_routes.js";
@@ -7,7 +7,7 @@ import homepageRoutes from "./homepage.js"
 const constructorMethod = (app) => {
   app.use("/", authroutes); //base route
   app.use("/homepage", homepageRoutes);
-  // app.use("/peppers", pepperRoutes);
+  app.use("/peppers", pepperRoutes);
   // app.use("/users", userRoutes);
   // app.use("/trades", tradeRoutes);
 
