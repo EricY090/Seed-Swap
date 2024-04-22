@@ -103,7 +103,6 @@ const createUser = async (
     discord: discord,
     phone: phone,
     email: email,
-    trades: [],
     avgRating: 0,
     growLog: [],
     profileComments: [],

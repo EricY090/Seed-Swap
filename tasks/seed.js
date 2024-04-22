@@ -1,3 +1,4 @@
+import { all } from "axios";
 import { dbConnection, closeConnection } from "../config/mongoConnection.js";
 import {
   peppersData,
