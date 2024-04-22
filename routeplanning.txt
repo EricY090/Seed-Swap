@@ -1,0 +1,49 @@
+LH/
+    REDIRECTS TO
+    LH/login
+
+    ->LH/login
+        LINKS TO:
+            LH/register
+        REDIRECTS TO:
+            LH/homepage
+    ->LH/register
+        LINKS TO:
+            LH/login
+        REDIRECTS TO
+            LH/login
+
+    
+    ->LH/homepage, links to GET LH/peppers, LH/matches
+        LINKS TO: 
+            LH/peppers,
+            LH/matches
+    ->GET LH/peppers
+        page renders with list of peppers. 
+        each entry of peppers gets a button to submit a post request to add to inventory
+        and another one to add to wishlist.
+        this page has a form to make another get request with query params to filter.
+        the route will render the new page with the pepper listings filtered.
+
+    ->GET LH/matches
+        this page displays a list of people you match with based on how many peppers they have in their inventory from your wishlist. 
+        each entry links to LH/User:/username
+        Each "card" displaying a user should have:
+            Country of origin tag
+            average rating
+            how many peppers they have in their inventory from your wishlist\
+            hyperlink to LH/user:/username, their profile
+        LINKS TO:
+            LH/user:/username
+
+    ->GET LH/user:/username
+        essentially their profile page. displays phone number, email, if those exist for their profile
+
+        LINKS TO:
+            LH/user:/username/reviews
+            LH/user:/username/glog
+            LH/user:/username/trading -> an html form to initiate a trade. form sends a post request to server and creates a trade document
+                GET/ on another person's page renders a form to initiate a trade. 
+                What varieties you're sending from your wishlist and what you want from them. could be checkboxes iterating over your inventory and their inventory. the form posts and creates the entry in trades table.
+                GET on your own page, renders trades pending approval from the other, from you (form to approve), 
+            
