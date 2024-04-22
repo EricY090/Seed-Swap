@@ -26,12 +26,15 @@ router
 })
 .post(async (req, res) => {
   try{
-    let registerInfo = await usersData.createUser(false, req.body.username, true, req.body.countryCode, req.body.discord, req.body.phoneNumber, req.body.email, req.body.password);
+    let displayWL = false;
+    if(req.body.DWishlist == 'on'){
+      displayWL = true;
+    }
+    let registerInfo = await usersData.createUser(false, req.body.username, displayWL, req.body.countryCode, req.body.discord, req.body.phoneNumber, req.body.email, req.body.password);
     res.redirect('/login'); 
   }
   catch(e){
-    console.log("balls");
-    return res.status(400).render('register',{error: req.params}); //no errror checking yet so ignore this for now. REGISTER USER NOT WORKING RN
+    return res.status(400).render('register',{error: "Something went wrong"}); //no errror checking yet so ignore this for now. REGISTER USER NOT WORKING RN
   }
   
 });
