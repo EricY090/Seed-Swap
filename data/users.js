@@ -6,15 +6,11 @@ import usersValidation from "../usersValidation.js";
 
 // discord, phone are allowed to be undefined. just be sure to enter them as undefined when calling function
 /**
- * city and state cannot be used without countryCode being US.
- *
- * if city is used, state must be used
  *
  * @param {boolean} moderator
  * @param {string} username
  * @param {boolean} displayWishlist
- * @param {string | undefined} city
- * @param {string | undefined} state
+
  * @param {string | undefined} countryCode
  * @param {string | undefined} discord
  * @param {string | undefined} phone
@@ -28,8 +24,6 @@ const createUser = async (
   moderator, //required, bool
   username, //required, string
   displayWishlist, //required, bool
-  city, //optional, string
-  state, //optional, string
   countryCode, //required, string
   discord, //optional, string
   phone, //optional, string
@@ -62,23 +56,6 @@ const createUser = async (
   }
   password = xss(password); //already did validation
 
-  //validating optional fields for if CountryCode= US
-  if (countryCode === "US") {
-    try {
-      if (state) {
-        state = xss(state);
-        state = usersValidation.validateState(state);
-        if (city) {
-          city = usersValidation.validateCity(city);
-        }
-      }
-    } catch (error) {
-      throw error;
-    }
-    city = xss(city);
-    state = xss(state);
-  }
-
   //validating + sanitizing optional string fields (discord, phone, email)
   if (discord) {
     discord = usersValidation.validateDiscord(discord);
@@ -109,10 +86,6 @@ const createUser = async (
   //hashing password
   const hashedPassword = await bcryptjs.hash(password, 10);
 
-  if (countryCode !== "US" && (state || city))
-    throw "state or city provided without US as countryCode";
-  if (!state && city) throw "city provided without state";
-
   // checking if username is in use
   if (await userNameExists(username)) {
     throw "Username already in use";
@@ -124,15 +97,12 @@ const createUser = async (
     username: username,
     displayWishlist: displayWishlist,
     hashedPassword: hashedPassword,
-    city: city,
-    state: state,
     countryCode: countryCode,
     wishlist: [],
     inventory: [],
     discord: discord,
     phone: phone,
     email: email,
-    trades: [],
     avgRating: 0,
     growLog: [],
     profileComments: [],
