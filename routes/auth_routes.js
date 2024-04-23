@@ -51,22 +51,31 @@ router
   if (countryCode != xss(countryCode)){
     return res.status(400).render('auth/register', {error: "Country Code is an xss vulnerability" , hid:""});
   }
+  if(await usersData.userNameExists(username)){
+    return res.status(400).render('auth/register', {error: "Username already exists" , hid:""});
+  }
   if(discord){
     if (discord != xss(discord)){
       return res.status(400).render('auth/register', {error: "Discord is an xss vulnerability" , hid:""});
     }
-  }
-  if(await usersData.userNameExists(username)){
-    return res.status(400).render('auth/register', {error: "Username already exists" , hid:""});
+    if(await usersData.discordExists(discord)){
+      return res.status(400).render('auth/register', {error: "Discord already exists" , hid:""});
+    }
   }
   if(phoneNumber){
     if (phoneNumber != xss(phoneNumber)){
       return res.status(400).render('auth/register', {error: "Phone Number is an xss vulnerability" , hid:""});
     }
+    if(await usersData.phoneNumberExists(phoneNumber)){
+      return res.status(400).render('auth/register', {error: "Phone Number already exists" , hid:""});
+    }
   }
   if(email){
     if (email != xss(email)){
       return res.status(400).render('auth/register', {error: "Email is an xss vulnerability" , hid:""});
+    }
+    if(usersData.emailInUse(email)){
+      return res.status(400).render('auth/register', {error: "Email already in use" , hid:""});
     }
   }
   try{

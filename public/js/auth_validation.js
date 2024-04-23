@@ -399,6 +399,23 @@ if(signup){
           RaddError("Phone number is not valid", event);
         } 
       }
+      if(discordC){
+        if (typeof discordC === "undefined") {
+          RaddError("Discord is undefined", event);
+        }
+        if (typeof discordC !== "string") {
+          RaddError("Discord is not a string", event);
+        }
+        if (discordC.length < 3) {
+          RaddError("Discord is too short", event);
+        }
+        if (discordC.length > 37) {
+          RaddError("Discord is too long", event);
+        }
+        if (!/^[a-zA-Z0-9]+$/.test(discordC)) {
+          RaddError("Discord is not valid", event);
+        } 
+      }
     }
     signup.classList.add('was-validated')
   }, false)
