@@ -1,0 +1,39 @@
+
+ <h1 class="header">Register</h1>
+    
+    <dl id="errorRegister" class="alert alert-danger" role="alert" {{hid}}>
+    <dt>{{error}}</dt>
+    </dl>
+
+    <form method="POST" id="signup-form" name="singup-form" class="new-post-form">
+
+        <label for="username">Username*:</label>
+        <input name="username" id="username" type="text" class="regUN"></input>
+
+        <label for="password">Password*:</label>
+        <input name="password" id="password" type="password" class="regP"></input>
+
+        <label for="confirmPassword" class="regCPL">Confirm Password*:</label>
+        <input name="confirmPassword" id="confirmPassword" type="password" class="regCP"></input>
+
+        <label for="DWishlist">Display Wishlist?</label>
+        <input name="DWishlist" id="DWishlist" type="checkbox" class="regDW">Yes</input>
+
+        <label for="countryCode">Country Code*:</label>
+        <input name="countryCode" id="countryCode" type="text" class="regCC"></input>
+
+        <label for="discord">Discord:</label>
+        <input name="discord" id="discord" type="text" class="regDS"></input>
+
+        <label for="phoneNumber">Phone Number:</label>
+        <input name="phoneNumber" id="phoneNumber" type="text" class="regPN"></input>
+
+        <label for="email">Email:</label>
+        <input name="email" id="email" type="text" class="regE"></input>
+
+        <button type="submit" id="submitButton" class="submitButton">Register!</button>
+    </form>
+
+
+<a class="basic-Text" href="/login">Already have an account? Click here to log-in</a>
+<script src="../../public/js/client_side_validation.js"></script>
