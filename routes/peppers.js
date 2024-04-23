@@ -5,7 +5,7 @@ import session from "express-session";
 router
 .route('/')
 .get(async (req, res) => {
-    return res.render('peppers');
+    return res.render('pepper/peppers');
   });
 
 export default router;
