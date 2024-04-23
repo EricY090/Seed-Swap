@@ -274,11 +274,36 @@ const countrySet = [
 ];
 //
 
+//helper functions
+const RaddError = (errstring, e=null) => {
+  let em = document.createElement("dt");
+  em.innerHTML = errstring;
+  errorRegister.append(em)
+  errorRegister.hidden = false;
+  if(e){
+      e.preventDefault();
+      e.stopPropagation();
+  }
+}
+
+const LaddError = (errstring, e=null) => {
+  let em = document.createElement("dt");
+  em.innerHTML = errstring;
+  errorLogin.append(em)
+  errorLogin.hidden = false;
+  if(e){
+      e.preventDefault();
+      e.stopPropagation();
+  }
+}
+
+//
+
 
 //Register Validation
 if(signup){
+
   signup.addEventListener('submit', function (event) {
-    //let errorRegisterFlag = errorRegister.hidden
     errorRegister.hidden = true;
     let usernameC = username.value.trim()
     let passwordC = password.value.trim()
@@ -302,146 +327,77 @@ if(signup){
       event.stopPropagation()
     }
     else {
+      console.log("signup event else")
       //Username
       if (typeof usernameC !== "string") {
-        let em1 = document.createElement("dt")
-        em1.innerHTML = "Error: Inputed Username is not a String"
-        errorRegister.append(em1)
-        errorRegister.hidden = false;
+        RaddError("Error: Inputed Username is not a String",event);
       }
       if (typeof passwordC !== "string"){
-        let em2 = document.createElement("dt")
-        em2.innerHTML = " Error: Inputed Password is not a String"
-        errorRegister.append(em2)
-        errorRegister.hidden = false;
+        RaddError(" Error: Inputed Password is not a String",event);
       }
       if (usernameC.length === 0) {
-        let em3 = document.createElement("dt")
-        em3.innerHTML = " Username must not be empty";
-        errorRegister.append(em3)
-        errorRegister.hidden = false;
+        RaddError(" Username must not be empty",event);
       }
       if (usernameC.includes(" ")) {
-        console.log("FUck this username")
-        let em4 = document.createElement("dt")
-        em4.innerHTML = " Username must not contain spaces";
-        errorRegister.append(em4)
-        errorRegister.hidden = false;
+        RaddError(" Username must not contain spaces",event);
       }
       if (usernameC.length < 8) {
-        let em5 = document.createElement("dt")
-        em5.innerHTML = " Username must be at least 8 characters";
-        errorRegister.append(em5)
-        errorRegister.hidden = false;
+        RaddError(" Username must be at least 8 characters",event);
       }
       if (usernameC.length > 20) {
-        let em6 = document.createElement("dt")
-        em6.innerHTML = " Username must be at most 20 characters";
-        errorRegister.append(em6)
-        errorRegister.hidden = false;
+        RaddError(" Username must be at most 20 characters",event);
       }
       if (!/^[a-zA-Z0-9]+$/.test(usernameC)) {
-        let em7 = document.createElement("dt")
-        em7.innerHTML =  " Username must be alphanumeric";
-        errorRegister.append(em7)
-        errorRegister.hidden = false;
+        RaddError(" Username must be alphanumeric",event);
       }
       //Password
       if (passwordC.length < 8) {
-        let em8 = document.createElement("dt")
-        em8.innerHTML =  " Password must be at least 8 characters";
-        errorRegister.append(em8)
-        errorRegister.hidden = false;
+        RaddError(" Password must be at least 8 characters",event);
       }
       if (passwordC.length > 20) {
-        let em9 = document.createElement("dt")
-        em9.innerHTML = " Password must be at most 20 characters";
-        errorRegister.append(em9)
-        errorRegister.hidden = false;
+        RaddError(" Password must be at most 20 characters",event);
       }
       if (passwordC.includes(" ")) {
-        let em10 = document.createElement("dt")
-        em10.innerHTML = " Password must not contain spaces";
-        errorRegister.append(em10)
-        errorRegister.hidden = false;
+        RaddError(" Password must not contain spaces",event);
       }
       if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(passwordC)) {
-        let em11 = document.createElement("dt")
-        em11.innerHTML = " Password must Minimum eight characters, at least one uppercase letter, one lowercase letter and one number";
-        errorRegister.append(em11)
-        errorRegister.hidden = false;
+        RaddError(" Password must Minimum eight characters, at least one uppercase letter, one lowercase letter and one number",event);
       }
       if(passwordC != confirmPasswordC){
-        let whoops = document.createElement("dt")
-        whoops.innerHTML = " Password and Confirm Password must match";
-        errorRegister.append(whoops)
-        errorRegister.hidden = false;
+        RaddError(" Password and Confirm Password must match",event);
       }
-      //Phone Number
-      if(phoneNumberC){
-      if (typeof phoneNumberC === "undefined"){
-        let em12 = document.createElement("dt")
-        em12.innerHTML = "Phone number is undefined";
-        errorRegister.append(em12)
-        errorRegister.hidden = false;
-      }
-      if (typeof phoneNumberC !== "string"){
-        let em13 = document.createElement("dt")
-        em13.innerHTML ="Phone number is not a string";
-        errorRegister.append(em13)
-        errorRegister.hidden = false;
-      } 
-      if (phoneNumberC.length < 10){
-        let em14 = document.createElement("dt")
-        em14.innerHTML ="Phone number is too short";
-        errorRegister.append(em14)
-        errorRegister.hidden = false;
-      } 
-      if (phoneNumberC.length > 15){
-        let em15 = document.createElement("dt")
-        em15.innerHTML ="Phone number is too long";
-        errorRegister.append(em15)
-        errorRegister.hidden = false;
-      } 
-      if (!/^\+?[0-9]+$/.test(phoneNumberC)){
-        let em16 = document.createElement("dt")
-        em16.innerHTML ="Phone number is not valid";
-        errorRegister.append(em16)
-        errorRegister.hidden = false;
-      } 
-    }
       //Country Code
       if (typeof countryCodeC === "undefined"){
-        let em17 = document.createElement("dt")
-        em17.innerHTML ="Country is undefined";
-        errorRegister.append(em17)
-        errorRegister.hidden = false;
+        RaddError("Country is undefined",event);
       }
       if (typeof countryCodeC !== "string"){
-        let em18 = document.createElement("dt")
-        em18.innerHTML ="Country is not a string";
-        errorRegister.append(em18)
-        errorRegister.hidden = false;
+        RaddError("Country is not a string",event);
       }
       if (countryCodeC.length != 2){ 
-        let em19 = document.createElement("dt")
-        em19.innerHTML ="Country code is not 2 characters";
-        errorRegister.append(em19)
-        errorRegister.hidden = false;
+        RaddError("Country code is not 2 characters",event);
       }
       let countryCodeCC = countryCodeC.toUpperCase();
       let country = countrySet.find((c) => c.code === countryCodeCC);
       if (typeof country === "undefined"){
-        let em20 = document.createElement("dt")
-        em20.innerHTML ="Country code is not valid";
-        errorRegister.append(em20)
-        errorRegister.hidden = false;
+        RaddError("Country code is not valid",event);
       }
-      //Errors Thrown Check
-      if(errorRegister.hidden == false){
-        console.log("ERRORRRR")
-        event.preventDefault()
-        event.stopPropagation()
+      //Phone Number
+      if(phoneNumberC){
+        if (typeof phoneNumberC === "undefined") {
+          RaddError("Phone number is undefined", event);
+        }
+        if (typeof phoneNumberC !== "string") {
+          RaddError("Phone number is not a string", event);
+        }
+        if (phoneNumberC.length < 10) {
+          RaddError("Phone number is too short", event);
+        }
+        if (phoneNumberC.length > 15) {
+          RaddError("Phone number is too long", event);
+        }
+        if (!/^\+?[0-9]+$/.test(phoneNumberC)) {
+          RaddError("Phone number is not valid", event);
+        } 
       }
     }
     signup.classList.add('was-validated')
@@ -463,77 +419,40 @@ if(signin){
     else {
       //Username
       if (typeof usernameC !== "string") {
-        let em1 = document.createElement("dt")
-        em1.innerHTML = "Error: Inputed Username is not a String"
-        errorLogin.append(em1)
-        errorLogin.hidden = false;
+        LaddError("Error: Inputed Username is not a String",event);
       }
       if (typeof passwordC !== "string"){
-        let em2 = document.createElement("dt")
-        em2.innerHTML = " Error: Inputed Password is not a String"
-        errorLogin.append(em2)
-        errorLogin.hidden = false;
+        LaddError(" Error: Inputed Password is not a String",event);
       }
       if (usernameC.length === 0) {
-        let em3 = document.createElement("dt")
-        em3.innerHTML = " Username must not be empty";
-        errorLogin.append(em3)
-        errorLogin.hidden = false;
+        LaddError(" Username must not be empty",event);
       }
       if (usernameC.includes(" ")) {
-        let em4 = document.createElement("dt")
-        em4.innerHTML = " Username must not contain spaces";
-        errorLogin.append(em4)
-        errorLogin.hidden = false;
+        LaddError(" Username must not contain spaces",event);
       }
       if (usernameC.length < 8) {
-        let em5 = document.createElement("dt")
-        em5.innerHTML = " Username must be at least 8 characters";
-        errorLogin.append(em5)
-        errorLogin.hidden = false;
+        LaddError(" Username must be at least 8 characters",event);
       }
       if (usernameC.length > 20) {
-        let em6 = document.createElement("dt")
-        em6.innerHTML = " Username must be at most 20 characters";
-        errorLogin.append(em6)
-        errorLogin.hidden = false;
+        LaddError(" Username must be at most 20 characters",event);
       }
       if (!/^[a-zA-Z0-9]+$/.test(usernameC)) {
-        let em7 = document.createElement("dt")
-        em7.innerHTML =  " Username must be alphanumeric";
-        errorLogin.append(em7)
-        errorLogin.hidden = false;
+        LaddError(" Username must be alphanumeric",event);
       }
       //Password
       if (passwordC.length < 8) {
-        let em8 = document.createElement("dt")
-        em8.innerHTML =  " Password must be at least 8 characters";
-        errorLogin.append(em8)
-        errorLogin.hidden = false;
+        LaddError(" Password must be at least 8 characters",event);
       }
       if (passwordC.length > 20) {
-        let em9 = document.createElement("dt")
-        em9.innerHTML = " Password must be at most 20 characters";
-        errorLogin.append(em9)
-        errorLogin.hidden = false;
+        LaddError(" Password must be at most 20 characters",event);
       }
       if (passwordC.includes(" ")) {
-        let em10 = document.createElement("dt")
-        em10.innerHTML = " Password must not contain spaces";
-        errorLogin.append(em10)
-        errorLogin.hidden = false;
+        LaddError(" Password must not contain spaces",event);
       }
       if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(passwordC)) {
-        let em11 = document.createElement("dt")
-        em11.innerHTML = " Password must Minimum eight characters, at least one uppercase letter, one lowercase letter and one number";
-        errorLogin.append(em11)
-        errorLogin.hidden = false;
+        LaddError(" Password must Minimum eight characters, at least one uppercase letter, one lowercase letter and one number",event);
       }
       //Errors Thrown Check
-      if(errorLogin.hidden == false){
-        event.preventDefault()
-        event.stopPropagation()
-      }
     }
     signin.classList.add('was-validated')
   }, false)

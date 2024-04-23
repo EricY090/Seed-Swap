@@ -56,6 +56,9 @@ router
       return res.status(400).render('auth/register', {error: "Discord is an xss vulnerability" , hid:""});
     }
   }
+  if(await usersData.userNameExists(username)){
+    return res.status(400).render('auth/register', {error: "Username already exists" , hid:""});
+  }
   if(phoneNumber){
     if (phoneNumber != xss(phoneNumber)){
       return res.status(400).render('auth/register', {error: "Phone Number is an xss vulnerability" , hid:""});
@@ -85,6 +88,7 @@ router
     return res.status(400).render('auth/register',{error: e , hid:""});
   }
   try{
+    //console.log("User is being registered")
     let registerInfo = await usersData.createUser(false, username, displayWL, countryCode, discord, phoneNumber, email, password);
     if(registerInfo){
       res.redirect('/login'); 
