@@ -7,7 +7,7 @@ router
 .route('/')
 .get(async (req, res) => {
     try {
-      console.log(users)
+      //console.log(users)
       const user = await users.getUserById(req.session.user._id);
       return res.render('home/homepage', {user: user});
     } catch(e){

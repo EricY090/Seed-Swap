@@ -460,8 +460,8 @@ const validatePassword = (password) => {
     throw "password must not contain spaces";
   }
   if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password)) {
-    console.log(password);
-    console.log(!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password))
+    //console.log(password);
+    //console.log(!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password))
     throw "Password must Minimum eight characters, at least one uppercase letter, one lowercase letter and one number";
   }
   return password;

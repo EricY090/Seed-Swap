@@ -110,7 +110,7 @@ router
   }
 })
 .post(async (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
   const { username, password } = req.body;
   if (!username || !password) {
     return res.status(400).render('auth/login',{ error: "fields incomplete" , hid:""});
@@ -142,7 +142,7 @@ router
   if (foundUser) {
     //usersData.login should only ever return a user object or throw an error. so this is just overkill
     req.session.user = foundUser;
-    console.log(req.session.user);
+    //console.log(req.session.user);
     res.redirect('/homepage') // if the user login works and the user is logged in, then we redirect to homepage (homepage is essentialy empty rn)
   } else {
     return res.status(400).render('auth/login',{ error: "Username or password incorrect", hid:"" });

@@ -10,7 +10,6 @@ import { ObjectId } from "mongodb";
 
 const db = await dbConnection();
 await db.dropDatabase();
-
 let scotchBonnetRed,
   scotchBonnetYellow,
   scotchBonnetChocolate,
