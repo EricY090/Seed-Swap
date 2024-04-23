@@ -46,7 +46,7 @@ router.route('/').post(async (req, res) => {
         }
       }
       if(req.body.minsize && req.body.maxsize){
-        query_new['sizeCM'] = pepperValidation.validateSizeCM([parseInt(req.body['minsize']), parseInt(req.body['maxsize'])]);
+        query_new['sizeCM'] = pepperValidation.validateSizeCM([parseFloat(req.body['minsize']), parseFloat(req.body['maxsize'])]);
       }
       const new_peppers = await peppers.filterPeppersByProperties(query_new);
       return res.render('pepper/peppers', {peppers: new_peppers});

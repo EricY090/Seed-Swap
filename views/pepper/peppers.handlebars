@@ -1,3 +1,76 @@
-<h1>User is Logged in, This is just a placeholder for the pepper page</h1>
+<h1>Come take a look at our fine wares. I'm sure there's something here to suit you!</h1>
+<ol>
+    {{#each peppers}}
+    <li>
+        <h2>{{this.varietyName}}</h2>
+        <h3>Moderator Approved: {{this.moderatorApproved}}</h3>
+        <p>Species: {{this.species}}</p>
+        <p>Heat Level: {{this.heatLevel}}</p>
+        <p>Color: {{this.color}}</p>
+        <p>Size: {{this.sizeCM.[0]}}cm - {{this.sizeCM.[1]}}cm</p>
+        <p>Days to Harvest: {{this.daysToHarvest}}</p>
+        <p>Origin Country Code: {{this.originCountryCode}}</p>
+    </li>
+    <form method="post" id="wishlist-form">
+        <button type="submit" id ="wishlist" form="wishlist-form" name="wish-id" value="{{this._id}}">Add To Wishlist</button>
+    </form>
+    <form method="post" id="inventory-form">
+        <button type="submit" id ="inventory" form="inventory-form" name="inv-id" value="{{this._id}}">Add To Inventory</button>
+    </form>
+    {{/each}}
+</ol>
+
+<h2>Filter Your Peppers!</h2>
+<form method="post" action="/peppers" id="filter-form">
+    <label for="varietyName">Variety Name</label>
+    <input type="text" id="varietyName" name="varietyName">
+    <br>
+    <label for="species">Species</label>
+    <select name="species" id="species">
+        <option value="annuum">Annuum</option>
+        <option value="baccatum">Baccatum</option>
+        <option value="chinense">Chinense</option>
+        <option value="frutescens">Frutescens</option>
+        <option value="pubescens">Pubescens</option>
+        <option value="all">All</option>
+    </select>
+    <br>
+    <label for="filterByHeat">Filter By Heat?</label>
+    <input type="checkbox" id="filterByHeat" name="filterByHeat">
+    <br>
+    <label for="heatLevel">Heat Level</label>
+    <select name="heatLevel" id="heatLevel">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+    </select>
+    <br>
+    <label for="originCountryCode">Origin Country Code</label>
+    <input type="text" id="originCountryCode" name="originCountryCode">
+    <br>
+    <label for="daysToHarvest">Days to Harvest</label>
+    <input type="number" id="daysToHarvest" name="daysToHarvest">
+    <br>
+    <label for="minsize">Minimum Size (cm)</label>
+    <input type="number" id="minsize" name="minsize">
+    <br>
+    <label for="maxsize">Maximum Size (cm)</label>
+    <input type="number" id="maxsize" name="maxsize">
+    <br>
+    <button type="submit" id ="filter" form="filter-form" name="filter" value="true">Filter</button>
+    <div class="errorbox" id="errorbox">
+        {{error}}
+    </div>
+</form>
+<form method="get" id="reset">
+    <button type="submit" id ="reset" name="reset">Reset Filters</button>
+</form>
+
 <a id="logoutLink" href="/logout" class="logoutlink">Logout</a>
 <a id="homepageLink" href="/homepage" class="homepagelink">Home Page</a>
+
+<script src="../../public/js/pepper_validation.js" type="module"></script>

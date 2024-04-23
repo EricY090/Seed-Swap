@@ -313,8 +313,6 @@ const getNClosestWishlistMatches = async (userId, N) => {
   return finalArray;
 };
 
-//console.log(await getAllUsers());
-
 export default {
   createUser,
   userNameExists,
