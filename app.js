@@ -30,7 +30,7 @@ app.use('/', (req, res, next) => {
   console.log("[" + d + "]: " + req.method + " " + req.originalUrl + " / " + aut)
   if(req.path == "/"){
   if(req.session.user){
-    console.log(req.session.user);
+    //console.log(req.session.user);
     return res.redirect('/homepage')
   }
   else{
@@ -83,6 +83,28 @@ app.use("/homepage", (req,res,next) =>{
     return res.redirect('/login');
   }
 })
+//
+
+//Peppers middleware
+app.use("/peppers", (req,res,next) => {
+  if(req.session.user){
+    next();
+  }
+  else{
+    return res.redirect('/login');
+  }
+})
+
+//Matches middleware
+app.use("/matches", (req,res,next) => {
+  if(req.session.user){
+    next();
+  }
+  else{
+    return res.redirect('/login');
+  }
+})
+
 //
 
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));

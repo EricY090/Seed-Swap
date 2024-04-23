@@ -1,5 +1,24 @@
-import { ObjectId } from "mongodb";
-// sourced from https://www.codeinwp.com/snippets/list-of-all-countries-html-select-javascript-and-json-format/
+//Forms
+let signin = document.getElementById('signin-form');
+let signup = document.getElementById('signup-form');
+//
+
+//Form Inputs
+let username = document.getElementById('username');
+let password = document.getElementById('password');
+let confirmPassword = document.getElementById('confirmPassword');
+let countryCode = document.getElementById('countryCode');
+let discord = document.getElementById('discord');
+let email = document.getElementById('email');
+let phoneNumber = document.getElementById('phoneNumber');
+//
+
+//Error Fields
+let errorLogin = document.getElementById('errorLogin')
+let errorRegister = document.getElementById('errorRegister');
+//
+
+//Extra Fields
 const countrySet = [
   { name: "Albania", code: "AL" },
   { name: "Åland Islands", code: "AX" },
@@ -253,242 +272,206 @@ const countrySet = [
   { name: "Zambia", code: "ZM" },
   { name: "Zimbabwe", code: "ZW" },
 ];
+//
 
-const validateBoolean = (bool, varName) => {
-  if (typeof bool === "undefined") {
-    throw `${varName} must be defined`;
+//helper functions
+const RaddError = (errstring, e=null) => {
+  let em = document.createElement("dt");
+  em.innerHTML = errstring;
+  errorRegister.append(em)
+  errorRegister.hidden = false;
+  if(e){
+      e.preventDefault();
+      e.stopPropagation();
   }
-  if (typeof bool !== "boolean") {
-    throw `${varName} must be a boolean`;
-  }
-  return bool;
-};
+}
 
-/**
- * does not do xss checking here.
- * @param {string} username
- * @returns username
- * @throws {string} a myriad of error messages
- */
-const validateUsername = (username) => {
-  // This does NOT check if the username is in use, only if it is valid
-  if (typeof username !== "string") {
-    throw "Username must be a string";
+const LaddError = (errstring, e=null) => {
+  let em = document.createElement("dt");
+  em.innerHTML = errstring;
+  errorLogin.append(em)
+  errorLogin.hidden = false;
+  if(e){
+      e.preventDefault();
+      e.stopPropagation();
   }
-  let usernameCopy = username;
-  if (username.trim() !== usernameCopy) {
-    throw "username started/ended with whitespace";
-  }
-  if (username.length === 0) {
-    throw "Username must not be empty";
-  }
-  if (username.includes(" ")) {
-    throw "Username must not contain spaces";
-  }
-  if (username.length < 8) {
-    throw "Username must be at least 8 characters";
-  }
-  if (username.length > 20) {
-    throw "Username must be at most 20 characters";
-  }
-  if (!/^[a-zA-Z0-9]+$/.test(username)) {
-    throw "Username must be alphanumeric";
-  }
-  return username;
-};
+}
 
-const validatePhoneNumber = (phoneNumber) => {
-  if (typeof phoneNumber === "undefined") throw "Phone number is undefined";
-  if (typeof phoneNumber !== "string") throw "Phone number is not a string";
-  if (phoneNumber.trim().length < 10) throw "Phone number is too short";
-  if (phoneNumber.trim().length > 15) throw "Phone number is too long";
-  if (!/^\+?[0-9]+$/.test(phoneNumber)) throw "Phone number is not valid";
-  return phoneNumber;
-};
+//
 
-const validateCity = (city) => {
-  if (typeof city === "undefined") throw "City is undefined";
-  if (typeof city !== "string") throw "City is not a string";
-  if (city.trim().length === 0) throw "City is empty";
-  if (city.length > 50) throw "City name is too long";
-  return city;
-};
-const USStates = {
-  AL: "Alabama",
-  AK: "Alaska",
-  AS: "American Samoa",
-  AZ: "Arizona",
-  AR: "Arkansas",
-  CA: "California",
-  CO: "Colorado",
-  CT: "Connecticut",
-  DE: "Delaware",
-  DC: "District Of Columbia",
-  FM: "Federated States Of Micronesia",
-  FL: "Florida",
-  GA: "Georgia",
-  GU: "Guam",
-  HI: "Hawaii",
-  ID: "Idaho",
-  IL: "Illinois",
-  IN: "Indiana",
-  IA: "Iowa",
-  KS: "Kansas",
-  KY: "Kentucky",
-  LA: "Louisiana",
-  ME: "Maine",
-  MH: "Marshall Islands",
-  MD: "Maryland",
-  MA: "Massachusetts",
-  MI: "Michigan",
-  MN: "Minnesota",
-  MS: "Mississippi",
-  MO: "Missouri",
-  MT: "Montana",
-  NE: "Nebraska",
-  NV: "Nevada",
-  NH: "New Hampshire",
-  NJ: "New Jersey",
-  NM: "New Mexico",
-  NY: "New York",
-  NC: "North Carolina",
-  ND: "North Dakota",
-  MP: "Northern Mariana Islands",
-  OH: "Ohio",
-  OK: "Oklahoma",
-  OR: "Oregon",
-  PW: "Palau",
-  PA: "Pennsylvania",
-  PR: "Puerto Rico",
-  RI: "Rhode Island",
-  SC: "South Carolina",
-  SD: "South Dakota",
-  TN: "Tennessee",
-  TX: "Texas",
-  UT: "Utah",
-  VT: "Vermont",
-  VI: "Virgin Islands",
-  VA: "Virginia",
-  WA: "Washington",
-  WV: "West Virginia",
-  WI: "Wisconsin",
-  WY: "Wyoming",
-};
 
-const validateState = (state) => {
-  if (typeof state === "undefined") throw "State is undefined";
-  if (typeof state !== "string") throw "State is not a string";
-  if (state.trim().length === 0) throw "State is empty";
-  state = state.trim().toUpperCase();
-  if (typeof USStates[state] === "undefined")
-    throw `US State abbrev  ${state} does not exist`;
-  return state;
-};
-const validateCountryCode = (countryCode) => {
-  //DOESNT allow unknown country
-  if (typeof countryCode === "undefined") throw "Country is undefined";
-  if (typeof countryCode !== "string") throw "Country is not a string";
-  if (countryCode.trim().length != 2) throw "Country code is not 2 characters";
-  countryCode = countryCode.trim().toUpperCase();
-  let country = countrySet.find((c) => c.code === countryCode);
-  if (typeof country === "undefined") throw "Country code is not valid";
-  return countryCode;
-};
+//Register Validation
+if(signup){
 
-const validateEmail = (email) => {
-  //   email = email.toLowerCase();
-  if (typeof email !== "string") {
-    throw "Email must be a string";
-  }
-  if (email.length === 0) {
-    throw "Email must not be empty";
-  }
-  if (email.includes(" ")) {
-    throw "Email must not contain spaces";
-  }
-  let atCount = email.split("@").length - 1;
-  if (atCount !== 1) {
-    throw "Email must contain exactly one @";
-  }
-  let atSplitArr = email.split("@");
-  let emailUsername = atSplitArr[0];
-  let emailDomain = atSplitArr[1];
-  if (emailUsername.length === 0) {
-    throw "Email name must not be empty";
-  }
-  if (emailDomain.length === 0) {
-    throw "Email domain must not be empty";
-  }
-  if (!emailDomain.includes(".")) {
-    throw "Email domain must contain a period";
-  }
-  return email;
-};
+  signup.addEventListener('submit', function (event) {
+    errorRegister.hidden = true;
+    let usernameC = username.value.trim()
+    let passwordC = password.value.trim()
+    let confirmPasswordC = confirmPassword.value.trim()
+    let countryCodeC = countryCode.value.trim()
+    let phoneNumberC;
+    let discordC;
+    let emailC;
+    if(discord.value){
+      discordC = discord.value.trim()
+    }
+    if(email.value){
+      emailC = email.value.trim()
+    }
+    if(phoneNumber.value){
+      phoneNumberC = phoneNumber.value.trim()
+    }
+    errorRegister.innerHTML = "";
+    if (!signup.checkValidity()) {
+      event.preventDefault()
+      event.stopPropagation()
+    }
+    else {
+      console.log("signup event else")
+      //Username
+      if (typeof usernameC !== "string") {
+        RaddError("Error: Inputed Username is not a String",event);
+      }
+      if (typeof passwordC !== "string"){
+        RaddError(" Error: Inputed Password is not a String",event);
+      }
+      if (usernameC.length === 0) {
+        RaddError(" Username must not be empty",event);
+      }
+      if (usernameC.includes(" ")) {
+        RaddError(" Username must not contain spaces",event);
+      }
+      if (usernameC.length < 8) {
+        RaddError(" Username must be at least 8 characters",event);
+      }
+      if (usernameC.length > 20) {
+        RaddError(" Username must be at most 20 characters",event);
+      }
+      if (!/^[a-zA-Z0-9]+$/.test(usernameC)) {
+        RaddError(" Username must be alphanumeric",event);
+      }
+      //Password
+      if (passwordC.length < 8) {
+        RaddError(" Password must be at least 8 characters",event);
+      }
+      if (passwordC.length > 20) {
+        RaddError(" Password must be at most 20 characters",event);
+      }
+      if (passwordC.includes(" ")) {
+        RaddError(" Password must not contain spaces",event);
+      }
+      if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(passwordC)) {
+        RaddError(" Password must Minimum eight characters, at least one uppercase letter, one lowercase letter and one number",event);
+      }
+      if(passwordC != confirmPasswordC){
+        RaddError(" Password and Confirm Password must match",event);
+      }
+      //Country Code
+      if (typeof countryCodeC === "undefined"){
+        RaddError("Country is undefined",event);
+      }
+      if (typeof countryCodeC !== "string"){
+        RaddError("Country is not a string",event);
+      }
+      if (countryCodeC.length != 2){ 
+        RaddError("Country code is not 2 characters",event);
+      }
+      let countryCodeCC = countryCodeC.toUpperCase();
+      let country = countrySet.find((c) => c.code === countryCodeCC);
+      if (typeof country === "undefined"){
+        RaddError("Country code is not valid",event);
+      }
+      //Phone Number
+      if(phoneNumberC){
+        if (typeof phoneNumberC === "undefined") {
+          RaddError("Phone number is undefined", event);
+        }
+        if (typeof phoneNumberC !== "string") {
+          RaddError("Phone number is not a string", event);
+        }
+        if (phoneNumberC.length < 10) {
+          RaddError("Phone number is too short", event);
+        }
+        if (phoneNumberC.length > 15) {
+          RaddError("Phone number is too long", event);
+        }
+        if (!/^\+?[0-9]+$/.test(phoneNumberC)) {
+          RaddError("Phone number is not valid", event);
+        } 
+      }
+      if(discordC){
+        if (typeof discordC === "undefined") {
+          RaddError("Discord is undefined", event);
+        }
+        if (typeof discordC !== "string") {
+          RaddError("Discord is not a string", event);
+        }
+        if (discordC.length < 3) {
+          RaddError("Discord is too short", event);
+        }
+        if (discordC.length > 37) {
+          RaddError("Discord is too long", event);
+        }
+        if (!/^[a-zA-Z0-9]+$/.test(discordC)) {
+          RaddError("Discord is not valid", event);
+        } 
+      }
+    }
+    signup.classList.add('was-validated')
+  }, false)
+}
 
-const validateDiscord = (discord) => {
-  if (typeof discord === "undefined") {
-    return undefined;
-  }
-  if (typeof discord !== "string") {
-    throw "Discord username must be a string";
-  }
-  if (discord.trim().length === 0) {
-    throw "Discord username must not be empty";
-  }
-  if (discord.includes(" ")) {
-    throw "Discord username must not contain spaces";
-  }
-  if (discord.length < 2) {
-    throw "Discord username must be >=2 characters";
-  }
-  if (discord.length > 32) {
-    throw "Discord username must be <=32 characters";
-  }
-  return discord;
-};
-const validatePassword = (password) => {
-  if (typeof password !== "string") {
-    throw "Password must be a string";
-  }
-  if (password.length < 8) {
-    throw "Password must be at least 8 characters";
-  }
-  if (password.length > 20) {
-    throw "Password must be at most 20 characters";
-  }
-  if (password.includes(" ")) {
-    throw "password must not contain spaces";
-  }
-  if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password)) {
-    //console.log(password);
-    //console.log(!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password))
-    throw "Password must Minimum eight characters, at least one uppercase letter, one lowercase letter and one number";
-  }
-  return password;
-};
-
-const validateUserId = (userId) => {
-  if (typeof userId === "undefined") {
-    throw "userId is undefined";
-  }
-  if (typeof userId !== "string") {
-    throw "userId is not a string";
-  }
-  if (!ObjectId.isValid(userId)) {
-    throw "userId is not a valid ObjectId";
-  }
-  return userId;
-};
-
-export default {
-  validateBoolean,
-  validateUsername,
-  validatePhoneNumber,
-  validateCity,
-  validateState,
-  validateCountryCode,
-  validateEmail,
-  validateDiscord,
-  validatePassword,
-  validateUserId,
-};
+//Login Validation
+if(signin){
+  signin.addEventListener('submit', function (event) {
+    errorLogin.hidden = true;
+    let usernameC = username.value.trim()
+    let passwordC = password.value.trim()
+    emessage = "";
+    errorLogin.innerHTML = "";
+    if (!signin.checkValidity()) {
+      event.preventDefault()
+      event.stopPropagation()
+    }
+    else {
+      //Username
+      if (typeof usernameC !== "string") {
+        LaddError("Error: Inputed Username is not a String",event);
+      }
+      if (typeof passwordC !== "string"){
+        LaddError(" Error: Inputed Password is not a String",event);
+      }
+      if (usernameC.length === 0) {
+        LaddError(" Username must not be empty",event);
+      }
+      if (usernameC.includes(" ")) {
+        LaddError(" Username must not contain spaces",event);
+      }
+      if (usernameC.length < 8) {
+        LaddError(" Username must be at least 8 characters",event);
+      }
+      if (usernameC.length > 20) {
+        LaddError(" Username must be at most 20 characters",event);
+      }
+      if (!/^[a-zA-Z0-9]+$/.test(usernameC)) {
+        LaddError(" Username must be alphanumeric",event);
+      }
+      //Password
+      if (passwordC.length < 8) {
+        LaddError(" Password must be at least 8 characters",event);
+      }
+      if (passwordC.length > 20) {
+        LaddError(" Password must be at most 20 characters",event);
+      }
+      if (passwordC.includes(" ")) {
+        LaddError(" Password must not contain spaces",event);
+      }
+      if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(passwordC)) {
+        LaddError(" Password must Minimum eight characters, at least one uppercase letter, one lowercase letter and one number",event);
+      }
+      //Errors Thrown Check
+    }
+    signin.classList.add('was-validated')
+  }, false)
+}
+//

@@ -10,28 +10,104 @@ const router = Router();
 
 router
 .get(async (req, res) => {
-  //code here for GET THIS ROUTE SHOULD NEVER FIRE BECAUSE OF MIDDLEWARE #1 IN SPECS.
-  return res.render('homepage')
+  return res.render('home/homepage')
 });
 
 router
 .route('/register')
 .get(async(req,res) =>{//for when a user gets the register page
   try{
-    res.render('register');
+    res.render('auth/register', {hid:"hidden"} );
   }
   catch(e){
     return res.status(e.statusCode).send(e.message);
   }
 })
 .post(async (req, res) => {
+  console.log(req.body)
+  const { username, password, confirmPassword, DWishlist, countryCode, discord, phoneNumber, email } = req.body;
+  let displayWL = false;
+  if(DWishlist == 'on'){
+    displayWL = true;
+  }
+  if (!username || !password || !confirmPassword || !countryCode) {
+    return res.status(400).render('auth/register',{ error: "fields incomplete" , hid:"" });
+  }
+  if (typeof username !== "string" || typeof password !== "string" || typeof confirmPassword != "string" || typeof countryCode != "string") {
+    return res.status(400).render('auth/register',{ error: "fields not strings" , hid:"" });
+  }
+  if (username !== xss(username)) {
+    return res.status(400).render('auth/register',{ error: "username is an xss vulnerability" , hid:"" });
+  }
+  if (password !== xss(password)) {
+    return res.status(400).render('auth/register',{ error: "password is an xss vulnerability" , hid:"" });
+  }
+  if (confirmPassword != xss(confirmPassword)){
+    return res.status(400).render('auth/register', {error: "Confirm Password is an xss vulnerability" , hid:""});
+  }
+  if (confirmPassword != password){
+    return res.status(400).render('auth/register', {error: "Password and Confirm Password must be the same" , hid:""});
+  }
+  if (countryCode != xss(countryCode)){
+    return res.status(400).render('auth/register', {error: "Country Code is an xss vulnerability" , hid:""});
+  }
+  if(await usersData.userNameExists(username)){
+    return res.status(400).render('auth/register', {error: "Username already exists" , hid:""});
+  }
+  if(discord){
+    if (discord != xss(discord)){
+      return res.status(400).render('auth/register', {error: "Discord is an xss vulnerability" , hid:""});
+    }
+    if(await usersData.discordExists(discord)){
+      return res.status(400).render('auth/register', {error: "Discord already exists" , hid:""});
+    }
+  }
+  if(phoneNumber){
+    if (phoneNumber != xss(phoneNumber)){
+      return res.status(400).render('auth/register', {error: "Phone Number is an xss vulnerability" , hid:""});
+    }
+    if(await usersData.phoneNumberExists(phoneNumber)){
+      return res.status(400).render('auth/register', {error: "Phone Number already exists" , hid:""});
+    }
+  }
+  if(email){
+    if (email != xss(email)){
+      return res.status(400).render('auth/register', {error: "Email is an xss vulnerability" , hid:""});
+    }
+    if(usersData.emailInUse(email)){
+      return res.status(400).render('auth/register', {error: "Email already in use" , hid:""});
+    }
+  }
   try{
-    let registerInfo = await usersData.createUser(false, req.body.username, true, req.body.countryCode, req.body.discord, req.body.phoneNumber, req.body.email, req.body.password);
-    res.redirect('/login'); 
+    usersValidation.validateUsername(username);
+    usersValidation.validatePassword(password);
+    usersValidation.validatePassword(confirmPassword);
+    usersValidation.validateCountryCode(countryCode);
+    if(discord){
+      usersValidation.validateDiscord(discord);
+    }
+    if(phoneNumber){
+      usersValidation.validatePhoneNumber(phoneNumber);
+    }
+    if(email){
+      usersValidation.validateEmail(email);
+    }
   }
   catch(e){
-    console.log("balls");
-    return res.status(400).render('register',{error: req.params}); //no errror checking yet so ignore this for now. REGISTER USER NOT WORKING RN
+    return res.status(400).render('auth/register',{error: e , hid:""});
+  }
+  try{
+    //console.log("User is being registered")
+    let registerInfo = await usersData.createUser(false, username, displayWL, countryCode, discord, phoneNumber, email, password);
+    if(registerInfo){
+      res.redirect('/login'); 
+    }
+    else{
+      return res.status(400).render('auth/register',{error: "Something went wrong with the server" , hid:""});
+    }
+  }
+  catch(e){
+    return res.status(400).render('auth/register',{error: "Something went wrong with the server" , hid:""}); //no errror checking yet so ignore this for now. REGISTER USER NOT WORKING RN
   }
   
 });
@@ -40,38 +116,33 @@ router
 .route('/login')
 .get(async(req,res) =>{ //for when a user gets the login page
   try{
-    res.render('login');
+    res.render('auth/login', {hid:"hidden"});
   }
   catch(e){
     return res.status(e.statusCode).send(e.message);
   }
 })
 .post(async (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
   const { username, password } = req.body;
   if (!username || !password) {
-    res.status(400).json({ error: "fields incomplete" });
-    return;
+    return res.status(400).render('auth/login',{ error: "fields incomplete" , hid:""});
   }
   if (typeof username !== "string" || typeof password !== "string") {
-    res.status(400).json({ error: "fields not strings" });
-    return;
+    return res.status(400).render('auth/login',{ error: "fields not strings", hid:"" });
   }
   if (username !== xss(username)) {
-    res.status(400).json({ error: "username is an xss vulnerability" });
-    return;
+    return res.status(400).render('auth/login',{ error: "username is an xss vulnerability" , hid:""});
   }
   if (password !== xss(password)) {
-    res.status(400).json({ error: "password is an xss vulnerability" });
-    return;
+    return res.status(400).render('auth/login',{ error: "password is an xss vulnerability", hid:"" });
   }
   try {
     usersValidation.validateUsername(username);
     usersValidation.validatePassword(password);
   } catch (error) {
     // some error in validation will be printed here
-    res.status(400).json({ error: error });
-    return;
+    return res.status(400).render('auth/login', { error: error , hid:""});
   }
   let foundUser;
   try {
@@ -79,22 +150,21 @@ router
     //could throw a bunch of things, b
     foundUser = await usersData.login(username, password);
   } catch (error) {
-    res.status(400).json({ error: "Username or password incorrect" });
-    return;
+    return res.status(400).render('auth/login',{ error: "Username or password incorrect", hid:"" });
   }
   if (foundUser) {
     //usersData.login should only ever return a user object or throw an error. so this is just overkill
     req.session.user = foundUser;
-    console.log(req.session.user);
+    //console.log(req.session.user);
     res.redirect('/homepage') // if the user login works and the user is logged in, then we redirect to homepage (homepage is essentialy empty rn)
   } else {
-    res.status(400).json({ error: "Username or password incorrect" });
+    return res.status(400).render('auth/login',{ error: "Username or password incorrect", hid:"" });
   }
 });
 
 router
 .route('/logout')
 .get(async(req, res) => {
-  res.render('logout');
+  return res.render('auth/logout');
 });
 export default router;

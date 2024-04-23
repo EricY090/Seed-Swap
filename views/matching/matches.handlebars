@@ -1,0 +1,10 @@
+<h1>Meet the people that have the shit you want!</h1>
+<ol>
+    {{#each users}}
+    <li>
+        <a href="/users/{{this.username}}">{{this.username}}</a>
+        <p>Country Code: {{this.countryCode}}</p>
+        <p>Matches with your wishlist: {{this.wishlistMatches}}</p>
+    </li>
+    {{/each}}
+</ol>
