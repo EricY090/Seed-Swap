@@ -9,7 +9,7 @@ router
     try {
       console.log(users)
       const user = await users.getUserById(req.session.user._id);
-      return res.render('homepage', {user: user});
+      return res.render('home/homepage', {user: user});
     } catch(e){
       throw(e);
     }
