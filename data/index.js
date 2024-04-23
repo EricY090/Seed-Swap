@@ -1,8 +1,8 @@
 import pepperDataFunctions from "./peppers.js";
 import userDataFunctions from "./users.js";
-// import tradeDataFunctions from "./trades.js";
 import usersPeppersDataFunctions from "./userspeppers.js";
 import commentDataFunctions from "./comments.js";
+// import tradeDataFunctions from "./trades.js";
 
 export const peppersData = pepperDataFunctions;
 export const usersData = userDataFunctions;

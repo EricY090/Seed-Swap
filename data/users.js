@@ -1,4 +1,4 @@
-import { users } from "../config/mongoCollections.js";
+import { users, peppers } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import bcryptjs from "bcryptjs";
 import xss from "xss";
@@ -28,7 +28,7 @@ const createUser = async (
   discord, //optional, string
   phone, //optional, string
   email, //optional, string
-  password //reqiored, string
+  password //required, string
 ) => {
   // TODO
   // check if username is in use, regardless of case
@@ -255,6 +255,67 @@ const login = async (username, password) => {
   }
 };
 
+const getAllUsers = async () => {
+  const userCollection = await users();
+  const allUsers = await userCollection
+    .find({})
+    .toArray();
+  allUsers.forEach((user) => {
+    user._id = user._id.toString();
+  });
+  return allUsers;
+};
+
+//get users in order 
+const getNClosestWishlistMatches = async (userId, N) => {
+  //userId is a string
+  if (!userId) throw "field incomplete";
+  if (typeof N !== 'number') throw "N not a number";
+  if (typeof userId !== "string") throw "field not string";
+  try {
+    userId = usersValidation.validateUserId(userId);
+  } catch (error) {
+    throw error;
+  }
+  if (userId !== xss(userId)) {
+    throw "userId is an xss vulnerability";
+  }
+  if (!ObjectId.isValid(userId)) {
+    throw "Invalid userId";
+  }
+  let user, allUsers, W;
+  try{
+    user = await getUserById(userId);
+    W = user.wishlist;
+    allUsers = await getAllUsers();
+  } catch (error){
+    throw error;
+  }
+  let finalArray = allUsers.sort((a, b) => {
+    if(a.username < b.username){
+      return -1;
+    } else if(a.username > b.username){
+      return 1;
+    } else{
+      return 0;
+    };
+  })
+  .sort((a, b) => {
+    const aMatchLen = a.inventory.filter((x) => W.includes(x)).length;
+    const bMatchLen = b.inventory.filter((y) => W.includes(y)).length;
+    return bMatchLen-aMatchLen;
+  })
+  .filter((x) => x._id.toString() !== user._id.toString())
+  .slice(0, N)
+  .map((user) => {
+    user['wishlistMatches'] = user.inventory.filter((x) => W.includes(x)).length;
+    return user;
+  })
+  return finalArray;
+};
+
+console.log(await getAllUsers());
+
 export default {
   createUser,
   userNameExists,
@@ -262,4 +323,6 @@ export default {
   getUserByName,
   getUserById,
   login,
+  getNClosestWishlistMatches,
+  getAllUsers
 };
