@@ -282,7 +282,7 @@ const filterPeppersByProperties = async(propertiesObj) => {
       if(field === 'varietyName'){
         queryingObj["varietyName"] = {$regex: pepperValidation.validatePepperName(propertiesObj['varietyName']), $options: "i"};
       } else if(field === 'alternativeNames'){
-        queryingObj["alternativeNames"] = {$regex: pepperValidation.validateAlternativeNames(propertiesObj['alternativeNames']), $options: "i"};
+        queryingObj["alternativeNames"] = {$regex: pepperValidation.validatePepperName(propertiesObj['alternativeNames']), $options: "i"};
       } else if(field === 'species'){
         queryingObj["species"] = pepperValidation.validateSpecies(propertiesObj["species"]);
       } else if(field === 'heatLevel'){

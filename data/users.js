@@ -1,4 +1,4 @@
-import { users } from "../config/mongoCollections.js";
+import { users, peppers } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import bcryptjs from "bcryptjs";
 import xss from "xss";
@@ -313,6 +313,8 @@ const getNClosestWishlistMatches = async (userId, N) => {
   })
   return finalArray;
 };
+
+console.log(await getAllUsers());
 
 export default {
   createUser,
