@@ -21,7 +21,7 @@
 </ol>
 
 <h2>Filter Your Peppers!</h2>
-<form method="post" id="filter-form">
+<form method="post" action="/peppers" id="filter-form">
     <label for="varietyName">Variety Name</label>
     <input type="text" id="varietyName" name="varietyName">
     <br>
@@ -62,6 +62,9 @@
     <input type="number" id="maxsize" name="maxsize">
     <br>
     <button type="submit" id ="filter" form="filter-form" name="filter" value="true">Filter</button>
+    <div class="errorbox" id="errorbox">
+        {{error}}
+    </div>
 </form>
 <form method="get" id="reset">
     <button type="submit" id ="reset" name="reset">Reset Filters</button>
@@ -69,3 +72,5 @@
 
 <a id="logoutLink" href="/logout" class="logoutlink">Logout</a>
 <a id="homepageLink" href="/homepage" class="homepagelink">Home Page</a>
+
+<script src="../../public/js/pepper_validation.js" type="module"></script>
