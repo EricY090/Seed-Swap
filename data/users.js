@@ -128,16 +128,15 @@ const userNameExists = async (username) => {
   if (typeof username !== "string") throw "field not string";
   username = xss(username);
   let findingUser;
-  try {
-    const findingUser = await userCollection.findOne({
-      username: { $regex: username, $options: "i" },
-    });
-  } catch (error) {
-    throw error;
-  }
 
-  if (findingUser) {
-    return true;
+  //go through the usersCollection and look for a user with the same username
+  findingUser = await userCollection.find({}).toArray();
+  if(findingUser){
+    for(let i in findingUser){
+      if(findingUser[i].username.toUpperCase() == username.toUpperCase()){
+        return true;
+      }
+    }
   }
   return false;
 };

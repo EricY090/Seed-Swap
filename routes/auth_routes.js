@@ -56,6 +56,9 @@ router
       return res.status(400).render('auth/register', {error: "Discord is an xss vulnerability" , hid:""});
     }
   }
+  if(await usersData.userNameExists(username)){
+    return res.status(400).render('auth/register', {error: "Username already exists" , hid:""});
+  }
   if(phoneNumber){
     if (phoneNumber != xss(phoneNumber)){
       return res.status(400).render('auth/register', {error: "Phone Number is an xss vulnerability" , hid:""});
@@ -85,6 +88,7 @@ router
     return res.status(400).render('auth/register',{error: e , hid:""});
   }
   try{
+    //console.log("User is being registered")
     let registerInfo = await usersData.createUser(false, username, displayWL, countryCode, discord, phoneNumber, email, password);
     if(registerInfo){
       res.redirect('/login'); 
@@ -110,7 +114,7 @@ router
   }
 })
 .post(async (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
   const { username, password } = req.body;
   if (!username || !password) {
     return res.status(400).render('auth/login',{ error: "fields incomplete" , hid:""});
@@ -142,7 +146,7 @@ router
   if (foundUser) {
     //usersData.login should only ever return a user object or throw an error. so this is just overkill
     req.session.user = foundUser;
-    console.log(req.session.user);
+    //console.log(req.session.user);
     res.redirect('/homepage') // if the user login works and the user is logged in, then we redirect to homepage (homepage is essentialy empty rn)
   } else {
     return res.status(400).render('auth/login',{ error: "Username or password incorrect", hid:"" });
