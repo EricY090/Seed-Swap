@@ -1,15 +1,32 @@
 
- <h1 class="header">Login</h1>
-    <div id="errorLogin" class="error">{{error}}</div>
-    <form method="POST" id="signin-form" name="singin-form" class="new-post-form">
+<h1>Login</h1>
+<dl id="errorLogin" class="alert alert-danger" role="alert" {{hid}}>
+  <dt>{{error}}</dt>
+</dl>
+<form method="POST" action="/login" id="signin-form" class="needs-validation" novalidate>
+  
+  <div class="col-md-4">
+    <label for="username" class="form-label">Username</label>
+    <div class="input-group has-validation">
+      <span class="input-group-text" id="inputGroupPrepend">@</span>
+      <input name="username" type="text" class="form-control" id="username" placeholder="Please enter your Username" aria-describedby="inputGroupPrepend" required>
+      <div class="invalid-feedback">
+        Please enter a valid Username.
+      </div>
+    </div>
+  </div>
 
-        <label for="username">Username:</label>
-        <input name="username" id="username" type="text" class="loginusername"></input>
+  <div class="col-md-4">
+    <label for="password" class="form-label">Password</label>
+    <input name="password" type="password" class="form-control" id="password" placeholder="Please enter your password" required>
+    <div class="invalid-feedback">
+      Please provide a valid Password.
+    </div>
+  </div>
 
-        <label for="password">Password:</label>
-        <input name="password" id="password" type="password" class="loginpassword"></input>
-
-        <button type="submit" id="btn" class="loginbutton">Login!</button>
-    </form>
+  <div class="col-12">
+    <button class="btn btn-primary" type="submit">Login!</button>
+  </div>
+</form>
+<script src="../../public/js/auth_validation.js"></script>
 <a class="basic-Text" href="/register">Click here to register!</a>
-<script src="../../public/js/client_side_validation.js"></script>
