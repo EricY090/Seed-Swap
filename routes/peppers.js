@@ -12,7 +12,7 @@ router
 .get(async (req, res) => {
   try{
     const allPeppers = await peppers.getAllPeppers();
-    return res.render('peppers', {peppers: allPeppers});
+    return res.render('pepper/peppers', {peppers: allPeppers});
   } catch (e) {
     res.status(404).json(e);
   }
@@ -49,9 +49,9 @@ router.route('/').post(async (req, res) => {
         query_new['sizeCM'] = pepperValidation.validateSizeCM([parseInt(req.body['minsize']), parseInt(req.body['maxsize'])]);
       }
       const new_peppers = await peppers.filterPeppersByProperties(query_new);
-      return res.render('peppers', {peppers: new_peppers});
+      return res.render('pepper/peppers', {peppers: new_peppers});
     }
-    return res.render('peppers', {peppers: allPeppers});
+    return res.render('pepper/peppers', {peppers: allPeppers});
   } catch (e) {
     console.log(e);
     res.status(404).json(e);
