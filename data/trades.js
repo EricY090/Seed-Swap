@@ -225,4 +225,24 @@ const getTradesPendingYourApproval = async (userID) => {
   return tradeArr;
 }
 
-export default {initiateTrade, receiverAccepts, receiverDeclines, usersHaveTraded, getTradeById, getTradesPendingOthersApproval, getTradesPendingYourApproval};
+export const getYourApprovedTrades = async (userID) => {
+  if (!userID) throw "field incomplete";
+  if (typeof userID !== "string") throw "field not string";
+  if(userID.trim().length === 0) throw "field empty";
+  if(userID !== xss(userID)) throw "userID is an xss vulnerability";
+  try {
+    userID = usersValidation.validateUserId(userID);
+  } catch (error) {
+    throw error;
+  }
+  const tradeCollection = await trades();
+  const tradeArr = await tradeCollection.find({
+    $or: [
+      { initiator: userID, receiverAccepted: true },
+      { receiver: userID, receiverAccepted: true }
+    ]
+  }).toArray();
+  return tradeArr;
+}
+
+export default {initiateTrade, receiverAccepts, receiverDeclines, usersHaveTraded, getTradeById, getTradesPendingOthersApproval, getTradesPendingYourApproval, getYourApprovedTrades};
