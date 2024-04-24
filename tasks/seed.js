@@ -5,6 +5,7 @@ import {
   usersData,
   usersPeppersData,
   commentsData,
+  tradesData,
 } from "../data/index.js";
 import { ObjectId } from "mongodb";
 
@@ -741,6 +742,10 @@ const addPeppersToUsers = async () => {
   await usersPeppersData.addPepperToUserInv(AlanJPaluka, "sugar rush peach");
   await usersPeppersData.addPepperToUserInv(AlanJPaluka, "scotch bonnet red");
   await usersPeppersData.addPepperToUserWL(AlanJPaluka, "lemon starrburst");
+
+  await usersPeppersData.addPepperToUserInv(BongJoonHo, "ghost pepper");
+  await usersPeppersData.addPepperToUserInv(BongJoonHo, "cherry bomb");
+  await usersPeppersData.addPepperToUserWL(BongJoonHo, "cayenne long slim");
 };
 
 try {
@@ -832,9 +837,73 @@ const addCommentsToUsers = async () => {
   }
 };
 
-await addCommentsToUsers();
+
+try {
+  await addCommentsToUsers();
+} catch (error) {
+  console.error(error);
+}
+
 console.log("done adding comments to users");
 
-// let allPeppers = await peppersData.getAllPeppers();
-// await console.log(allPeppers);
+
+let KurosawaToChan, KurosawaToCameron, KurosawaToWoo, KurosawaToHonda;
+let WooToScorcese, WooToBong, WooToKurosawa, WooToChan;
+let ToToMann, ToToLee, ToToKobayashi
+let NolanToAlmodovar, NolanToLau, NolanToHonda;
+let MannToHung, MannToCronenberg, MannToPakula;
+let AlmodovarToKurosawa, AlmodovarToTo, AlmodovarToVilleneuve;
+let ChanToScorcese, ChanToCameron, ChanToHo, ChanToLee
+let HungToWoo, HungToAlmodovar, HungToCronenberg;
+let ScorceseToTo, ScorceseToMann, ScorceseToHung;
+let HondaToWoo, HondaToNolan, HondaToVilleneuve;
+//this will put the whole object in the variable, not just id
+
+// throw if initiate trade has an empty array
+const addTrades = async () => {
+  KurosawaToChan = await tradesData.initiateTrade(AkiraKurosawa, ["scotch bonnet red", "Peter pepper"], JackieChan, ["scotch bonnet chocolate", "rocoto yellow", "zebrange"]);
+  KurosawaToCameron = await tradesData.initiateTrade(AkiraKurosawa, ["trinidad scorpion"], JamesCameron, ["habanada"]);
+  KurosawaToWoo = await tradesData.initiateTrade(AkiraKurosawa, ["snow white"], JohnWoo1, ["chiltepin"]);
+  KurosawaToHonda = await tradesData.initiateTrade(AkiraKurosawa, ["rocoto yellow", "snow white"], IshiroHonda, ["scotch bonnet yellow"]);
+  WooToScorcese = await tradesData.initiateTrade(JohnWoo1, ["sugar rush peach"], MartinScorcese, ["thors thunderbolt"]);
+  WooToBong = await tradesData.initiateTrade(JohnWoo1, ["rocoto yellow"], BongJoonHo, ["cherry bomb"]);
+  WooToKurosawa = await tradesData.initiateTrade(JohnWoo1, ["rocoto yellow" ], AkiraKurosawa, ["snow white"]);
+  WooToChan = await tradesData.initiateTrade(JohnWoo1, ["chiltepin", "sugar rush peach"], JackieChan, ["scotch bonnet chocolate", "zebrange", "marconi golden"]);
+  ToToMann = await tradesData.initiateTrade(JohnnieTo, ["bolivian rainbow", "tobasco"], MichaelMann, ["lemon starrburst"]);
+  ToToLee = await tradesData.initiateTrade(JohnnieTo, ["scotch bonnet red", "brazilian starfish"], SpikeLee, ["habanada", "lemon drop"]);
+  ToToKobayashi = await tradesData.initiateTrade(JohnnieTo, ["tobasco"], MasakiKobayashi, ["brazilian starfish", "big bertha"]);
+  NolanToAlmodovar = await tradesData.initiateTrade(ChristopherNolan, ["lemon starrburst", "carolina reaper"], PedroAlmodovar, ["bolivian rainbow"]);
+  NolanToLau = await tradesData.initiateTrade(ChristopherNolan, ["carolina reaper"], AndrewLau, ["pimenta de neyde", "scotch bonnet chocolate"]);
+  NolanToHonda = await tradesData.initiateTrade(ChristopherNolan, ["carolina reaper"], IshiroHonda, ["cayenne long slim", "scotch bonnet yellow"]);
+  MannToHung = await tradesData.initiateTrade(MichaelMann, ["scotch bonnet yellow", "sugar rush peach"], SammoHung, ["ghost pepper"]);
+  MannToCronenberg = await tradesData.initiateTrade(MichaelMann, ["lemon starrburst"], DavidCronenberg, ["zebrange","cayenne long slim"]);
+  MannToPakula = await tradesData.initiateTrade(MichaelMann, ["rocoto yellow"], AlanJPaluka, ["scotch bonnet red"]);
+  AlmodovarToKurosawa = await tradesData.initiateTrade(PedroAlmodovar, ["bolivian rainbow"], AkiraKurosawa, ["scotch bonnet red", "trinidad scorpion"]);
+  AlmodovarToTo = await tradesData.initiateTrade(PedroAlmodovar, ["bolivian rainbow"], JohnnieTo, ["tobasco", "brazilian starfish"]);
+  AlmodovarToVilleneuve = await tradesData.initiateTrade(PedroAlmodovar, ["bolivian rainbow"], DenisVilleneuve, ["lemon starrburst"]);
+  ChanToScorcese = await tradesData.initiateTrade(JackieChan, ["scotch bonnet chocolate", "rocoto yellow", "zebrange"], MartinScorcese, ["thors thunderbolt"]);
+  ChanToCameron = await tradesData.initiateTrade(JackieChan, ["chiltepin", "marconi golden"], JamesCameron, ["habanada", "lemon drop"]);
+  ChanToHo = await tradesData.initiateTrade(JackieChan, ["thors thunderbolt", "lemon starrburst"], BongJoonHo, ["cherry bomb"]);
+  ChanToLee = await tradesData.initiateTrade(JackieChan, ["marconi golden", "chiltepin", "scotch bonnet chocolate"], SpikeLee, ["habanada", "lemon drop"]);
+  HungToWoo = await tradesData.initiateTrade(SammoHung, ["ghost pepper", "bishop crown"], JohnWoo1, ["sugar rush peach"]);
+  HungToAlmodovar = await tradesData.initiateTrade(SammoHung, ["bishop crown", "tobasco"], PedroAlmodovar, ["bolivian rainbow"]);
+  HungToCronenberg = await tradesData.initiateTrade(SammoHung, ["ghost pepper"], DavidCronenberg, ["zebrange", "cayenne long slim"]);
+  ScorceseToTo = await tradesData.initiateTrade(MartinScorcese, ["thors thunderbolt"], JohnnieTo, ["brazilian starfish", "tobasco"]);
+  ScorceseToMann = await tradesData.initiateTrade(MartinScorcese, ["thors thunderbolt"], MichaelMann, ["sugar rush peach", "rocoto yellow"]);
+  ScorceseToHung = await tradesData.initiateTrade(MartinScorcese, ["thors thunderbolt"], SammoHung, ["bishop crown"]);
+  HondaToWoo = await tradesData.initiateTrade(IshiroHonda, ["scotch bonnet yellow"], JohnWoo1, ["chiltepin", "sugar rush peach"]);
+  HondaToNolan = await tradesData.initiateTrade(IshiroHonda, ["cayenne long slim"], ChristopherNolan, ["carolina reaper", "lemon starrburst"]);
+  HondaToVilleneuve = await tradesData.initiateTrade(IshiroHonda, ["scotch bonnet yellow"], DenisVilleneuve, ["lemon starrburst"]);
+};
+
+try {
+  await addTrades();
+} catch (error) {
+  console.error(error);
+}
+
+await tradesData.receiverAccepts((WooToChan._id).toString());
+await tradesData.receiverAccepts((HungToWoo._id).toString());
+console.log(await tradesData.getYourApprovedTrades(JohnWoo1))
+
 await closeConnection();
