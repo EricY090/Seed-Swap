@@ -96,6 +96,13 @@ const initiateTrade = async (userAID, userAPeppers, userBID, userBPeppers) => {
   return insertedTrade;
 };
 
+
+/**
+ * 
+ * @param {string} tradeID 
+ * @returns {object} trade object
+ * @throws fields incomplete, type mismatch, xss vulnerability, invalid tradeID
+ */
 const receiverAccepts = async (tradeID) => {
   if (!tradeID) throw "fields incomplete";
   if (typeof tradeID !== "string")
@@ -117,6 +124,13 @@ const receiverAccepts = async (tradeID) => {
   return await tradeCollection.findOne({ _id: new ObjectId(tradeID) });
 };
 
+
+/**
+ * 
+ * @param {string} tradeID 
+ * @returns {string} Trade declined
+ * @throws fields incomplete, type mismatch, xss vulnerability, invalid tradeID, trade not found
+ */
 const receiverDeclines = async (tradeID) => {
   if (!tradeID) throw "fields incomplete";
   if (typeof tradeID !== "string")
@@ -169,7 +183,12 @@ const usersHaveTraded = async (userAID, userBID) => {
   return true;
 };
 
-
+/**
+ * 
+ * @param {string} tradeID 
+ * @returns {object} trade object
+ * @throws fields incomplete, type mismatch, xss vulnerability, invalid tradeID, trade not found
+ */
 const getTradeById = async (tradeID) => {
   if (!tradeID) throw "field incomplete";
   if (typeof tradeID !== "string") throw "field not string";
@@ -186,6 +205,12 @@ const getTradeById = async (tradeID) => {
 }
 
 //trades where uid is initiator and receiver has not accepted ()
+/**
+ * 
+ * @param {string} userID 
+ * @returns {[object]} array of trade objects
+ * @throws fields incomplete, type mismatch, xss vulnerability, invalid userID
+ */
 const getTradesPendingOthersApproval = async (userID) => {
   if (!userID) throw "field incomplete";
   if (typeof userID !== "string") throw "field not string";
@@ -207,6 +232,12 @@ const getTradesPendingOthersApproval = async (userID) => {
 //trades where uid is receiver and receiver has not accepted
 //check uid
 //find all trades where receiver id is you, and receiverAccepted is false
+/**
+ * 
+ * @param {string} userID 
+ * @returns {[object]} array of trade objects
+ * @throws fields incomplete, type mismatch, xss vulnerability, invalid userID
+ */
 const getTradesPendingYourApproval = async (userID) => {
   if (!userID) throw "field incomplete";
   if (typeof userID !== "string") throw "field not string";
@@ -225,6 +256,12 @@ const getTradesPendingYourApproval = async (userID) => {
   return tradeArr;
 }
 
+/**
+ * 
+ * @param {string} userID 
+ * @returns {[object]} array of trade objects
+ * @throws fields incomplete, type mismatch, xss vulnerability, invalid userID
+ */
 export const getYourApprovedTrades = async (userID) => {
   if (!userID) throw "field incomplete";
   if (typeof userID !== "string") throw "field not string";
