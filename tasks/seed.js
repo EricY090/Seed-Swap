@@ -904,6 +904,6 @@ try {
 
 await tradesData.receiverAccepts((WooToChan._id).toString());
 await tradesData.receiverAccepts((HungToWoo._id).toString());
-console.log(await tradesData.getYourApprovedTrades(JohnWoo1))
+// console.log(await tradesData.getYourApprovedTrades(JohnWoo1))
 
 await closeConnection();
