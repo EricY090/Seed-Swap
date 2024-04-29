@@ -1,0 +1,57 @@
+<h3>Trades Pending Your Approval</h3>
+<hr>
+{{#if tradesPendingYou}}
+    {{#each tradesPendingYou}}
+        <div id="tradePendingYourApp">
+            <p>Initiator: {{initiatorUsername}}</p>
+            <p>Initiator Sending: {{initiatorSending}}</p>
+            <p>You're Sending: {{receiverSending}}</p>
+            <form class="approval-form" action="/trades" method="post">
+                <input type="hidden" name="tradeId" value={{_id}}>
+                <button type="submit" name="action" value="approve">Approve</button>
+                <button type="submit" name="action" value="decline">Decline</button>
+            </form>
+            <hr>
+        </div>
+    {{/each}}
+{{else}}
+    <div id="noTradesPendingYourApp">
+        <p>No trades pending your approval</p>
+    </div>
+{{/if}}
+
+<h3>Trades Pending Others' Approval</h3>
+<hr>
+{{#if tradesPendingOthers}}
+    {{#each tradesPendingOthers}}
+        <div id="tradePendingOthersApp">
+            <p>Receiver: {{receiverUsername}}</p>
+            <p>You're Sending: {{initiatorSending}}</p>
+            <p>Receiver Sending: {{receiverSending}}</p>
+            <hr>
+        </div>
+    {{/each}}
+{{else}}
+    <div id="noTradesPendingOthersApp">
+        <p>No trades pending others' approval</p>
+    </div>
+{{/if}}
+
+<h3>Your Approved Trades</h3>
+<hr>
+{{#if yourApprovedTrades}}
+    {{#each yourApprovedTrades}}
+        <div id="yourApprovedTrades">
+            <p>Initiator: {{initiatorUsername}}</p>
+            <p>Initiator Sending: {{initiatorSending}}</p>
+            <p>Receiver: {{receiverUsername}}</p>
+            <p>Receiver Sending: {{receiverSending}}</p>
+            <hr>
+        </div>
+    {{/each}}
+{{else}}
+    <div id="noApprovedTrades">
+        <p>No approved trades</p>
+    </div>
+{{/if}}
+<script src="../../public/js/approve_decline_validation.js"></script>

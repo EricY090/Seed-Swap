@@ -857,6 +857,8 @@ let ChanToScorcese, ChanToCameron, ChanToHo, ChanToLee
 let HungToWoo, HungToAlmodovar, HungToCronenberg;
 let ScorceseToTo, ScorceseToMann, ScorceseToHung;
 let HondaToWoo, HondaToNolan, HondaToVilleneuve;
+let CronenbergToNolan, CronenbergToLau, CronenbergToKobayashi;
+let LeeToKurosawa, LeeToHonda, LeeToPakula;
 //this will put the whole object in the variable, not just id
 
 // throw if initiate trade has an empty array
@@ -894,6 +896,12 @@ const addTrades = async () => {
   HondaToWoo = await tradesData.initiateTrade(IshiroHonda, ["scotch bonnet yellow"], JohnWoo1, ["chiltepin", "sugar rush peach"]);
   HondaToNolan = await tradesData.initiateTrade(IshiroHonda, ["cayenne long slim"], ChristopherNolan, ["carolina reaper", "lemon starrburst"]);
   HondaToVilleneuve = await tradesData.initiateTrade(IshiroHonda, ["scotch bonnet yellow"], DenisVilleneuve, ["lemon starrburst"]);
+  CronenbergToNolan = await tradesData.initiateTrade(DavidCronenberg, ["zebrange", "cayenne long slim"], ChristopherNolan, ["carolina reaper", "lemon starrburst"]);
+  CronenbergToLau = await tradesData.initiateTrade(DavidCronenberg, ["thors thunderbolt"], AndrewLau, ["scotch bonnet chocolate", "pimenta de neyde"]);
+  CronenbergToKobayashi = await tradesData.initiateTrade(DavidCronenberg, ["cayenne long slim"], MasakiKobayashi, ["big bertha"]);
+  LeeToKurosawa = await tradesData.initiateTrade(SpikeLee, ["habanada", "lemon drop"], AkiraKurosawa, ["peter pepper", "trinidad scorpion"]);
+  LeeToHonda = await tradesData.initiateTrade(SpikeLee, ["cherry bomb"], IshiroHonda, ["scotch bonnet yellow"]);
+  LeeToPakula = await tradesData.initiateTrade(SpikeLee, ["cherry bomb", "habanada"], AlanJPaluka, ["sugar rush peach"]);
 };
 
 try {
@@ -902,8 +910,20 @@ try {
   console.error(error);
 }
 
-await tradesData.receiverAccepts((WooToChan._id).toString());
-await tradesData.receiverAccepts((HungToWoo._id).toString());
-console.log(await tradesData.getYourApprovedTrades(JohnWoo1))
+
+const addCommentsToTrades = async () => {
+  await tradesData.receiverAccepts((WooToChan._id).toString());
+  await tradesData.receiverAccepts((HungToWoo._id).toString());
+  await tradesData.receiverAccepts((AlmodovarToKurosawa._id).toString());
+  await tradesData.receiverAccepts((KurosawaToCameron._id).toString());
+  await tradesData.receiverAccepts((ToToMann._id).toString());
+  await tradesData.receiverAccepts((ScorceseToTo._id).toString());
+}
+
+try {
+  await addCommentsToTrades();
+} catch (error) {
+  console.error(error);
+}
 
 await closeConnection();
