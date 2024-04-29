@@ -97,7 +97,7 @@ router
     return res.status(400).json({error: "action not a string"});
   }
   if(action !== "approve" && action !== "decline"){
-    return res.status(400).json({error: "invalid action"});
+    return res.status(400).json({error: "invalid action. can only be approve or decline"});
   }
   let tradeDoc;
   try {
