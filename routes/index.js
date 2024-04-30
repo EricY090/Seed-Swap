@@ -4,6 +4,7 @@ import tradeRoutes from "./trades.js";
 import authroutes from "./auth_routes.js";
 import homepageRoutes from "./homepage.js"
 import matchesRoutes from "./matches.js";
+import moderatorRoutes from "./moderator.js";
 
 const constructorMethod = (app) => {
   app.use("/", authroutes); //base route
@@ -12,6 +13,7 @@ const constructorMethod = (app) => {
   // app.use("/users", userRoutes);
   app.use("/trades", tradeRoutes);
   app.use("/matches", matchesRoutes);
+  app.use("/moderator", moderatorRoutes);
 
   app.use("*", (req, res) => {
     res.status(404).json({ error: req.url });
