@@ -1,0 +1,65 @@
+<div class="pepper-submission-div">
+    <form method="post" action="/submission" id="pepper-submission-form">
+        <label for="varietyName">Variety Name: </label>
+        <input type="text" id="varietyName" name="varietyName">
+        <br>
+        <label for="species">Species: </label>
+        <select name="species" id="species">
+            <option value="annuum">Annuum</option>
+            <option value="baccatum">Baccatum</option>
+            <option value="chinense">Chinense</option>
+            <option value="frutescens">Frutescens</option>
+            <option value="pubescens">Pubescens</option>
+        </select>
+        <label for="heatLevel">Heat Level: </label>
+        <select name="heatLevel" id="heatLevel">
+            <option value="0">0: Heatless (Bell level)</option>
+            <option value="1">1: Mild (Shishito level) </option>
+            <option value="2">2: Medium (Jalapeno level)</option>
+            <option value="3">3: Hot (Serrano level)</option>
+            <option value="4">4: Very Hot (Habanero level)</option>
+            <option value="5">5: Extra Hot (Chocolate Habanero level)</option>
+            <option value="6">6: Super Hot (Ghost Pepper level)</option>
+        </select>
+        <label for="color">Color:</label>
+        <select name="color" id="color">
+            <option value="black">Black</option>
+            <option value="brown">Brown</option>
+            <option value="golden">Golden</option>
+            <option value="green">Green</option>
+            <option value="orange">Orange</option>
+            <option value="pink">Pink</option>
+            <option value="purple">Purple</option>
+            <option value="red">Red</option>
+            <option value="white">White</option>
+            <option value="yellow">Yellow</option>
+        </select>
+        <br>
+        <label for="sizeLowerBound">Size (Lower Bound, CM): </label>
+        <input type="number" id="sizeLowerBound" name="sizeLowerBound" step="0.5">
+        <label for="sizeUpperBound">Size (Upper Bound, CM): </label>
+        <input type="number" id="sizeUpperBound" name="sizeUpperBound" step="0.5">
+        <br>
+        <label for="daysToHarvest">Days to Harvest: </label>
+        <select name="daysToHarvest" id="daysToHarvest" type="number">
+            <option value="70">70</option>
+            <option value="80">80</option>
+            <option value="90">90</option>
+            <option value="100">100</option>
+            <option value="110">110</option>
+            <option value="120">120</option>
+        </select>
+        <label for="originCountryCode">Origin Country Code: </label>
+        <input type="text" id="originCountryCode" name="originCountryCode">
+        <br>
+        <label for="altNames">Alternative names (comma separated): </label>
+        <input type="text" id="altNames" name="altNames">
+        <br>
+        <button type="submit" id ="submit-pepper" form="pepper-submission-form" name="submit-pepper">Submit Pepper</button>
+    </form>
+    {{#if error}}
+        <div class="errorbox" id="errorbox">
+            <p>{{error}}</p>
+        </div>
+    {{/if}}
+</div>
