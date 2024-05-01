@@ -36,7 +36,7 @@ router
         altNames = pepperValidation.validateCommaSeparatedAltNames(req.body.altNames);
     } catch (error) {
         // console.log(error);
-        return res.render("submission/submission", {error: error});
+        return res.render("submission/submission", {serverError: error});
     }
     // console.log(altNames)
     let insPepper

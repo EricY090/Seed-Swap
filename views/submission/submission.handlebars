@@ -57,9 +57,16 @@
         <br>
         <button type="submit" id ="submit-pepper" form="pepper-submission-form" name="submit-pepper">Submit Pepper</button>
     </form>
-    {{#if error}}
-        <div class="errorbox" id="errorbox">
-            <p>{{error}}</p>
-        </div>
+ 
+    <div class="errorbox" id="errorbox">
+        <p>{{error}}</p>
+    </div>
+
+    {{#if serverError}}
+        <div class="serverError" id="serverError">{{serverError}}</div>
     {{/if}}
+
+
+
 </div>
+<script src="../../public/js/pepper_submission_validation.js" type="module"></script>
