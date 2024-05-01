@@ -19,7 +19,7 @@ router
         return res.status(401).redirect("/login");
     }
     let varietyName, species, heatLevel, color, sizeCMLower, sizeCMUpper, daysToHarvest, origin, altNames 
-    console.log(req.body);
+    // console.log(req.body);
     //everything gets submitted as a string so we must xss everything in the body
     for (let key in req.body) {
         req.body[key] = xss(req.body[key]);
@@ -30,7 +30,7 @@ router
         heatLevel = pepperValidation.validateHeatLevel(parseInt(req.body.heatLevel));
         color = pepperValidation.validateColor(req.body.color);
         [sizeCMLower, sizeCMUpper] = pepperValidation.validateSizeCM([parseFloat(req.body.sizeLowerBound), parseFloat(req.body.sizeUpperBound)]);
-        console.log(sizeCMLower, sizeCMUpper);
+        // console.log(sizeCMLower, sizeCMUpper);
         daysToHarvest = pepperValidation.validateDaysToHarvest(parseInt(req.body.daysToHarvest));
         origin = pepperValidation.validateCountryCode(req.body.originCountryCode);
         altNames = pepperValidation.validateCommaSeparatedAltNames(req.body.altNames);
