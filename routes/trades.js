@@ -34,7 +34,7 @@ router
       const initiator = await usersData.getUserById(trade.initiator);
       trade.initiatorUsername = initiator.username;
     } catch (error) {
-      console.error(error);
+      res.status(500).json({ error: error.message });
     }
   }
 
@@ -50,7 +50,7 @@ router
       const receiver = await usersData.getUserById(trade.receiver);
       trade.receiverUsername = receiver.username;
     } catch (error) {
-      console.error(error);
+      res.status(500).json({ error: error.message });
     }
   }
 
@@ -68,7 +68,7 @@ router
       const initiator = await usersData.getUserById(trade.initiator);
       trade.initiatorUsername = initiator.username;
     } catch (error) {
-      console.error(error);
+      res.status(500).json({ error: error.message });
     }
   }
   let hbrsObj = {};
@@ -227,11 +227,11 @@ router
   }
   let initiatorSending = tradesValidation.validatePepperStrOrArr(req.body.initiatorSending);
   let receiverSending = tradesValidation.validatePepperStrOrArr(req.body.receiverSending);
-  console.log(initiatorSending);
-  console.log(receiverSending);
+  // console.log(initiatorSending);
+  // console.log(receiverSending);
   try {
     let trade = await tradesData.initiateTrade(req.session.user._id.toString(), initiatorSending, receiverId, receiverSending);
-    console.log(trade);
+    // console.log(trade);
   } catch (error) {
     console.error(error);
     return res.status(500).json({error: error.message});
