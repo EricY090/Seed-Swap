@@ -3,11 +3,14 @@
 // have tradeid as query param
 
 import { Router } from "express";
-import { tradesData, usersData } from "../data/index.js";
+import { tradesData, usersData, usersPeppersData } from "../data/index.js";
+import usersValidation from "../usersValidation.js";
+import tradesValidation from "../tradesValidation.js";
 import xss from "xss";
 
 const router = Router();
 
+// TODO VALIDATE USER IDS
 router
 .route("/")
 .get(async (req, res) => {
@@ -31,7 +34,7 @@ router
       const initiator = await usersData.getUserById(trade.initiator);
       trade.initiatorUsername = initiator.username;
     } catch (error) {
-      console.error(error);
+      res.status(500).json({ error: error.message });
     }
   }
 
@@ -47,7 +50,7 @@ router
       const receiver = await usersData.getUserById(trade.receiver);
       trade.receiverUsername = receiver.username;
     } catch (error) {
-      console.error(error);
+      res.status(500).json({ error: error.message });
     }
   }
 
@@ -65,7 +68,7 @@ router
       const initiator = await usersData.getUserById(trade.initiator);
       trade.initiatorUsername = initiator.username;
     } catch (error) {
-      console.error(error);
+      res.status(500).json({ error: error.message });
     }
   }
   let hbrsObj = {};
@@ -82,6 +85,10 @@ router
   res.status(200).render("trades/trades", hbrsObj);
 })
 .post(async (req, res) => {
+
+  if(!req.session.user){
+    return res.status(401).redirect("/login");
+  }
   if(!req.body.tradeId){
     return res.status(400)
   }
@@ -136,5 +143,101 @@ router
 
 })
 
+router
+.route("/initiate/:receiverId")
+.get(async (req, res) => {
+  if(!req.session.user){
+    return res.status(401).redirect("/login");
+  }
+  if(!req.params.receiverId){
+    return res.status(400).json({error: "receiverId not provided"});
+  }
+  const receiverId = req.params.receiverId;
+  let receiver;
+  // checking if receiverId exists
+  try {
+    receiver = await usersData.getUserById(receiverId);
+  } catch (error) {
+    if(error.message === "user not found"){
+      return res.status(404).json({error: "receiver not found"});
+    }
+    else{
+      return res.status(500).json({error: error.message});
+    }
+  }
+  if(!receiver){
+    return res.status(404).json({error: "receiver not found"});
+  }
+  // if a user tries initiating a trade with themselves just redirect them to their pending trades
+  if(receiver._id.toString() === req.session.user._id.toString()){
+    return res.redirect("/trades");
+  }
+  let initiator
+  // if somehow you get here with an invalid userid, redirect to login
+  try {
+    initiator = await usersData.getUserById(req.session.user._id.toString());
+  } catch (error) {
+    if(error.message === "user not found"){
+      return res.redirect("/login")
+    }
+    else{
+      return res.status(500).json({error: error.message});
+    }
+  }
+  if(!initiator){
+    return res.status(404).json({error: "initiator not found"});
+  }
+
+  initiator._id = initiator._id.toString();
+  receiver._id = receiver._id.toString();
+
+  
+  let hbrsObj = {initiator, receiver};
+
+
+
+  res.status(200).render("trades/initiate", hbrsObj);
+  // res.status(200).render("trades/initiate", {receiver});
+
+})
+.post(async (req, res) => {
+  if(!req.session.user){
+    return res.status(401).redirect("/login");
+  }
+  if(!req.params.receiverId){
+    return res.status(400).json({error: "receiverId not provided"});
+  }
+  const receiverId = req.params.receiverId;
+  let receiver
+  try {
+    receiver = await usersData.getUserById(receiverId);
+  } catch (error) {
+    if(error.message === "user not found"){
+      // actually have this redirect to error 404 page
+      return res.redirect("/trades")
+    } else {
+      return res.status(500).json({error: error.message});
+    }
+  }
+  if(!req.body.initiatorSending){
+    return res.status(400).json({error: "initiatorSending not provided"});
+  }
+  if(!req.body.receiverSending){
+    return res.status(400).json({error: "receiverSending not provided"});
+  }
+  let initiatorSending = tradesValidation.validatePepperStrOrArr(req.body.initiatorSending);
+  let receiverSending = tradesValidation.validatePepperStrOrArr(req.body.receiverSending);
+  // console.log(initiatorSending);
+  // console.log(receiverSending);
+  try {
+    let trade = await tradesData.initiateTrade(req.session.user._id.toString(), initiatorSending, receiverId, receiverSending);
+    // console.log(trade);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({error: error.message});
+  }
+
+  return res.json({initiatorSending, receiverSending});
+})
 
 export default router;
