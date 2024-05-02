@@ -1,14 +1,13 @@
 body{
     background-color:rgb(255, 245, 236);
 }
-
 .header-link-div{
     display:inline-block;
     padding:5px 5px 5px 5px;
     border: 2px solid black;
     border-radius: 10px;
     margin-top: 10px;
-    margin-bottom: 10;
+    margin-bottom: 10px;
 }
 .header-link{
     color:black;
@@ -20,8 +19,28 @@ body{
     background-color: rgb(30, 139, 255)
 }
 
+
+
+
 .initiate-trade-form .list-group {
     border: 2px solid black; 
     border-radius: 4px; 
     padding: 10px; 
+}
+.initiate-trade-form .list-group .form-check {
+    padding-bottom: 5px;
+}
+
+
+
+
+.tradePendingYourApp p{
+    margin-bottom: 10px;
+}
+.tradePendingYourApp button{
+    margin-top: 10px;
+}
+
+.tradePendingOthersApp p{
+    margin-bottom: 10px;
 }
