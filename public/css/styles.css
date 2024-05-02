@@ -20,8 +20,6 @@ body{
 }
 
 
-
-
 .initiate-trade-form .list-group {
     border: 2px solid black; 
     border-radius: 4px; 
@@ -30,8 +28,6 @@ body{
 .initiate-trade-form .list-group .form-check {
     padding-bottom: 5px;
 }
-
-
 
 
 .tradePendingYourApp p{
@@ -43,4 +39,16 @@ body{
 
 .tradePendingOthersApp p{
     margin-bottom: 10px;
+}
+
+.pepperPendingApproval p{
+    margin-bottom: 5px;
+}
+.pepperPendingApproval button{
+    margin-top: 5px;
+}
+
+
+.pepperPendingApproval{
+    width: 60%
 }
