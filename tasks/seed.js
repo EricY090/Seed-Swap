@@ -607,6 +607,9 @@ const addPeppersToUsers = async () => {
   await usersPeppersData.addPepperToUserWL(JohnWoo1, "ghost pepper");
   await usersPeppersData.addPepperToUserWL(JohnWoo1, "peter pepper");
   await usersPeppersData.addPepperToUserWL(JohnWoo1, "thors thunderbolt");
+  await usersPeppersData.addPepperToUserWL(JohnWoo1, "lemon starrburst");
+  await usersPeppersData.addPepperToUserWL(JohnWoo1, "lemon drop");
+  await usersPeppersData.addPepperToUserWL(JohnWoo1, "scotch bonnet yellow");
 
   await usersPeppersData.addPepperToUserInv(JohnnieTo, "scotch bonnet red");
   await usersPeppersData.addPepperToUserInv(JohnnieTo, "bolivian rainbow");
@@ -919,6 +922,10 @@ const acceptTrades = async () => {
   await tradesData.receiverAccepts((KurosawaToCameron._id).toString());
   await tradesData.receiverAccepts((ToToMann._id).toString());
   await tradesData.receiverAccepts((ScorceseToTo._id).toString());
+  await tradesData.receiverAccepts((HondaToWoo._id).toString());
+  await tradesData.receiverAccepts((CronenbergToLau._id).toString());
+  await tradesData.receiverAccepts((ChanToScorcese._id).toString());
+  await tradesData.receiverAccepts((WooToKurosawa._id).toString());
 }
 
 try {
@@ -943,7 +950,14 @@ const addReviews = async () => {
   await reviewsData.createReview("MichaelMann", "JohnnieTo", 4, 4, 5);
   await reviewsData.createReview("MartinScorcese", "JohnnieTo", 4, 4, 4);
   await reviewsData.createReview("JohnnieTo", "MartinScorcese", 5, 5, 5);
-  
+  await reviewsData.createReview("IshiroHonda", "JohnWoo1", 4, 3, 4);
+  await reviewsData.createReview("JohnWoo1", "IshiroHonda", 4, 4, 5);
+  await reviewsData.createReview("DavidCronenberg", "AndrewLau", 3, 4, 4);
+  await reviewsData.createReview("AndrewLau", "DavidCronenberg", 4, 3, 3);
+  await reviewsData.createReview("JackieChan", "MartinScorcese", 4, 4, 4);
+  await reviewsData.createReview("MartinScorcese", "JackieChan", 5, 5, 5);
+  await reviewsData.createReview("JohnWoo1", "AkiraKurosawa", 4, 4, 4);
+
 }
 
 try {
