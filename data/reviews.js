@@ -110,4 +110,25 @@ const userHasLeftReview = async (reviewerName, revieweeName) => {
     return false;
 }
 
-export default {createReview, userHasLeftReview}
+
+/**
+ * 
+ * @param {string} username 
+ * @returns {object[]} reviews
+ */
+const getReviews = async (username) => {
+    if (!username) throw "fields incomplete";
+    if (typeof username !== "string") throw "fields not strings";
+    if(username !== xss(username)) throw "username is an xss vulnerability";
+    let foundUser
+    try {
+        username = usersValidation.validateUsername(username);
+        foundUser = await usersData.getUserByName(username);
+    } catch (error) {
+        throw error;
+    }
+    return foundUser.reviews;
+}
+
+
+export default {createReview, userHasLeftReview, getReviews}
