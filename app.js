@@ -105,6 +105,16 @@ app.use("/matches", (req,res,next) => {
   }
 })
 
+//Users middleware
+app.use("/user", (req,res,next) => {
+  if(req.session.user){
+    next();
+  }
+  else{
+    return res.redirect('/login');
+  }
+})
+
 //
 
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));

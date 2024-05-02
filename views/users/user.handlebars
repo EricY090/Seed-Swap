@@ -1,0 +1,35 @@
+<h1>{{user.username}}</h1>
+<h2>{{user.countryCode}}</h2>
+{{#if user.discord}}
+<p>Discord: {{user.discord}}</p><br>
+{{/if}}
+{{#if user.phone}}
+<p>Phone Number: {{user.phone}}</p><br>
+{{/if}}
+{{#if user.email}}
+<p>Email Address: {{user.email}}</p><br>
+{{/if}}
+{{#if user.displayWishlist}}
+    <ol>
+    {{#each user.wishlist}}
+        <li>
+            {{this}}
+        </li>
+    {{/each}}
+    </ol>
+{{/if}}
+
+<h3>Comments:</h3>
+{{#each user.profileComments}}
+    <h4>{{this.commenterUsername}}</h4><br>
+    <p>{{this.text}}</p>
+    {{#if this.userReply}}
+    <br>
+    <h5>{{user.username}}'s reply:</h5>
+    <p>{{this.userReply}}</p>
+    {{/if}}
+{{/each}}
+<br>
+<a href="{{user.username}}/reviews">See this user's reviews</a><br>
+<a href="{{user.username}}/glog">See this user's grow log</a><br>
+<a href="{{user.username}}/trading">Initiate a trade with this user</a>
