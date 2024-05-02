@@ -237,7 +237,7 @@ router
     return res.status(500).json({error: error.message});
   }
 
-  return res.json({initiatorSending, receiverSending});
+  return res.redirect("/trades");
 })
 
 export default router;
