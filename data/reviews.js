@@ -25,8 +25,6 @@ const createReview = async (reviewerName, revieweeName, shippingSpeed, packaging
     if (foundReviewer._id.toString() === foundReviewee._id.toString()) throw "Cannot review yourself";
     const usersCollection = await users();
 
-    
-    
 }
 
 
