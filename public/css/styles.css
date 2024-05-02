@@ -36,10 +36,11 @@ body{
 .tradePendingYourApp button{
     margin-top: 10px;
 }
-
 .tradePendingOthersApp p{
     margin-bottom: 10px;
 }
+
+
 
 .pepperPendingApproval p{
     margin-bottom: 5px;
@@ -47,8 +48,19 @@ body{
 .pepperPendingApproval button{
     margin-top: 5px;
 }
-
-
 .pepperPendingApproval{
     width: 60%
+}
+
+.pepper-submission-div{
+    max-width: fit-content;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.pepper-submission-div button{
+    display: block;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
 }
