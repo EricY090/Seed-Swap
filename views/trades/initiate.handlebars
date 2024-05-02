@@ -1,0 +1,42 @@
+
+<h2>Initiate a trade with {{receiver.username}}</h2>
+
+
+<form class="initiate-trade-form" action="/trades/initiate/{{receiver._id}}" method="post">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h4>Choose what you're sending</h4>
+                <div class="list-group">
+                    {{#each initiator.inventory}}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="initiator_{{@index}}" name="initiatorSending" value="{{this}}">
+                        <label class="form-check-label" for="initiator_{{@index}}">{{this}}</label>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+            <div class="col">
+                <h4>Choose what you want to receive</h4>
+                <div class="list-group">
+                    {{#each receiver.inventory}}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="receiver_{{@index}}" name="receiverSending" value="{{this}}">
+                        <label class="form-check-label" for="receiver_{{@index}}">{{this}}</label>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Initiate Trade</button>
+</form>
+<div class="initiate-trade-error"></div>
+
+
+{{#if serverErr}}
+    <div class="initiate-trade-error-server">
+        <p>{{serverErr}}</p>
+    </div>
+{{/if}}
+<script src="../../public/js/initiate_trade_validation.js"></script>

@@ -62,12 +62,18 @@ const createUser = async (
     if (discord !== xss(discord)) {
       throw "Discord username is an xss vulnerability";
     }
+    if (await discordExists(discord)) {
+      throw "Discord already in use";
+    }
     discord = xss(discord);
   }
   if (phone) {
     phone = usersValidation.validatePhoneNumber(phone);
     if (phone !== xss(phone)) {
       throw "Phone number is an xss vulnerability";
+    }
+    if (await phoneNumberExists(phone)) {
+      throw "Phone number already in use";
     }
     phone = xss(phone);
   }
@@ -153,21 +159,75 @@ const emailInUse = async (email) => {
   email = xss(email);
 
   const userCollection = await users();
-  let findingUser;
+  let findingEmail;
 
-  try {
-    findingUser = await userCollection.findOne({
-      email: { $regex: email, $options: "i" },
-    });
-  } catch (error) {
-    throw error;
+  findingEmail = await userCollection.find({}).toArray();
+  if(findingEmail){
+    for(let i in findingEmail){
+      if(findingEmail[i].email){
+      if(findingEmail[i].email.toUpperCase() == email.toUpperCase()){
+        return true;
+      }
+    }
   }
+}
+  return false;
+};
+/**
+ *
+ * @param {string} discord
+ * @returns boolean
+ * @throws {string} "field incomplete", "field not string", mongo error
+ * case insensitive search
+ */
+const discordExists = async (discord) => {
+  const userCollection = await users();
+  if (!discord) throw "field incomplete";
+  if (typeof discord !== "string") throw "field not string";
+  discord = xss(discord);
+  let findingDiscord;
 
-  if (findingUser) {
-    return true;
+  //go through the usersCollection and look for a user with the same discord
+  findingDiscord = await userCollection.find({}).toArray();
+  if(findingDiscord){
+    for(let i in findingDiscord){
+      if(findingDiscord[i].discord){
+      if(findingDiscord[i].discord.toUpperCase() == discord.toUpperCase()){
+        return true;
+      }
+    }
+    }
   }
   return false;
 };
+
+/**
+ *
+ * @param {string} phone
+ * @returns boolean
+ * @throws {string} "field incomplete", "field not string", mongo error
+ * case insensitive search
+ */
+const phoneNumberExists = async (phone) => {
+  const userCollection = await users();
+  if (!phone) throw "field incomplete";
+  if (typeof phone !== "string") throw "field not string";
+  phone = xss(phone);
+  let findingPhone;
+
+  //go through the usersCollection and look for a user with the same phone number
+  findingPhone = await userCollection.find({}).toArray();
+  if(findingPhone){
+    for(let i in findingPhone){
+      if(findingPhone[i].phone){
+      if(findingPhone[i].phone.toUpperCase() == phone.toUpperCase()){
+        return true;
+      }
+    }
+    }
+  }
+  return false;
+}
 /**
  *
  * @param {string} username
@@ -317,6 +377,8 @@ export default {
   createUser,
   userNameExists,
   emailInUse,
+  discordExists,
+  phoneNumberExists,
   getUserByName,
   getUserById,
   login,

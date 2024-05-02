@@ -118,8 +118,8 @@ const validateSizeCM = (sizeCM) => {
   if (sizeCM.length !== 2) {
     throw new Error("sizeCM must have exactly two elements");
   }
-  if (typeof sizeCM[0] !== "number" || typeof sizeCM[1] !== "number") {
-    throw new Error("sizeCM elements must be numbers");
+  if (typeof sizeCM[0] !== "number" || typeof sizeCM[1] !== "number" || isNaN(sizeCM[0]) || isNaN(sizeCM[1])) {
+    throw new Error("sizeCM elements must be numbers and non NaN");
   }
   if (sizeCM[0] < 0 || sizeCM[1] < 0) {
     throw new Error("sizeCM elements must be positive");
@@ -437,6 +437,24 @@ const validatePepperId = (pepperId) => {
   if (!ObjectId.isValid(pepperId)) throw "invalid object ID";
   return pepperId.trim();
 };
+
+const validateCommaSeparatedAltNames = (altNames) => {
+  if (typeof altNames === "undefined") throw "altNames are undefined";
+  if (typeof altNames !== "string") throw "altNames is not a string";
+  altNames = xss(altNames);
+  if (altNames.trim().length === 0) return [];
+  let altNamesArr = altNames.split(",");
+  try {
+    altNamesArr.forEach((name) => {
+      validatePepperName(name);
+    });
+  } catch (e) {
+    throw "Alternative names contain invalid pepper name(s)";
+  }
+  return altNamesArr;
+
+}
+
 export default {
   validatePepperName,
   validateAlternativeNames,
@@ -447,4 +465,5 @@ export default {
   validateDaysToHarvest,
   validateCountryCode,
   validatePepperId,
+  validateCommaSeparatedAltNames
 };
