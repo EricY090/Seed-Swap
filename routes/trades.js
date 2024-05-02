@@ -158,7 +158,8 @@ router
   try {
     receiver = await usersData.getUserById(receiverId);
   } catch (error) {
-    if(error.message === "user not found"){
+    console.log(error);
+    if(error === "User not found"){
       return res.status(404).json({error: "receiver not found"});
     }
     else{
@@ -237,7 +238,7 @@ router
     return res.status(500).json({error: error.message});
   }
 
-  return res.json({initiatorSending, receiverSending});
+  return res.redirect("/trades");
 })
 
 export default router;

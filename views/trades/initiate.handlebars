@@ -3,25 +3,36 @@
 
 
 <form class="initiate-trade-form" action="/trades/initiate/{{receiver._id}}" method="post">
-    <div id="initiatorSideForm">
-        <h4>Choose what you're sending</h4>
-        {{#each initiator.inventory}}
-            <input type="checkbox" id="initiator_{{@index}}" name="initiatorSending" value="{{this}}">
-            <label for="initiator_{{@index}}">{{this}}</label><br>
-        {{/each}}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h4>Choose what you're sending</h4>
+                <div class="list-group">
+                    {{#each initiator.inventory}}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="initiator_{{@index}}" name="initiatorSending" value="{{this}}">
+                        <label class="form-check-label" for="initiator_{{@index}}">{{this}}</label>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+            <div class="col">
+                <h4>Choose what you want to receive</h4>
+                <div class="list-group">
+                    {{#each receiver.inventory}}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="receiver_{{@index}}" name="receiverSending" value="{{this}}">
+                        <label class="form-check-label" for="receiver_{{@index}}">{{this}}</label>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div id="receiverSideForm">
-        <h4>Choose what you want to receive</h4>
-        {{#each receiver.inventory}}
-            <input type="checkbox" id="receiver_{{@index}}" name="receiverSending" value="{{this}}">
-            <label for="receiver_{{@index}}">{{this}}</label><br>
-        {{/each}}
-    </div>
-    <button type="submit">Initiate Trade</button>
+    <button type="submit" class="btn btn-primary">Initiate Trade</button>
 </form>
-<div class="initiate-trade-error">
-</div>
+<div class="initiate-trade-error"></div>
+
 
 {{#if serverErr}}
     <div class="initiate-trade-error-server">
