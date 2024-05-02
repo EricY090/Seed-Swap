@@ -158,7 +158,7 @@ router
   try {
     receiver = await usersData.getUserById(receiverId);
   } catch (error) {
-    if(error.message === "user not found"){
+    if(error === "User not found"){
       return res.status(404).json({error: "receiver not found"});
     }
     else{
