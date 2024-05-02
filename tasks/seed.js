@@ -6,6 +6,7 @@ import {
   usersPeppersData,
   commentsData,
   tradesData,
+  reviewsData
 } from "../data/index.js";
 import { ObjectId } from "mongodb";
 
@@ -911,7 +912,7 @@ try {
 }
 
 
-const addCommentsToTrades = async () => {
+const acceptTrades = async () => {
   await tradesData.receiverAccepts((WooToChan._id).toString());
   await tradesData.receiverAccepts((HungToWoo._id).toString());
   await tradesData.receiverAccepts((AlmodovarToKurosawa._id).toString());
@@ -921,7 +922,33 @@ const addCommentsToTrades = async () => {
 }
 
 try {
-  await addCommentsToTrades();
+  await acceptTrades();
+  console.log("finished accepting trades")
+} catch (error) {
+  console.error(error);
+}
+
+const addReviews = async () => {
+  // console.log("Has Jackie Chan left a review for John Woo?" + await reviewsData.userHasLeftReview("JackieChan", "JohnWoo1"));
+  await reviewsData.createReview("JackieChan", "JohnWoo1", 3, 5, 4);
+  // console.log("Has Jackie Chan left a review for John Woo?" + await reviewsData.userHasLeftReview("JackieChan", "JohnWoo1"));
+  await reviewsData.createReview("JohnWoo1", "JackieChan", 4, 4, 5);
+  await reviewsData.createReview("SammoHung", "JohnWoo1", 5, 4, 4);
+  await reviewsData.createReview("JohnWoo1", "SammoHung", 5, 5, 5);
+  await reviewsData.createReview("AkiraKurosawa", "PedroAlmodovar", 2, 3, 3);
+  await reviewsData.createReview("PedroAlmodovar", "AkiraKurosawa", 4, 5, 4);
+  await reviewsData.createReview("AkiraKurosawa", "JimmyCamera", 3, 4, 4);
+  await reviewsData.createReview("JimmyCamera", "AkiraKurosawa", 4, 5, 5);
+  await reviewsData.createReview("JohnnieTo", "MichaelMann", 3, 3, 4);
+  await reviewsData.createReview("MichaelMann", "JohnnieTo", 4, 4, 5);
+  await reviewsData.createReview("MartinScorcese", "JohnnieTo", 4, 4, 4);
+  await reviewsData.createReview("JohnnieTo", "MartinScorcese", 5, 5, 5);
+  
+}
+
+try {
+  await addReviews();
+  console.log("finished adding reviews")
 } catch (error) {
   console.error(error);
 }
