@@ -1,31 +1,36 @@
 <h3>Peppers pending approval</h3>
 <hr>
 
-{{#if peppers.length}}
-    {{#each peppers}}
-        <div id="pepperPendingApproval">
-            <p>Pepper Name: {{varietyName}}</p>
-            <p>Heat Level: {{heatLevel}}</p>
-            <p>Species: capsicum {{species}}</p>
-            <p>Color: {{color}}</p>
-            <p>Country of Origin: {{originCountryCode}}</p>
-            <p>Size(cm) : [{{sizeCM}}]</p>
-            <p>Days to Harvest: {{daysToHarvest}}</p>
-            {{#if alternativeNames.length}}
-                <p>Alternative Name(s): {{alternativeNames}}</p>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            {{#if peppers.length}}
+                {{#each peppers}}
+                    <div class="card pepperPendingApproval">
+                        <div class="card-body">
+                            <p>Pepper Name: {{varietyName}}</p>
+                            <p>Heat Level: {{heatLevel}}</p>
+                            <p>Species: capsicum {{species}}</p>
+                            <p>Color: {{color}}</p>
+                            <p>Country of Origin: {{originCountryCode}}</p>
+                            <p>Size(cm) : [{{sizeCM}}]</p>
+                            <p>Days to Harvest: {{daysToHarvest}}</p>
+                            {{#if alternativeNames.length}}
+                                <p>Alternative Name(s): {{alternativeNames}}</p>
+                            {{/if}}
+                            <form class="approval-form" action="/moderator" method="post">
+                                <input type="hidden" name="pepperId" value={{_id}}>
+                                <button type="submit" name="action" value="approve">Approve</button>
+                                <button type="submit" name="action" value="disapprove">Disapprove</button>
+                            </form>
+                        </div>
+                    </div>
+                {{/each}}
+            {{else}}
+                <div id="noPeppersPendingApproval">
+                    <p>No peppers pending approval</p>
+                </div>
             {{/if}}
-            <form class="approval-form" action="/moderator" method="post">
-                <input type="hidden" name="pepperId" value={{_id}}>
-                <button type="submit" name="action" value="approve">Approve</button>
-                <button type="submit" name="action" value="disapprove">Disapprove</button>
-            </form>
-            <hr>
         </div>
-    {{/each}}
-
-{{else}}
-    <div id="noPeppersPendingApproval">
-        <p>No peppers pending approval</p>
     </div>
-
-{{/if}}
+</div>
