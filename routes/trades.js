@@ -26,7 +26,7 @@ router
   try {
     tradesPendingYou = await tradesData.getTradesPendingYourApproval(uidstring);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error });
   }
   for (let trade of tradesPendingYou) {
     trade._id = trade._id.toString()
@@ -34,7 +34,7 @@ router
       const initiator = await usersData.getUserById(trade.initiator);
       trade.initiatorUsername = initiator.username;
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ error });
     }
   }
 
@@ -43,14 +43,14 @@ router
   try {
     tradesPendingOthers = await tradesData.getTradesPendingOthersApproval(uidstring);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error });
   }
   for (let trade of tradesPendingOthers) {
     try {
       const receiver = await usersData.getUserById(trade.receiver);
       trade.receiverUsername = receiver.username;
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ error });
     }
   }
 
@@ -59,7 +59,7 @@ router
   try {
     yourApprovedTrades = await tradesData.getYourApprovedTrades(uidstring);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error });
   }
   for (let trade of yourApprovedTrades) {
     try {
@@ -68,7 +68,7 @@ router
       const initiator = await usersData.getUserById(trade.initiator);
       trade.initiatorUsername = initiator.username;
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ error });
     }
   }
   let hbrsObj = {};
@@ -110,7 +110,7 @@ router
   try {
     tradeDoc = await tradesData.getTradeById(tradeId);
   } catch (error) {
-    return res.status(500).json({error: error.message});
+    return res.status(500).json({error});
   }
   if(!tradeDoc){
     return res.status(404).json({error: "trade not found"});
@@ -125,7 +125,7 @@ router
     try {
       await tradesData.receiverAccepts(tradeId);
     } catch (error) {
-      return res.status(500).json({error: error.message});
+      return res.status(500).json({error});
     }
     return res.redirect("/trades");
   }
@@ -133,7 +133,7 @@ router
     try {
       await tradesData.receiverRejects(tradeId);
     } catch (error) {
-      return res.status(500).json({error: error.message});
+      return res.status(500).json({error: error});
     }
     return res.redirect("/trades");
   }
@@ -162,7 +162,7 @@ router
       return res.status(404).json({error: "receiver not found"});
     }
     else{
-      return res.status(500).json({error: error.message});
+      return res.status(500).json({error});
     }
   }
   if(!receiver){
@@ -177,11 +177,11 @@ router
   try {
     initiator = await usersData.getUserById(req.session.user._id.toString());
   } catch (error) {
-    if(error.message === "user not found"){
+    if(error === "User not found"){
       return res.redirect("/login")
     }
     else{
-      return res.status(500).json({error: error.message});
+      return res.status(500).json({error});
     }
   }
   if(!initiator){
@@ -212,7 +212,7 @@ router
   try {
     receiver = await usersData.getUserById(receiverId);
   } catch (error) {
-    if(error.message === "user not found"){
+    if(error === "User not found"){
       // actually have this redirect to error 404 page
       return res.redirect("/trades")
     } else {
