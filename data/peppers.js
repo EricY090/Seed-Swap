@@ -238,6 +238,7 @@ const getAllPeppersAppr = async () => {
   const pepperCollection = await peppers();
   const allPeppers = await pepperCollection
     .find({ moderatorApproved: true })
+    .sort({ varietyName: 1 })
     .toArray();
   allPeppers.forEach((pepper) => {
     pepper._id = pepper._id.toString();
