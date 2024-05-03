@@ -35,6 +35,7 @@ const addComment = async (commenterId, pageBeingCommentedId, comment) => {
   if (pageBeingCommentedId !== xss(pageBeingCommentedId))
     throw "pageBeingCommented is an xss vulnerability";
   comment = xss(comment);
+  if(comment.trim().length <=4) throw "Comment is less than 5 characters long";
 
   //grabbing users collection, checking if users exist
   const userCollection = await users();
