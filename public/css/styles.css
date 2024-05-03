@@ -24,6 +24,8 @@ a{
 }
 
 
+
+
 .initiate-trade-form .list-group {
     border: 2px solid black; 
     border-radius: 4px; 
@@ -32,6 +34,8 @@ a{
 .initiate-trade-form .list-group .form-check {
     padding-bottom: 5px;
 }
+
+
 
 
 .tradePendingYourApp p{
@@ -46,6 +50,9 @@ a{
 
 
 
+
+
+
 .pepperPendingApproval p{
     margin-bottom: 5px;
 }
@@ -55,6 +62,9 @@ a{
 .pepperPendingApproval{
     width: 60%
 }
+
+
+
 
 .pepper-submission-div{
     max-width: fit-content;
@@ -68,6 +78,8 @@ a{
     margin-left: auto;
     margin-right: auto;
 }
+
+
 
 
 .usernameLink{
@@ -88,6 +100,17 @@ a{
 .user-info p {
     margin-bottom: 5px;
 }
-.comments-section{
-    margin-top: 20px;
+
+
+
+#pepperFilterForm{
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
+#filter-form label{
+    margin-bottom: 10px;
+}
+

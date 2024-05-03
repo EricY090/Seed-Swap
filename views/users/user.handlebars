@@ -35,26 +35,38 @@
                         </ol>
                     {{/if}}
 
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
                     <div class="comments-section">
+                        <form action="/comments" method="POST">
+                            <div class="form-group">
+                                <label for="comment">Add a comment:</label>
+                                <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
                         <h3>Comments:</h3>
                         {{#each user.profileComments}}
                             <div class="comment-container">
                                 <h4>{{this.commenterUsername}}</h4>
                                 <p>{{this.text}}</p>
-                                {{#if this.userReply}}
-                                    <div class="user-reply">
-                                        <h5>{{user.username}}'s reply:</h5>
-                                        <p>{{this.userReply}}</p>
-                                    </div>
-                                {{/if}}
                             </div>
                         {{/each}}
                     </div>
 
                 </div>
-
-            </div>
-            
+            </div> 
         </div>
     </div>
 </div>
