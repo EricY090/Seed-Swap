@@ -1,29 +1,11 @@
 //filter form
-let filterform = document.getElementById('filter-form')
-
-//items
-let varietyName = document.getElementById('varietyName');
-let species = document.getElementById('species');
-let heatLevel = document.getElementById('heatLevel');
-let originCountryCode = document.getElementById('originCountryCode');
-let daysToHarvest = document.getElementById('daysToHarvest');
-let minsize = document.getElementById('minsize');
-let maxsize = document.getElementById('minsize');
-let isHeatOn = document.getElementById('filterByHeat');
+let filterform = document.getElementById('user-filter-form')
+let cc = document.getElementById('originCountryCode');
 
 //error display area
 let errorbox = document.getElementById('errorbox');
 
-//some dandy tools
-
-const capsicumSpecies = [
-    "annuum",
-    "baccatum",
-    "chinense",
-    "frutescens",
-    "pubescens",
-  ];
-
+//the same dandy tool
 const addError = (errstring, e=null) => {
     let em = document.createElement("dt");
     em.innerHTML = errstring;
@@ -289,79 +271,14 @@ const countrySet = [
     { name: "Zimbabwe", code: "ZW" },
 ];
 
-const capsicumColors = [
-    "black",
-    "brown",
-    "golden",
-    "green",
-    "orange",
-    "pink",
-    "purple",
-    "red",
-    "white",
-    "yellow",
-];
-
 if(filterform){
     filterform.addEventListener('submit', function (event) {
-        let unprovided = 0;
-        errorbox.innerHTML = ""
+        errorbox.innerHTML = "";
         errorbox.hidden = true;
-        const fields = [species, heatLevel, originCountryCode, daysToHarvest, varietyName, color];
-        for(let field of fields){
-            if(!field.value.trim() && (field.getAttribute('name') !== 'heatLevel')){
-                unprovided++;
-                continue;
-                //user entered a falsey value, so just skip it unless its heat level (because 0 is valid there)
-            } else if(field.getAttribute('name') === 'heatLevel' && !isHeatOn.checked){
-                unprovided++;
-                continue;
-                //user is not filtering by heat level, just skip it
-            } else if(field.getAttribute('name') === 'species' && field.value === 'all'){
-                unprovided++;
-                continue;
-                //user isnt filtering by species, just skip it
-            } else if(field.getAttribute('name') === 'heatLevel'){
-                let num = parseInt(field.value);
-                if(num < 0 || num > 6 || isNaN(num)){
-                    addError("Heat Level Invalid", event)
-                }
-                //user is filtering by heat - so validate
-            } else if(field.getAttribute('name') === 'species'){
-                if(!capsicumSpecies.includes(field.value)){
-                    addError("Species Invalid", event)
-                }
-            } else if(field.getAttribute('name') === 'originCountryCode'){
-                let code = field.value
-                code = code.trim().toUpperCase();
-                if(code.length !== 2 || (countrySet.find((c) => c.code === code)) === undefined){
-                    addError("Invalid Country Code", event)
-                }
-            } else if(field.getAttribute('name') === 'varietyName'){
-                if(field.value.trim().length <= 0){
-                    addError("Invalid Name", event)
-                }
-            } else if(field.getAttribute('name') === 'color'){
-                if(field.value.trim().length <= 0 || !capsicumColors.includes(field.value.trim().toLowerCase())){
-                    addError("Invalid Color", event)
-                } // color validation
-            } else if(field.getAttribute('name') === 'daysToHarvest'){
-                if(isNaN(parseInt(field.value))){
-                    addError("Invalid Harvest Time", event);
-                }
-            }
+        let code = cc.value;
+        code = code.trim().toUpperCase();
+        if(code.length !== 2 || (countrySet.find((c) => c.code === code)) === undefined){
+            addError("Invalid Country Code", event)
         }
-        //validate size separately since its an array
-        if(minsize.value.trim() && maxsize.value.trim()){
-            //only validate if user provided both of them
-            sizeArr = [parseFloat(minsize.value.trim()), parseFloat(maxsize.value.trim())];
-            if(isNaN(sizeArr[0]) || isNaN(sizeArr[1])){
-                addError("Invalid Size Range", event);
-            }
-        } else unprovided++;
-        //if all of the fields are unprovided, add an error saying that there are no valid criteria
-        if(unprovided === 7){
-            addError("No valid criteria given", event)
-        }
-    })
-};
+    });
+}
