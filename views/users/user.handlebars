@@ -1,12 +1,25 @@
-<div class="container">
-    <div class="row">
-        <div class="col user-page-links-btns">
-            <a href="{{user.username}}/reviews" class="btn btn-primary">See this user's reviews</a>
-            <a href="{{user.username}}/glog" class="btn btn-primary">See this user's grow log</a>
-            <a href="/trades/initiate/{{user._id}}" class="btn btn-primary">Initiate a trade with this user</a>
-        </div>
-    </div>
 
+<h1>{{user.username}}</h1>
+<h2>{{user.countryCode}}</h2>
+{{#if user.discord}}
+<p>Discord: {{user.discord}}</p><br>
+{{/if}}
+{{#if user.phone}}
+<p>Phone Number: {{user.phone}}</p><br>
+{{/if}}
+{{#if user.email}}
+<p>Email Address: {{user.email}}</p><br>
+{{/if}}
+{{#if user.displayWishlist}}
+    <ol>
+    {{#each user.wishlist}}
+        <li>
+            {{this}}
+        </li>
+    {{/each}}
+    </ol>
+{{/if}}
+<h3>Average Rating: {{avgRating}}</h3>
 </div>
 
 

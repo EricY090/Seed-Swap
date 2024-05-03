@@ -330,7 +330,7 @@ const getAllUsers = async () => {
 };
 
 //get users in order 
-const getNClosestWishlistMatches = async (userId, N) => {
+const getNClosestWishlistMatches = async (userId, N, countryFilter=undefined) => {
   //userId is a string
   if (!userId) throw "field incomplete";
   if (typeof N !== 'number') throw "N not a number";
@@ -353,6 +353,14 @@ const getNClosestWishlistMatches = async (userId, N) => {
     allUsers = await getAllUsers();
   } catch (error){
     throw error;
+  }
+  if(countryFilter){
+    try{
+      countryFilter = usersValidation.validateCountryCode(countryFilter);
+      allUsers = allUsers.filter(a => a.countryCode === countryFilter);
+    } catch (error) {
+      throw error;
+    }
   }
   let finalArray = allUsers.sort((a, b) => {
     if(a.username < b.username){

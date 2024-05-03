@@ -1,17 +1,25 @@
-<div class="container">
-    <h2>Meet the people that have the stuff you want!</h1>
-    <ol class="list-group">
-        {{#each users}}
-        <li class="list-group-item user-to-trade">
-            {{!-- default tab index suffices --}}
-            <h3><a class="usernameLink" href="/user/{{this.username}}">{{this.username}}</a></h3>
-            <p>Country Code: {{this.countryCode}}</p>
-            <p>Matches with your wishlist: {{this.wishlistMatches}}</p>
-            <p>Shipping Speed: {{this.avgRatingShipping}}</p>
-            <p>Packaging: {{this.avgRatingPackaging}}</p>
-            <p>Overall Experience: {{this.avgRatingOverall}}</p>
-        </li>
-        {{/each}}
-    </ol>
-</div>
+<h1>Meet the people that have the seemingly-not-rare items you want!</h1>
+
+<h2>Filter Your Users!</h2>
+<form method="get" action="/matches" id="user-filter-form">
+    <label for="originCountryCode">Country Code</label>
+    <input type="text" id="originCountryCode" name="originCountryCode">
+    <button type="submit" id="filter" form="user-filter-form">Filter</button>
+    <div class="errorbox" id="errorbox">
+        {{error}}
+    </div>
+</form>
+<ol>
+    {{#each users}}
+    <li>
+        <a href="/user/{{this.username}}">{{this.username}}</a>
+        <p>Country Code: {{this.countryCode}}</p>
+        <p>Matches with your wishlist: {{this.wishlistMatches}}</p>
+    </li>
+    {{/each}}
+</ol>
+
 <a id="homepageLink" href="/homepage" class="homepagelink">Home Page</a>
+
+<script src="../../public/js/user_filter_validation.js" type="module"></script>
+
