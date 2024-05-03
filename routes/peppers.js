@@ -11,7 +11,7 @@ router
 .route('/')
 .get(async (req, res) => {
   try{
-    const allPeppers = await peppers.getAllPeppers();
+    const allPeppers = await peppers.getAllPeppersAppr();
     return res.render('pepper/peppers', {peppers: allPeppers});
   } catch (e) {
     res.status(404).json(e);
@@ -19,7 +19,7 @@ router
 });
 
 router.route('/').post(async (req, res) => {
-  const allPeppers = await peppers.getAllPeppers();
+  const allPeppers = await peppers.getAllPeppersAppr();
   try {
     if(req.body['inv-id']){
       const pepper = await peppers.getPepperById(req.body['inv-id']);
@@ -48,7 +48,7 @@ router.route('/').post(async (req, res) => {
       if(req.body.minsize && req.body.maxsize){
         query_new['sizeCM'] = pepperValidation.validateSizeCM([parseFloat(req.body['minsize']), parseFloat(req.body['maxsize'])]);
       }
-      const new_peppers = await peppers.filterPeppersByProperties(query_new).filter((pep) => pep.moderatorApproved);
+      const new_peppers = await peppers.filterPeppersByProperties(query_new);
       return res.render('pepper/peppers', {peppers: new_peppers});
     }
     return res.render('pepper/peppers', {peppers: allPeppers});
