@@ -1,24 +1,33 @@
 <h1>Come take a look at our fine wares. I'm sure there's something here to suit you!</h1>
-<ol>
-    {{#each peppers}}
-    <li>
-        <h2>{{this.varietyName}}</h2>
-        <h3>Moderator Approved: {{this.moderatorApproved}}</h3>
-        <p>Species: {{this.species}}</p>
-        <p>Heat Level: {{this.heatLevel}}</p>
-        <p>Color: {{this.color}}</p>
-        <p>Size: {{this.sizeCM.[0]}}cm - {{this.sizeCM.[1]}}cm</p>
-        <p>Days to Harvest: {{this.daysToHarvest}}</p>
-        <p>Origin Country Code: {{this.originCountryCode}}</p>
-    </li>
-    <form method="post" id="wishlist-form">
-        <button type="submit" id ="wishlist" form="wishlist-form" name="wish-id" value="{{this._id}}">Add To Wishlist</button>
-    </form>
-    <form method="post" id="inventory-form">
-        <button type="submit" id ="inventory" form="inventory-form" name="inv-id" value="{{this._id}}">Add To Inventory</button>
-    </form>
-    {{/each}}
-</ol>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            {{#each peppers}}
+                <div class="card pepper">
+                    <div class="card-body">
+                        {{!-- added tabindex to hover over name --}}
+                        <h2 tabindex="0">{{this.varietyName}}</h2>
+                        <p>Moderator Approved: {{this.moderatorApproved}}</p>
+                        <p>Species: {{this.species}}</p>
+                        <p>Heat Level: {{this.heatLevel}}</p>
+                        <p>Color: {{this.color}}</p>
+                        <p>Size: {{this.sizeCM.[0]}}cm - {{this.sizeCM.[1]}}cm</p>
+                        <p>Days to Harvest: {{this.daysToHarvest}}</p>
+                        <p>Origin Country Code: {{this.originCountryCode}}</p>
+                        <form method="post" id="wishlist-form">
+                            <button type="submit" id ="wishlist" form="wishlist-form" name="wish-id" value="{{this._id}}">Add To Wishlist</button>
+                        </form>
+                        <form method="post" id="inventory-form">
+                            <button type="submit" id ="inventory" form="inventory-form" name="inv-id" value="{{this._id}}">Add To Inventory</button>
+                        </form>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+</div>
+
+<
 
 <h2>Filter Your Peppers!</h2>
 <form method="post" action="/peppers" id="filter-form">

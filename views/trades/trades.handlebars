@@ -4,6 +4,7 @@
         <div class="col">
             <h3>Trades Pending Your Approval</h3>
             <hr>
+            {{!-- default tabindex suffices --}}
             {{#if tradesPendingYou}}
                 {{#each tradesPendingYou}}
                     <div class="card tradePendingYourApp">
