@@ -13,7 +13,8 @@ router
 .route('/:username')
 .get(async (req, res) => {
     try{
-        const user = await users.getUserByName(req.params.username);
+        let user = await users.getUserByName(req.params.username);
+        user._id = user._id.toString();
         res.render('users/user', {user: user});
     } catch (e) {
         console.log(e);
@@ -25,7 +26,8 @@ router
 .route('/:username/glog')
 .get(async (req, res) => {
     try{
-        const user = await users.getUserByName(req.params.username);
+        let user = await users.getUserByName(req.params.username);
+        user._id = user._id.toString();
         res.render('users/glog', {user: user});
     } catch (e) {
         console.log(e);

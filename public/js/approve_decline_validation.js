@@ -12,6 +12,5 @@ approvalForms.forEach(form => {
             this.appendChild(errorText);
             return;
         }
-        event.preventDefault();
     });
 });

@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 import bcryptjs from "bcryptjs";
 import xss from "xss";
 import usersValidation from "../usersValidation.js";
+import reviews from "./reviews.js";
 
 // discord, phone are allowed to be undefined. just be sure to enter them as undefined when calling function
 /**
@@ -109,7 +110,10 @@ const createUser = async (
     discord: discord,
     phone: phone,
     email: email,
-    avgRating: 0,
+    avgRatingShipping: 0,
+    avgRatingPackaging: 0,
+    avgRatingOverall: 0,
+    reviews : [],
     growLog: [],
     profileComments: [],
   };

@@ -1,4 +1,4 @@
-<h3>Peppers pending approval</h3>
+<h2>Peppers pending approval</h3>
 <hr>
 
 <div class="container">
@@ -8,7 +8,8 @@
                 {{#each peppers}}
                     <div class="card pepperPendingApproval">
                         <div class="card-body">
-                            <p>Pepper Name: {{varietyName}}</p>
+                            {{!-- added tabindex to hover over pepper name --}}
+                            <h3 tabindex="0">Pepper Name: {{varietyName}}</h3>
                             <p>Heat Level: {{heatLevel}}</p>
                             <p>Species: capsicum {{species}}</p>
                             <p>Color: {{color}}</p>
@@ -34,3 +35,5 @@
         </div>
     </div>
 </div>
+
+<script src="../../public/js/moderator_page.js"></script>
