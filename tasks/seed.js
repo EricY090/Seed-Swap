@@ -6,6 +6,7 @@ import {
   usersPeppersData,
   commentsData,
   tradesData,
+  reviewsData
 } from "../data/index.js";
 import { ObjectId } from "mongodb";
 
@@ -606,6 +607,9 @@ const addPeppersToUsers = async () => {
   await usersPeppersData.addPepperToUserWL(JohnWoo1, "ghost pepper");
   await usersPeppersData.addPepperToUserWL(JohnWoo1, "peter pepper");
   await usersPeppersData.addPepperToUserWL(JohnWoo1, "thors thunderbolt");
+  await usersPeppersData.addPepperToUserWL(JohnWoo1, "lemon starrburst");
+  await usersPeppersData.addPepperToUserWL(JohnWoo1, "lemon drop");
+  await usersPeppersData.addPepperToUserWL(JohnWoo1, "scotch bonnet yellow");
 
   await usersPeppersData.addPepperToUserInv(JohnnieTo, "scotch bonnet red");
   await usersPeppersData.addPepperToUserInv(JohnnieTo, "bolivian rainbow");
@@ -911,17 +915,54 @@ try {
 }
 
 
-const addCommentsToTrades = async () => {
+const acceptTrades = async () => {
   await tradesData.receiverAccepts((WooToChan._id).toString());
   await tradesData.receiverAccepts((HungToWoo._id).toString());
   await tradesData.receiverAccepts((AlmodovarToKurosawa._id).toString());
   await tradesData.receiverAccepts((KurosawaToCameron._id).toString());
   await tradesData.receiverAccepts((ToToMann._id).toString());
   await tradesData.receiverAccepts((ScorceseToTo._id).toString());
+  await tradesData.receiverAccepts((HondaToWoo._id).toString());
+  await tradesData.receiverAccepts((CronenbergToLau._id).toString());
+  await tradesData.receiverAccepts((ChanToScorcese._id).toString());
+  await tradesData.receiverAccepts((WooToKurosawa._id).toString());
 }
 
 try {
-  await addCommentsToTrades();
+  await acceptTrades();
+  console.log("finished accepting trades")
+} catch (error) {
+  console.error(error);
+}
+
+const addReviews = async () => {
+  // console.log("Has Jackie Chan left a review for John Woo?" + await reviewsData.userHasLeftReview("JackieChan", "JohnWoo1"));
+  await reviewsData.createReview("JackieChan", "JohnWoo1", 3, 5, 4);
+  // console.log("Has Jackie Chan left a review for John Woo?" + await reviewsData.userHasLeftReview("JackieChan", "JohnWoo1"));
+  await reviewsData.createReview("JohnWoo1", "JackieChan", 4, 4, 5);
+  await reviewsData.createReview("SammoHung", "JohnWoo1", 5, 4, 4);
+  await reviewsData.createReview("JohnWoo1", "SammoHung", 5, 5, 5);
+  await reviewsData.createReview("AkiraKurosawa", "PedroAlmodovar", 2, 3, 3);
+  await reviewsData.createReview("PedroAlmodovar", "AkiraKurosawa", 4, 5, 4);
+  await reviewsData.createReview("AkiraKurosawa", "JimmyCamera", 3, 4, 4);
+  await reviewsData.createReview("JimmyCamera", "AkiraKurosawa", 4, 5, 5);
+  await reviewsData.createReview("JohnnieTo", "MichaelMann", 3, 3, 4);
+  await reviewsData.createReview("MichaelMann", "JohnnieTo", 4, 4, 5);
+  await reviewsData.createReview("MartinScorcese", "JohnnieTo", 4, 4, 4);
+  await reviewsData.createReview("JohnnieTo", "MartinScorcese", 5, 5, 5);
+  await reviewsData.createReview("IshiroHonda", "JohnWoo1", 4, 3, 4);
+  await reviewsData.createReview("JohnWoo1", "IshiroHonda", 4, 4, 5);
+  await reviewsData.createReview("DavidCronenberg", "AndrewLau", 3, 4, 4);
+  await reviewsData.createReview("AndrewLau", "DavidCronenberg", 4, 3, 3);
+  await reviewsData.createReview("JackieChan", "MartinScorcese", 4, 4, 4);
+  await reviewsData.createReview("MartinScorcese", "JackieChan", 5, 5, 5);
+  await reviewsData.createReview("JohnWoo1", "AkiraKurosawa", 4, 4, 4);
+
+}
+
+try {
+  await addReviews();
+  console.log("finished adding reviews")
 } catch (error) {
   console.error(error);
 }

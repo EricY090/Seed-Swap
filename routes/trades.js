@@ -85,7 +85,7 @@ router
   res.status(200).render("trades/trades", hbrsObj);
 })
 .post(async (req, res) => {
-
+  console.log(req.body);
   if(!req.session.user){
     return res.status(401).redirect("/login");
   }
@@ -131,8 +131,10 @@ router
   }
   if(action === "decline"){
     try {
-      await tradesData.receiverRejects(tradeId);
+      await tradesData.receiverDeclines(tradeId);
     } catch (error) {
+      console.log(error)
+      console.log("bug1")
       return res.status(500).json({error: error});
     }
     return res.redirect("/trades");

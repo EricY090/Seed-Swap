@@ -1,5 +1,9 @@
 body{
-    background-color:rgb(255, 245, 236);
+    background-color:#fff3e9;
+}
+a{
+    /* default color was always against tota11y contrast ratio standards */
+    color: black;
 }
 .header-link-div{
     display:inline-block;
@@ -63,4 +67,27 @@ body{
     margin-top: 10px;
     margin-left: auto;
     margin-right: auto;
+}
+
+
+.usernameLink{
+    color:black;
+}
+.usernameLink:hover{
+    color:blue;
+}
+.user-to-trade p{
+    margin-bottom: 5px;
+}
+
+.user-page-links-btns {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.user-info p {
+    margin-bottom: 5px;
+}
+.comments-section{
+    margin-top: 20px;
 }

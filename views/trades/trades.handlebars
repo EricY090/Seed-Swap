@@ -4,11 +4,12 @@
         <div class="col">
             <h3>Trades Pending Your Approval</h3>
             <hr>
+            {{!-- default tabindex suffices --}}
             {{#if tradesPendingYou}}
                 {{#each tradesPendingYou}}
                     <div class="card tradePendingYourApp">
                         <div class="card-body">
-                            <p>Initiator: <a href="/users/{{initiatorUsername}}">{{initiatorUsername}}</a></p>
+                            <p>Initiator: <a href="/user/{{initiatorUsername}}">{{initiatorUsername}}</a></p>
                             <p>Initiator Sending: {{initiatorSending}}</p>
                             <p>You're Sending: {{receiverSending}}</p>
                             <form class="approval-form" action="/trades" method="post">
@@ -32,7 +33,7 @@
                 {{#each tradesPendingOthers}}
                     <div class="card tradePendingOthersApp">
                         <div class="card-body">
-                            <p>Receiver: <a href="/users/{{receiverUsername}}">{{receiverUsername}}</a></p>
+                            <p>Receiver: <a href="/user/{{receiverUsername}}">{{receiverUsername}}</a></p>
                             <p>You're Sending: {{initiatorSending}}</p>
                             <p>Receiver Sending: {{receiverSending}}</p>
                         </div>
@@ -52,9 +53,9 @@
             {{#each yourApprovedTrades}}
                 <div class="card yourApprovedTrades">
                     <div class="card-body">
-                        <p>Initiator: <a href="/users/{{initiatorUsername}}">{{initiatorUsername}}</a></p>
+                        <p>Initiator: <a href="/user/{{initiatorUsername}}">{{initiatorUsername}}</a></p>
                         <p>Initiator Sending: {{initiatorSending}}</p>
-                        <p>Receiver: <a href="/users/{{receiverUsername}}">{{receiverUsername}}</a></p>
+                        <p>Receiver: <a href="/user/{{receiverUsername}}">{{receiverUsername}}</a></p>
                         <p>Receiver Sending: {{receiverSending}}</p>
                     </div>
                 </div>
