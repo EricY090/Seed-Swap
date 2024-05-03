@@ -46,27 +46,35 @@
 <div class="container">
     <div class="row">
         <div class="col">
+            <h3>Comments:</h3>
             <div class="card">
                 <div class="card-body">
-                    <div class="comments-section">
-                        <form action="/comments" method="POST">
-                            <div class="form-group">
-                                <label for="comment">Add a comment:</label>
-                                <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </form>
-                        <h3>Comments:</h3>
-                        {{#each user.profileComments}}
-                            <div class="comment-container">
-                                <h4>{{this.commenterUsername}}</h4>
-                                <p>{{this.text}}</p>
-                            </div>
-                        {{/each}}
-                    </div>
-
+                    <form action="/user/{{user.username}}/comment" id="comment-form" method="POST">
+                        <div class="form-group">
+                            <label for="comment">Add a comment:</label>
+                            <textarea class="form-control form-control-sm" id="comment" name="comment"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        {{#if errField}}
+                            <p class="error">{{errField}}</p>
+                        {{/if}}
+                        <div id="errorbox"></div>
+                    </form>
                 </div>
-            </div> 
+            </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col">
+            {{#each user.profileComments}}
+                <div class="card">
+                    <div class="card-body">
+                        <a href="/user/{{this.commenterUsername}}" tabindex="0"> <h4>{{this.commenterUsername}}</h4> </a>
+                        <p>{{this.text}}</p>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
 </div>
+
+<script src="../../public/js/comment_validation.js"></script>
