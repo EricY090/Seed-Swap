@@ -45,7 +45,14 @@ let scotchBonnetRed,
   bigBertha,
   snowWhite,
   cheiroRoxa,
-  pimentaDeNeyde;
+  pimentaDeNeyde,
+  earlyJalapeno,
+  purpleJalapeno,
+  mammothJalapeno,
+  habaneroOrange,
+  habaneroGiantWhite,
+  habaneroRedSavina,
+  chocolateHabanero;
 const seedPeppers = async () => {
   // Code to seed peppers data
   scotchBonnetRed = await peppersData.createPepperDev(
@@ -359,6 +366,76 @@ const seedPeppers = async () => {
     80,
     "BR"
   );
+  earlyJalapeno = await peppersData.createPepperDev(
+    "early jalapeno",
+    ["jalepeno early"],
+    "annuum",
+    2,
+    "red",
+    [5, 7.5],
+    60,
+    "MX"
+  );
+  purpleJalapeno = await peppersData.createPepperDev(
+    "purple jalapeno",
+    [],
+    "annuum",
+    2,
+    "purple",
+    [6, 7.5],
+    70,
+    "MX"
+  );
+  mammothJalapeno = await peppersData.createPepperDev(
+    "mammoth jalapeno",
+    [],
+    "annuum",
+    2,
+    "green",
+    [11.5, 12.5],
+    70,
+    "MX"
+  );
+  habaneroOrange = await peppersData.createPepperDev(
+    "habanero orange",
+    ["common habanero"],
+    "chinense",
+    4,
+    "orange",
+    [3.5, 6.5],
+    80,
+    "MX"
+  );
+  habaneroGiantWhite = await peppersData.createPepperDev(
+    "habanero giant white",
+    ["giant white habanero"],
+    "chinense",
+    4,
+    "white",
+    [4.5, 6.5],
+    80,
+    "MX"
+  );
+  habaneroRedSavina = await peppersData.createPepperDev(
+    "habanero red savina",
+    ["red savina habanero"],
+    "chinense",
+    5,
+    "red",
+    [4.5, 6.5],
+    80,
+    "MX"
+  );
+  chocolateHabanero = await peppersData.createPepper(
+    "chocolate habanero",
+    ["congo black"],
+    "chinense",
+    5,
+    "brown",
+    [3.5, 6.5],
+    80,
+    "JM"
+  );
 };
 
 try {
@@ -619,8 +696,10 @@ const addPeppersToUsers = async () => {
   await usersPeppersData.addPepperToUserInv(AkiraKurosawa, "scotch bonnet red");
   await usersPeppersData.addPepperToUserInv(AkiraKurosawa, "Peter Pepper");
   await usersPeppersData.addPepperToUserInv(AkiraKurosawa, "rocoto yellow");
+  await usersPeppersData.addPepperToUserInv(AkiraKurosawa, "early jalapeno");
   await usersPeppersData.addPepperToUserInv(AkiraKurosawa, "trinidad scorpion");
   await usersPeppersData.addPepperToUserInv(AkiraKurosawa, "snow white");
+  await usersPeppersData.addPepperToUserInv(AkiraKurosawa, "purple jalapeno");
   await usersPeppersData.addPepperToUserWL(AkiraKurosawa, "Carolina Reaper");
   await usersPeppersData.addPepperToUserWL(AkiraKurosawa, "chiltepin");
   await usersPeppersData.addPepperToUserWL(AkiraKurosawa, "lemon starrburst");
@@ -629,18 +708,22 @@ const addPeppersToUsers = async () => {
   await usersPeppersData.addPepperToUserInv(JohnWoo1, "sugar rush peach");
   await usersPeppersData.addPepperToUserInv(JohnWoo1, "Chiltepin");
   await usersPeppersData.addPepperToUserInv(JohnWoo1, "rocoto yellow");
+  await usersPeppersData.addPepperToUserInv(JohnWoo1, "early jalapeno");
   await usersPeppersData.addPepperToUserWL(JohnWoo1, "ghost pepper");
   await usersPeppersData.addPepperToUserWL(JohnWoo1, "peter pepper");
   await usersPeppersData.addPepperToUserWL(JohnWoo1, "thors thunderbolt");
   await usersPeppersData.addPepperToUserWL(JohnWoo1, "lemon starrburst");
   await usersPeppersData.addPepperToUserWL(JohnWoo1, "lemon drop");
+  await usersPeppersData.addPepperToUserWL(JohnWoo1, "purple jalapeno");
   await usersPeppersData.addPepperToUserWL(JohnWoo1, "scotch bonnet yellow");
 
   await usersPeppersData.addPepperToUserInv(JohnnieTo, "scotch bonnet red");
   await usersPeppersData.addPepperToUserInv(JohnnieTo, "bolivian rainbow");
   await usersPeppersData.addPepperToUserInv(JohnnieTo, "tobasco");
+  await usersPeppersData.addPepperToUserInv(JohnnieTo, "purple jalapeno");
   await usersPeppersData.addPepperToUserInv(JohnnieTo, "brazilian starfish");
   await usersPeppersData.addPepperToUserWL(JohnnieTo, "bishop crown");
+  await usersPeppersData.addPepperToUserWL(JohnnieTo, "early jalapeno");
   await usersPeppersData.addPepperToUserWL(JohnnieTo, "cayenne long slim");
 
   await usersPeppersData.addPepperToUserInv(
@@ -656,12 +739,15 @@ const addPeppersToUsers = async () => {
     "lemon starrburst"
   );
   await usersPeppersData.addPepperToUserWL(ChristopherNolan, "tobasco");
+  await usersPeppersData.addPepperToUserWL(ChristopherNolan, "purple jalapeno");
+  await usersPeppersData.addPepperToUserWL(ChristopherNolan, "early jalapeno");
 
   await usersPeppersData.addPepperToUserInv(MichaelMann, "rocoto yellow");
   await usersPeppersData.addPepperToUserInv(
     MichaelMann,
     "scotch bonnet yellow"
   );
+  await usersPeppersData.addPepperToUserInv(MichaelMann, "early jalapeno");
   await usersPeppersData.addPepperToUserInv(MichaelMann, "lemon starrburst");
   await usersPeppersData.addPepperToUserInv(MichaelMann, "sugar rush peach");
   await usersPeppersData.addPepperToUserWL(MichaelMann, "chiltepin");
@@ -671,7 +757,10 @@ const addPeppersToUsers = async () => {
   await usersPeppersData.addPepperToUserWL(MichaelMann, "lemon drop");
 
   await usersPeppersData.addPepperToUserInv(PedroAlmodovar, "bolivian rainbow");
+  await usersPeppersData.addPepperToUserInv(PedroAlmodovar, "pimenta de neyde");
   await usersPeppersData.addPepperToUserWL(PedroAlmodovar, "sugar rush peach");
+  await usersPeppersData.addPepperToUserWL(PedroAlmodovar, "lemon starrburst");
+  await usersPeppersData.addPepperToUserWL(PedroAlmodovar, "purple jalapeno");
 
   await usersPeppersData.addPepperToUserInv(JackieChan, "chiltepin");
   await usersPeppersData.addPepperToUserInv(
@@ -682,6 +771,7 @@ const addPeppersToUsers = async () => {
   await usersPeppersData.addPepperToUserInv(JackieChan, "rocoto yellow");
   await usersPeppersData.addPepperToUserInv(JackieChan, "thors thunderbolt");
   await usersPeppersData.addPepperToUserInv(JackieChan, "zebrange");
+  await usersPeppersData.addPepperToUserInv(JackieChan, "purple jalapeno");
   await usersPeppersData.addPepperToUserInv(JackieChan, "lemon starrburst");
   await usersPeppersData.addPepperToUserWL(JackieChan, "carolina reaper");
   await usersPeppersData.addPepperToUserWL(JackieChan, "ghost pepper");
@@ -694,19 +784,24 @@ const addPeppersToUsers = async () => {
   await usersPeppersData.addPepperToUserInv(SammoHung, "bishop crown");
   await usersPeppersData.addPepperToUserWL(SammoHung, "bolivian rainbow");
   await usersPeppersData.addPepperToUserWL(SammoHung, "chiltepin");
+  await usersPeppersData.addPepperToUserWL(SammoHung, "early jalapeno");
 
   await usersPeppersData.addPepperToUserInv(
     MartinScorcese,
     "thors thunderbolt"
   );
+  await usersPeppersData.addPepperToUserInv(MartinScorcese, "zebrange");
+  await usersPeppersData.addPepperToUserInv(MartinScorcese, "lemon starrburst");
   await usersPeppersData.addPepperToUserWL(MartinScorcese, "rocoto yellow");
   await usersPeppersData.addPepperToUserWL(MartinScorcese, "carolina reaper");
+  await usersPeppersData.addPepperToUserWL(MartinScorcese, "mammoth jalapeno");
 
   await usersPeppersData.addPepperToUserInv(IshiroHonda, "cayenne long slim");
   await usersPeppersData.addPepperToUserInv(
     IshiroHonda,
     "scotch bonnet yellow"
   );
+  await usersPeppersData.addPepperToUserInv(IshiroHonda, "purple jalapeno");
   await usersPeppersData.addPepperToUserWL(IshiroHonda, "sugar rush peach");
   await usersPeppersData.addPepperToUserWL(IshiroHonda, "pimenta de neyde");
   await usersPeppersData.addPepperToUserWL(IshiroHonda, "brazilian starfish");
@@ -730,6 +825,7 @@ const addPeppersToUsers = async () => {
   await usersPeppersData.addPepperToUserInv(SpikeLee, "habanada");
   await usersPeppersData.addPepperToUserInv(SpikeLee, "lemon drop");
   await usersPeppersData.addPepperToUserInv(SpikeLee, "cherry bomb");
+  await usersPeppersData.addPepperToUserInv(SpikeLee, "early jalapeno");
   await usersPeppersData.addPepperToUserWL(SpikeLee, "banana pepper");
   await usersPeppersData.addPepperToUserWL(SpikeLee, "serrano");
   await usersPeppersData.addPepperToUserWL(SpikeLee, "peter pepper");
@@ -748,6 +844,7 @@ const addPeppersToUsers = async () => {
   await usersPeppersData.addPepperToUserInv(JamesCameron, "habanada");
   await usersPeppersData.addPepperToUserInv(JamesCameron, "lemon drop");
   await usersPeppersData.addPepperToUserWL(JamesCameron, "peter pepper");
+  await usersPeppersData.addPepperToUserWL(JamesCameron, "early jalapeno");
   await usersPeppersData.addPepperToUserWL(JamesCameron, "lemon starrburst");
 
   await usersPeppersData.addPepperToUserInv(
@@ -766,11 +863,13 @@ const addPeppersToUsers = async () => {
     "brazilian starfish"
   );
   await usersPeppersData.addPepperToUserInv(MasakiKobayashi, "big bertha");
+  await usersPeppersData.addPepperToUserInv(MasakiKobayashi, "early jalapeno");
   await usersPeppersData.addPepperToUserWL(MasakiKobayashi, "chiltepin");
 
   await usersPeppersData.addPepperToUserInv(AlanJPaluka, "sugar rush peach");
   await usersPeppersData.addPepperToUserInv(AlanJPaluka, "scotch bonnet red");
   await usersPeppersData.addPepperToUserWL(AlanJPaluka, "lemon starrburst");
+  await usersPeppersData.addPepperToUserWL(AlanJPaluka, "early jalapeno");
 
   await usersPeppersData.addPepperToUserInv(BongJoonHo, "ghost pepper");
   await usersPeppersData.addPepperToUserInv(BongJoonHo, "cherry bomb");
@@ -1037,5 +1136,11 @@ try{
 }catch(e){
   console.log(e);
 }
+
+
+
+// console.log(`is AlanJPAK@wildWOOd.com in use: ${await usersData.emailInUse("AlanJPAK@wildWOOd.com")}`)
+// console.log(`is Superman@gmail.com in use: ${await usersData.emailInUse("Superman@gmail.com")}`)
+
 
 await closeConnection();

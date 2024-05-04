@@ -1,5 +1,6 @@
 body{
     background-color:#fff3e9;
+    /* uhhhh this is showing up as salmon pink on my monitor and muted on another. a monitor color issue on my end */
 }
 a{
     /* default color was always against tota11y contrast ratio standards */
@@ -23,6 +24,16 @@ a{
     background-color: rgb(30, 139, 255)
 }
 
+#welcomeText{
+    text-align: center;
+}
+
+.homepage-nav{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 
 
 
