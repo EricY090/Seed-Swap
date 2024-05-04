@@ -19,10 +19,10 @@
                             {{#if alternativeNames.length}}
                                 <p>Alternative Name(s): {{alternativeNames}}</p>
                             {{/if}}
-                            <form class="approval-form" id="moderator-form" action="/moderator" method="post">
-                                <input type="hidden" id="pepperID" name="pepperId" value={{_id}}>
-                                <button type="submit" id="Approve"name="action" value="approve">Approve</button>
-                                <button type="submit" id="Disapprove" name="action" value="disapprove">Disapprove</button>
+                            <form class="approval-form" action="/moderator" method="post">
+                                <input type="hidden" name="pepperId" value={{_id}}>
+                                <button type="submit" name="action" value="approve">Approve</button>
+                                <button type="submit" name="action" value="disapprove">Disapprove</button>
                             </form>
                         </div>
                     </div>
@@ -35,5 +35,5 @@
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
 <script src="../../public/js/moderator_page.js"></script>

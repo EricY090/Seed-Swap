@@ -150,7 +150,7 @@ router
     //could throw a bunch of things, b
     foundUser = await usersData.login(username, password);
   } catch (error) {
-    return res.status(400).render('auth/login',{ error: "Username or password incorrect", hid:"" });
+    return res.status(401).render('auth/login',{ error: "Username or password incorrect", hid:"" });
   }
   if (foundUser) {
     //usersData.login should only ever return a user object or throw an error. so this is just overkill
@@ -158,7 +158,7 @@ router
     //console.log(req.session.user);
     res.redirect('/homepage') // if the user login works and the user is logged in, then we redirect to homepage (homepage is essentialy empty rn)
   } else {
-    return res.status(400).render('auth/login',{ error: "Username or password incorrect", hid:"" });
+    return res.status(401).render('auth/login',{ error: "Username or password incorrect", hid:"" });
   }
 });
 
