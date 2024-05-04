@@ -939,7 +939,7 @@ const addReviews = async () => {
   // console.log("Has Jackie Chan left a review for John Woo?" + await reviewsData.userHasLeftReview("JackieChan", "JohnWoo1"));
   await reviewsData.createReview("JackieChan", "JohnWoo1", 3, 5, 4);
   // console.log("Has Jackie Chan left a review for John Woo?" + await reviewsData.userHasLeftReview("JackieChan", "JohnWoo1"));
-  await reviewsData.createReview("JohnWoo1", "JackieChan", 4, 4, 5);
+  // await reviewsData.createReview("JohnWoo1", "JackieChan", 4, 4, 5);
   await reviewsData.createReview("SammoHung", "JohnWoo1", 5, 4, 4);
   await reviewsData.createReview("JohnWoo1", "SammoHung", 5, 5, 5);
   await reviewsData.createReview("AkiraKurosawa", "PedroAlmodovar", 2, 3, 3);
@@ -963,6 +963,12 @@ const addReviews = async () => {
 try {
   await addReviews();
   console.log("finished adding reviews")
+} catch (error) {
+  console.error(error);
+}
+
+try {
+  console.log(await tradesData.findPeopleUserHasTradedWith((JohnWoo1)))
 } catch (error) {
   console.error(error);
 }

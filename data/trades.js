@@ -282,4 +282,59 @@ export const getYourApprovedTrades = async (userID) => {
   return tradeArr;
 }
 
-export default {initiateTrade, receiverAccepts, receiverDeclines, usersHaveTraded, getTradeById, getTradesPendingOthersApproval, getTradesPendingYourApproval, getYourApprovedTrades};
+/**
+ * 
+ * @param {string} userID 
+ * @returns {string[]} array of usernames of people user has traded with. nom repeats.
+ */
+const findPeopleUserHasTradedWith = async (userID) => {
+  if (!userID) throw "field incomplete";
+  if (typeof userID !== "string") throw "field not string";
+  if(userID.trim().length === 0) throw "field empty";
+  if(userID !== xss(userID)) throw "userID is an xss vulnerability";
+  try {
+    userID = usersValidation.validateUserId(userID);
+  } catch (error) {
+    throw error;
+  }
+  const tradeCollection = await trades();
+  const tradeArr = await tradeCollection.find({
+    $or: [
+      { initiator: userID, receiverAccepted: true },
+      { receiver: userID, receiverAccepted: true }
+    ]
+  }).toArray();
+  let peopleTradedWith = [];
+  for (let trade of tradeArr) {
+    if (trade.initiator === userID) {
+      peopleTradedWith.push(trade.receiver);
+    } else {
+      peopleTradedWith.push(trade.initiator);
+    }
+  }
+
+  // Remove duplicate strings in peopleTradedWith array
+  let uniquePeopleTradedWith = [];
+  for (let person of peopleTradedWith) {
+    if (!uniquePeopleTradedWith.includes(person)) {
+      uniquePeopleTradedWith.push(person);
+    }
+  }
+  // these are just userIds. i wanna map to the usernames.
+  let uniqueNames = [];
+  for (let person of uniquePeopleTradedWith) {
+    let user
+
+    try {
+      user = await usersData.getUserById(person);
+      uniqueNames.push(user.username);
+    } catch (error) {
+      throw error;
+    }
+
+  }
+  return uniqueNames;
+}
+
+
+export default {initiateTrade, receiverAccepts, receiverDeclines, usersHaveTraded, getTradeById, getTradesPendingOthersApproval, getTradesPendingYourApproval, getYourApprovedTrades, findPeopleUserHasTradedWith};

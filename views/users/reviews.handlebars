@@ -1,0 +1,80 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h3>{{user.username}} has traded with:</h3>
+            <div class="card">
+                <div class="card-body">
+                    <ul>
+                        {{#each peopleTradedWith}}
+                        <li>{{this}}</li>
+                        {{/each}}
+                    </ul>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{{#if showReviewForm}}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>How was your experience trading with {{user.username}}?</h4>
+                        <div>
+                            <form action="/user/{{user.username}}/reviews" method="post">
+                                <label for="shippingSpeed">Shipping Speed:</label>
+                                <select name="shippingSpeed" id="shippingSpeed">
+                                    <option value="5">5</option>
+                                    <option value="4">4</option>
+                                    <option value="3">3</option>
+                                    <option value="2">2</option>
+                                    <option value="1">1</option>
+                                </select>
+                                <label for="packaging">Packaging</label>
+                                <select name="packaging" id="packaging">
+                                    <option value="5">5</option>
+                                    <option value="4">4</option>
+                                    <option value="3">3</option>
+                                    <option value="2">2</option>
+                                    <option value="1">1</option>
+                                </select>
+                                <label for="overallExp">Overall Experience</label>
+                                <select name="overallExp" id="overallExp">
+                                    <option value="5">5</option>
+                                    <option value="4">4</option>
+                                    <option value="3">3</option>
+                                    <option value="2">2</option>
+                                    <option value="1">1</option>
+                                </select>
+                                <button type="submit">Submit</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/if}}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h3>Reviews:</h3>
+            {{#each user.reviews}}
+                <div class="card">
+                    <div class="card-body">
+                        <div class="review">
+                            <h4>{{this.reviewer}}</h4>
+                            <p>Shipping Speed: {{this.shippingSpeed}}</p>
+                            <p>Packaging: {{this.packaging}}</p>
+                            <p>Overall Experience: {{this.overallExp}}</p>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
