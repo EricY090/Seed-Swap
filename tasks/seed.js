@@ -854,7 +854,7 @@ console.log("done adding comments to users");
 let KurosawaToChan, KurosawaToCameron, KurosawaToWoo, KurosawaToHonda;
 let WooToScorcese, WooToBong, WooToKurosawa, WooToChan;
 let ToToMann, ToToLee, ToToKobayashi
-let NolanToAlmodovar, NolanToLau, NolanToHonda;
+let NolanToAlmodovar, NolanToLau, NolanToHonda, NolanToWoo;
 let MannToHung, MannToCronenberg, MannToPakula;
 let AlmodovarToKurosawa, AlmodovarToTo, AlmodovarToVilleneuve;
 let ChanToScorcese, ChanToCameron, ChanToHo, ChanToLee
@@ -880,6 +880,7 @@ const addTrades = async () => {
   ToToKobayashi = await tradesData.initiateTrade(JohnnieTo, ["tobasco"], MasakiKobayashi, ["brazilian starfish", "big bertha"]);
   NolanToAlmodovar = await tradesData.initiateTrade(ChristopherNolan, ["lemon starrburst", "carolina reaper"], PedroAlmodovar, ["bolivian rainbow"]);
   NolanToLau = await tradesData.initiateTrade(ChristopherNolan, ["carolina reaper"], AndrewLau, ["pimenta de neyde", "scotch bonnet chocolate"]);
+  NolanToWoo = await tradesData.initiateTrade(ChristopherNolan, ["lemon starrburst"], JohnWoo1, ["chiltepin"]);
   NolanToHonda = await tradesData.initiateTrade(ChristopherNolan, ["carolina reaper"], IshiroHonda, ["cayenne long slim", "scotch bonnet yellow"]);
   MannToHung = await tradesData.initiateTrade(MichaelMann, ["scotch bonnet yellow", "sugar rush peach"], SammoHung, ["ghost pepper"]);
   MannToCronenberg = await tradesData.initiateTrade(MichaelMann, ["lemon starrburst"], DavidCronenberg, ["zebrange","cayenne long slim"]);
@@ -906,6 +907,7 @@ const addTrades = async () => {
   LeeToKurosawa = await tradesData.initiateTrade(SpikeLee, ["habanada", "lemon drop"], AkiraKurosawa, ["peter pepper", "trinidad scorpion"]);
   LeeToHonda = await tradesData.initiateTrade(SpikeLee, ["cherry bomb"], IshiroHonda, ["scotch bonnet yellow"]);
   LeeToPakula = await tradesData.initiateTrade(SpikeLee, ["cherry bomb", "habanada"], AlanJPaluka, ["sugar rush peach"]);
+  
 };
 
 try {
