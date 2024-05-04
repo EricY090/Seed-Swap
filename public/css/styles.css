@@ -121,3 +121,14 @@ a{
 #textPortion{
     width:40%;
 }
+
+.grow-container{
+    height: 40%;
+}
+
+.grow-img {
+    max-width: 60%; 
+    max-height: 30%; 
+    display: block; 
+    margin: 0px; 
+}

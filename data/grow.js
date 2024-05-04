@@ -30,10 +30,7 @@ const createPost = async (userId, filenames, textPortion) => {
         throw "User not found!";
     };
 
-    let UpdatedAllPost = await getAllPost(userId);
-
-    // TODO: filename
-    // 
+    let UpdatedAllPost = await getAllPost(userId); 
     
     return UpdatedAllPost;
 };

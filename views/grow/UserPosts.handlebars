@@ -13,9 +13,9 @@
 <div>
     <ul>
         {{#each posts}}
-            <li>
+            <li class="grow-container">
                 <cite>Post Time: {{this.insertDate}}</cite>
-                {{!-- TODO File HERE --}}
+                <img src="{{this.Filenames}}" class="grow-img"/>
                 <p>{{this.textPortion}}</p>
             </li>
         {{/each}}
@@ -24,9 +24,9 @@
 {{#if ownPage}}
     <div class="add-button"><button onclick="toggle()" id = "grow-add-button">Add New Post</button></div> <br>
     <div id="grow-add">
-        <form action="/grow/{{id}}" method="POST" class="add-form">
+        <form action="/grow/{{id}}" method="POST" class="add-form" enctype="multipart/form-data"> 
         <label for="Filenames">Choose a profile picture:</label>
-        <input type="file" id="Filenames" name="Filenames" accept="image/png, image/jpeg, image/gif" /> <br><br>
+        <input type="file" id="Filenames" name="Filenames" accept="image/png, image/jpeg, image/gif, image/jpg" /> <br><br>
         <label for = "textPortion">Content: </label> <br><br>
         <textarea type = 'text' id = 'textPortion' name="textPortion"> </textarea><br><br>
         <input type ="submit" value="Submit" id="grow-submit">
