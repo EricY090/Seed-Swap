@@ -26,6 +26,7 @@
     if(commentForm){
         commentForm.submit((event) => {
             event.preventDefault();
+            errorbox.empty();
             if(comment.val().trim().length <= 4) {
                 let errorText = $('<p></p>').text('try again with a comment longer than 4 characters');
                 errorbox.append(errorText);
