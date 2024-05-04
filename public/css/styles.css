@@ -114,3 +114,10 @@ a{
     margin-bottom: 10px;
 }
 
+#grow-add{
+    display: none;
+}
+
+#textPortion{
+    width:40%;
+}

@@ -1,0 +1,37 @@
+<script>
+    function toggle() {
+      var ele = document.getElementById("grow-add");
+      if(ele.style.display == "block") {
+          ele.style.display = "none";
+      }
+      else {
+          ele.style.display = "block";
+      }
+    }; 
+</script>
+<a href="/homePage">My HomePage</a>
+<div>
+    <ul>
+        {{#each posts}}
+            <li>
+                <cite>Post Time: {{this.insertDate}}</cite>
+                {{!-- TODO File HERE --}}
+                <p>{{this.textPortion}}</p>
+            </li>
+        {{/each}}
+    </ul>
+</div>
+{{#if ownPage}}
+    <div class="add-button"><button onclick="toggle()" id = "grow-add-button">Add New Post</button></div> <br>
+    <div id="grow-add">
+        <form action="/grow/{{id}}" method="POST" class="add-form">
+        <label for="Filenames">Choose a profile picture:</label>
+        <input type="file" id="Filenames" name="Filenames" accept="image/png, image/jpeg, image/gif" /> <br><br>
+        <label for = "textPortion">Content: </label> <br><br>
+        <textarea type = 'text' id = 'textPortion' name="textPortion"> </textarea><br><br>
+        <input type ="submit" value="Submit" id="grow-submit">
+        </form>
+        <button onclick="toggle()" id="cancel-button">Cancel</button>
+    
+    </div>
+{{/if}}
