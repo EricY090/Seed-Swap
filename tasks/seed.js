@@ -6,7 +6,8 @@ import {
   usersPeppersData,
   commentsData,
   tradesData,
-  reviewsData
+  reviewsData,
+  growData
 } from "../data/index.js";
 import { ObjectId } from "mongodb";
 
@@ -383,7 +384,9 @@ let AkiraKurosawa,
   DenisVilleneuve,
   MasakiKobayashi,
   AlanJPaluka,
-  BongJoonHo;
+  BongJoonHo,
+  ericyang,
+  yangeric;
 
 const seedUsers = async () => {
   AkiraKurosawa = await usersData.createUser(
@@ -580,6 +583,26 @@ const seedUsers = async () => {
     undefined,
     undefined,
     "MemoriesOfMurder2003"
+  );
+  ericyang = await usersData.createUser(
+    false,
+    "ericyang",
+    false,
+    "US",
+    undefined,
+    undefined,
+    'eyang6@stevens.edu',
+    "Qwertyui1"
+  );
+  yangeric = await usersData.createUser(
+    false,
+    "yangeric",
+    false,
+    "US",
+    'yangyangDC',
+    undefined,
+    undefined,
+    "Qwertyui2"
   );
 };
 
@@ -967,6 +990,21 @@ try {
   console.log("finished adding reviews")
 } catch (error) {
   console.error(error);
+}
+
+// Add posts to users
+try{
+  await growData.createPost(ericyang, "", "This is my goood pepper");
+  await growData.createPost(ericyang, "", "My best pepper");
+  await growData.createPost(BongJoonHo, "", "Look at these cute pepper");
+  await growData.createPost(BongJoonHo, "", "There are my babies");
+  await growData.createPost(BongJoonHo, "", "Anyone who wants these peppers, pls contact me");
+  await growData.createPost(AlanJPaluka, "", "Hey!!! Look at how cute they are");
+  await growData.createPost(MasakiKobayashi, "", "First harvest in this season...");
+  await growData.createPost(MasakiKobayashi, "", "Yo! Check this out!");
+  console.log("Done adding posts for users")
+}catch(e){
+  console.log(e);
 }
 
 await closeConnection();
