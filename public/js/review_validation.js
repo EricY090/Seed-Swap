@@ -5,8 +5,7 @@ if(reviewForm){
         let shippingSpeed = document.getElementById('shippingSpeed').value;
         let packaging = document.getElementById('packaging').value;
         let overallExp = document.getElementById('overallExp').value;
-        alert(shippingSpeed + " " + packaging + " " + overallExp)
-        event.preventDefault();
+        // alert(shippingSpeed + " " + packaging + " " + overallExp)
         if(!shippingSpeed || !packaging || !overallExp){
             event.preventDefault();
             alert("Please fill out all fields");

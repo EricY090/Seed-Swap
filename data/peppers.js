@@ -276,7 +276,7 @@ originCountryCode = pepperValidation.validateCountryCode(originCountryCode);
 
 const filterPeppersByProperties = async(propertiesObj) => {
   const pepperCollection = await peppers();
-  const queryingObj = {};
+  const queryingObj = {moderatorApproved: true};
   if(typeof propertiesObj !== 'object' || Array.isArray(propertiesObj)) throw "Invalid properties object provided!"
   try{
     for(const field of Object.keys(propertiesObj)){

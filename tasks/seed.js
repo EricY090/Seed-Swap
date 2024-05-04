@@ -987,6 +987,10 @@ let ScorceseToTo, ScorceseToMann, ScorceseToHung;
 let HondaToWoo, HondaToNolan, HondaToVilleneuve;
 let CronenbergToNolan, CronenbergToLau, CronenbergToKobayashi;
 let LeeToKurosawa, LeeToHonda, LeeToPakula;
+let LauToHo, LauToHonda, LauToMann;
+let CameronToNolan, CameronToChan, CameronToLee;
+let VilleneuveToTo, VilleneuveToScorcese, VilleneuveToCameron;
+
 //this will put the whole object in the variable, not just id
 
 // throw if initiate trade has an empty array
@@ -1031,7 +1035,16 @@ const addTrades = async () => {
   LeeToKurosawa = await tradesData.initiateTrade(SpikeLee, ["habanada", "lemon drop"], AkiraKurosawa, ["peter pepper", "trinidad scorpion"]);
   LeeToHonda = await tradesData.initiateTrade(SpikeLee, ["cherry bomb"], IshiroHonda, ["scotch bonnet yellow"]);
   LeeToPakula = await tradesData.initiateTrade(SpikeLee, ["cherry bomb", "habanada"], AlanJPaluka, ["sugar rush peach"]);
-  
+  LauToHo = await tradesData.initiateTrade(AndrewLau, ["big bertha", "pimenta de neyde"], BongJoonHo, ["cherry bomb"]);
+  LauToHonda = await tradesData.initiateTrade(AndrewLau, ["scotch bonnet chocolate"], IshiroHonda, ["Purple jalapeno"]);
+  LauToMann = await tradesData.initiateTrade(AndrewLau, ["scotch bonnet chocolate", "big bertha"], MichaelMann, ["early jalapeno", "lemon starrburst"]);
+  CameronToNolan = await tradesData.initiateTrade(JamesCameron, ["habanada"], ChristopherNolan, ["carolina reaper", "scotch bonnet red"]);
+  CameronToChan = await tradesData.initiateTrade(JamesCameron, ["habanada", "lemon drop"], JackieChan, ["scotch bonnet chocolate", "purple jalapeno"]);
+  CameronToLee = await tradesData.initiateTrade(JamesCameron, ["Ghost pepper", "lemon drop"], SpikeLee, ["cherry bomb"]);
+  VilleneuveToTo = await tradesData.initiateTrade(DenisVilleneuve, ["lemon starrburst"], JohnnieTo, ["brazilian starfish", "tobasco"]);
+  VilleneuveToScorcese = await tradesData.initiateTrade(DenisVilleneuve, ["lemon starrburst"], MartinScorcese, ["thors thunderbolt"]);
+  VilleneuveToCameron = await tradesData.initiateTrade(DenisVilleneuve, ["lemon starrburst"], JamesCameron, ["lemon drop"]);
+
 };
 
 try {
@@ -1052,6 +1065,13 @@ const acceptTrades = async () => {
   await tradesData.receiverAccepts((CronenbergToLau._id).toString());
   await tradesData.receiverAccepts((ChanToScorcese._id).toString());
   await tradesData.receiverAccepts((WooToKurosawa._id).toString());
+  await tradesData.receiverAccepts((NolanToAlmodovar._id).toString());
+  await tradesData.receiverAccepts((AlmodovarToVilleneuve._id).toString());
+  await tradesData.receiverAccepts((CameronToChan._id).toString());
+  await tradesData.receiverAccepts((CronenbergToNolan._id).toString());
+  await tradesData.receiverAccepts((LauToHo._id).toString());
+  await tradesData.receiverAccepts((MannToPakula._id).toString());
+
 }
 
 try {
