@@ -10,6 +10,8 @@ import {
   growData
 } from "../data/index.js";
 import { ObjectId } from "mongodb";
+import fs from 'fs';
+import path from 'path';
 
 const db = await dbConnection();
 await db.dropDatabase();
@@ -992,17 +994,46 @@ try {
   console.error(error);
 }
 
-// Add posts to users
+// Add grows post to users
+let img1 = './public/img/img1.jpg';
+let img2 = './public/img/img2.jpg';
+let img3 = './public/img/img3.jpg';
+let img4 = './public/img/img4.jfif';
+let img5 = './public/img/img5.jfif';
+let img6 = './public/img/img6.jfif';
+let img7 = './public/img/img7.jpg';
+let img8 = './public/img/img8.jpg';
+
+const convert = (dir) => {
+  try {
+      const image = fs.readFileSync(dir, 'base64');
+      const extensionName = path.extname(dir);
+      const base64ImageStr = `data:image/${extensionName.split('.').pop()};base64,${image}`;
+      return base64ImageStr;
+  } catch (error) {
+      console.log(error.message);
+      return null;
+  }
+}
+
 try{
-  await growData.createPost(ericyang, "", "This is my goood pepper");
-  await growData.createPost(ericyang, "", "My best pepper");
-  await growData.createPost(BongJoonHo, "", "Look at these cute pepper");
-  await growData.createPost(BongJoonHo, "", "There are my babies");
-  await growData.createPost(BongJoonHo, "", "Anyone who wants these peppers, pls contact me");
-  await growData.createPost(AlanJPaluka, "", "Hey!!! Look at how cute they are");
-  await growData.createPost(MasakiKobayashi, "", "First harvest in this season...");
-  await growData.createPost(MasakiKobayashi, "", "Yo! Check this out!");
-  console.log("Done adding posts for users")
+  img1 = convert(img1);
+  img2 = convert(img2);
+  img3 = convert(img3);
+  img4 = convert(img4);
+  img5 = convert(img5);
+  img6 = convert(img6);
+  img7 = convert(img7);
+  img8 = convert(img8);
+  await growData.createPost(ericyang, img1, "This is my goood pepper");
+  await growData.createPost(ericyang, img2, "Looks good isn't it");
+  await growData.createPost(BongJoonHo, img3, "Look at these cute pepper");
+  await growData.createPost(BongJoonHo, img7, "There are my babies");
+  await growData.createPost(BongJoonHo, img8, "Anyone who wants these peppers, pls contact me");
+  await growData.createPost(AlanJPaluka, img6, "Hey!!! Look at how cute they are");
+  await growData.createPost(yangeric, img4, "First harvest in this season...");
+  await growData.createPost(yangeric, img5, "Yo! Check this out!");
+  console.log("Done adding grows for users")
 }catch(e){
   console.log(e);
 }
