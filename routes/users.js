@@ -75,7 +75,9 @@ router
         return res.status(500).json({error: "Comment not added"})
     }
     userBeingCommented._id = userBeingCommented._id.toString();
-    res.redirect(`/user/${req.params.username}`);
+    //res.redirect(`/user/${req.params.username}`);
+    console.log(userBeingCommented);
+    return res.json(userBeingCommented);
 });
 
 router

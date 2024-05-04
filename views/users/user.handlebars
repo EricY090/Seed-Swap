@@ -13,7 +13,7 @@
         <div class="col">
             <div class="card">
                 <div class="card-body">
-                    <h1 tabindex="0">{{user.username}}</h1>
+                    <h1 id="Users_Name" tabindex="0">{{user.username}}</h1>
                     <div class="user-info">
                         <p>Sending from {{user.countryCode}}</p>
                         {{#if user.discord}}
@@ -65,7 +65,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col">
+        <div class="col" id="User_Comment_List">
             {{#each user.profileComments}}
                 <div class="card">
                     <div class="card-body">
@@ -75,6 +75,7 @@
                 </div>
             {{/each}}
         </div>
+    </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <script src="../../public/js/comment_validation.js"></script>
