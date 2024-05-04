@@ -76,7 +76,7 @@ router
     }
     userBeingCommented._id = userBeingCommented._id.toString();
     //res.redirect(`/user/${req.params.username}`);
-    console.log(userBeingCommented);
+    // console.log(userBeingCommented);
     return res.json(userBeingCommented);
 });
 
