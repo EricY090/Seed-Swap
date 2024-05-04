@@ -6,6 +6,7 @@ import homepageRoutes from "./homepage.js"
 import matchesRoutes from "./matches.js";
 import moderatorRoutes from "./moderator.js";
 import submissionRoutes from "./submission.js";
+import growRoutes from "./grow.js"
 
 const constructorMethod = (app) => {
   app.use("/", authroutes); //base route
@@ -16,6 +17,7 @@ const constructorMethod = (app) => {
   app.use("/matches", matchesRoutes);
   app.use("/moderator", moderatorRoutes);
   app.use("/submission", submissionRoutes);
+  app.use("/grow", growRoutes)
 
   app.use("*", (req, res) => {
     res.status(404).json({ error: req.url });

@@ -276,7 +276,7 @@ const countrySet = [
 
 //helper functions
 const RaddError = (errstring, e=null) => {
-  let em = document.createElement("dt");
+  let em = document.createElement("div");
   em.innerHTML = errstring;
   errorRegister.append(em)
   errorRegister.hidden = false;
@@ -287,7 +287,7 @@ const RaddError = (errstring, e=null) => {
 }
 
 const LaddError = (errstring, e=null) => {
-  let em = document.createElement("dt");
+  let em = document.createElement("div");
   em.innerHTML = errstring;
   errorLogin.append(em)
   errorLogin.hidden = false;

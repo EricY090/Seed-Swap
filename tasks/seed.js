@@ -6,7 +6,8 @@ import {
   usersPeppersData,
   commentsData,
   tradesData,
-  reviewsData
+  reviewsData,
+  growData
 } from "../data/index.js";
 import { ObjectId } from "mongodb";
 
@@ -383,7 +384,9 @@ let AkiraKurosawa,
   DenisVilleneuve,
   MasakiKobayashi,
   AlanJPaluka,
-  BongJoonHo;
+  BongJoonHo,
+  ericyang,
+  yangeric;
 
 const seedUsers = async () => {
   AkiraKurosawa = await usersData.createUser(
@@ -580,6 +583,26 @@ const seedUsers = async () => {
     undefined,
     undefined,
     "MemoriesOfMurder2003"
+  );
+  ericyang = await usersData.createUser(
+    false,
+    "ericyang",
+    false,
+    "US",
+    undefined,
+    undefined,
+    'eyang6@stevens.edu',
+    "Qwertyui1"
+  );
+  yangeric = await usersData.createUser(
+    false,
+    "yangeric",
+    false,
+    "US",
+    'yangyangDC',
+    undefined,
+    undefined,
+    "Qwertyui2"
   );
 };
 
@@ -854,7 +877,7 @@ console.log("done adding comments to users");
 let KurosawaToChan, KurosawaToCameron, KurosawaToWoo, KurosawaToHonda;
 let WooToScorcese, WooToBong, WooToKurosawa, WooToChan;
 let ToToMann, ToToLee, ToToKobayashi
-let NolanToAlmodovar, NolanToLau, NolanToHonda;
+let NolanToAlmodovar, NolanToLau, NolanToHonda, NolanToWoo;
 let MannToHung, MannToCronenberg, MannToPakula;
 let AlmodovarToKurosawa, AlmodovarToTo, AlmodovarToVilleneuve;
 let ChanToScorcese, ChanToCameron, ChanToHo, ChanToLee
@@ -880,6 +903,7 @@ const addTrades = async () => {
   ToToKobayashi = await tradesData.initiateTrade(JohnnieTo, ["tobasco"], MasakiKobayashi, ["brazilian starfish", "big bertha"]);
   NolanToAlmodovar = await tradesData.initiateTrade(ChristopherNolan, ["lemon starrburst", "carolina reaper"], PedroAlmodovar, ["bolivian rainbow"]);
   NolanToLau = await tradesData.initiateTrade(ChristopherNolan, ["carolina reaper"], AndrewLau, ["pimenta de neyde", "scotch bonnet chocolate"]);
+  NolanToWoo = await tradesData.initiateTrade(ChristopherNolan, ["lemon starrburst"], JohnWoo1, ["chiltepin"]);
   NolanToHonda = await tradesData.initiateTrade(ChristopherNolan, ["carolina reaper"], IshiroHonda, ["cayenne long slim", "scotch bonnet yellow"]);
   MannToHung = await tradesData.initiateTrade(MichaelMann, ["scotch bonnet yellow", "sugar rush peach"], SammoHung, ["ghost pepper"]);
   MannToCronenberg = await tradesData.initiateTrade(MichaelMann, ["lemon starrburst"], DavidCronenberg, ["zebrange","cayenne long slim"]);
@@ -906,6 +930,7 @@ const addTrades = async () => {
   LeeToKurosawa = await tradesData.initiateTrade(SpikeLee, ["habanada", "lemon drop"], AkiraKurosawa, ["peter pepper", "trinidad scorpion"]);
   LeeToHonda = await tradesData.initiateTrade(SpikeLee, ["cherry bomb"], IshiroHonda, ["scotch bonnet yellow"]);
   LeeToPakula = await tradesData.initiateTrade(SpikeLee, ["cherry bomb", "habanada"], AlanJPaluka, ["sugar rush peach"]);
+  
 };
 
 try {
@@ -967,10 +992,19 @@ try {
   console.error(error);
 }
 
-try {
-  console.log(await tradesData.findPeopleUserHasTradedWith((JohnWoo1)))
-} catch (error) {
-  console.error(error);
+// Add posts to users
+try{
+  await growData.createPost(ericyang, "", "This is my goood pepper");
+  await growData.createPost(ericyang, "", "My best pepper");
+  await growData.createPost(BongJoonHo, "", "Look at these cute pepper");
+  await growData.createPost(BongJoonHo, "", "There are my babies");
+  await growData.createPost(BongJoonHo, "", "Anyone who wants these peppers, pls contact me");
+  await growData.createPost(AlanJPaluka, "", "Hey!!! Look at how cute they are");
+  await growData.createPost(MasakiKobayashi, "", "First harvest in this season...");
+  await growData.createPost(MasakiKobayashi, "", "Yo! Check this out!");
+  console.log("Done adding posts for users")
+}catch(e){
+  console.log(e);
 }
 
 await closeConnection();

@@ -1,13 +1,13 @@
 
 <h1>Register</h1>
-<dl id="errorRegister" class="alert alert-danger" role="alert" {{hid}}>{{error}}</dl>
+<div id="errorRegister" class="alert alert-danger" role="alert" {{hid}}>{{error}}</div>
 <form method="POST" action="/register" id="signup-form" class="row g-3 needs-validation" novalidate>
   
   <!-- This Div contains the input for the Username-->
   <div class="col-md-4">
     <label for="username" class="form-label">Username:</label>
     <div class="input-group has-validation">
-      <input name="username" type="text" class="form-control" id="username" placeholder="Please enter your Username" aria-describedby="inputGroupPrepend" required>
+      <input name="username" type="text" class="form-control" id="username" placeholder="Please enter your Username" required>
       <div class="invalid-feedback">
         Please enter a valid Username.
       </div>
