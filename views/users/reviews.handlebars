@@ -24,7 +24,7 @@
                     <div class="card-body">
                         <h4>How was your experience trading with {{user.username}}?</h4>
                         <div>
-                            <form action="/user/{{user.username}}/reviews" method="post">
+                            <form action="/user/{{user.username}}/reviews" id="reviewForm" method="post">
                                 <label for="shippingSpeed">Shipping Speed:</label>
                                 <select name="shippingSpeed" id="shippingSpeed">
                                     <option value="5">5</option>
@@ -78,3 +78,4 @@
         </div>
     </div>
 </div>
+<script src="../../public/js/review_validation.js"></script>
