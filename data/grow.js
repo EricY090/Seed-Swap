@@ -6,14 +6,21 @@ import xss from "xss";
 // Create a post under certain user 
 const createPost = async (userId, filenames, textPortion) => {
     if (!userId || filenames === undefined || textPortion === undefined) throw "fields incomplete";
-    userId = xss(userId);
     try {
         userId = usersValidation.validateUserId(userId);
-        if (typeof(textPortion) !== 'string') throw "Text portion must be string";
+        if (typeof(textPortion) !== 'string') throw "textPortion must be string";
+        if (textPortion !== xss(textPortion)) throw "textPortion is an xss vulnerability";
     } catch (e) {
         throw e;
     };
-
+    //Check filenames
+    if (filenames !== '' && (filenames.slice(0, 11) !== 'data:image/' || filenames.split(';')[1].slice(0, 6) !== 'base64')){
+        throw "filename for image is not a base64 string";
+    };
+    //Check length of textPortion
+    if (textPortion.trim().length <10 || textPortion.length > 1500){            // #Character including head/tail spaces < 1500
+        throw "Text needs to be at least 10 characters and 1500 maximum";
+    };
     let usersCollection = await users();
     try {
         let user = await usersCollection.findOne({ _id: new ObjectId(userId) });
@@ -27,7 +34,7 @@ const createPost = async (userId, filenames, textPortion) => {
     try{
         await usersCollection.updateOne({_id: new ObjectId(userId)}, {$push: {growLog: new_post}});
     }catch(e){
-        throw "User not found!";
+        throw e;
     };
 
     let UpdatedAllPost = await getAllPost(userId); 
@@ -38,7 +45,6 @@ const createPost = async (userId, filenames, textPortion) => {
 // Return the posts array of a certain user
 const getAllPost = async (userId) =>{
     if (!userId) throw "fields incomplete";
-    userId = xss(userId);
     try {
         userId = usersValidation.validateUserId(userId);
     } catch (e) {
@@ -56,25 +62,5 @@ const getAllPost = async (userId) =>{
     return user.growLog;
 };
 
-const getPostByID = async (postId) =>{
-    if (!postId) throw "fields incomplete";
-    try {
-        postId = usersValidation.validateUserId(postId);
-    }catch(e) {
-        throw e;
-    };
 
-    let usersCollection = await users();
-    let target_post;
-    try {
-        target_post = await usersCollection.findOne({'growLog._id': new ObjectId(postId)}, {projection: {_id: 0, 'growLog.$': 1}});
-        if (!target_post) throw "Post not found";
-    } catch (e) {
-        throw e;
-    };
-
-    return target_post[0];
-};
-
-
-export default {getAllPost, createPost, getPostByID};
+export default {getAllPost, createPost};

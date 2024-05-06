@@ -9,6 +9,7 @@
       }
     }; 
 </script>
+<script src="../../public/js/grow_valid.js" type="module"></script>
 <a href="/homePage">My HomePage</a>
 <div>
     <ul>
@@ -23,15 +24,15 @@
 </div>
 {{#if ownPage}}
     <div class="add-button"><button onclick="toggle()" id = "grow-add-button">Add New Post</button></div> <br>
+    <div id = 'grow-error' hidden></div>
     <div id="grow-add">
-        <form action="/grow/{{id}}" method="POST" class="add-form" enctype="multipart/form-data"> 
-        <label for="Filenames">Choose a picture:</label>
-        <input type="file" id="Filenames" name="Filenames" accept="image/png, image/jpeg, image/gif, image/jpg" /> <br><br>
-        <label for = "textPortion">Content: </label> <br><br>
+        <form id = 'grow-form' name = 'grow-form' action="/grow/{{id}}" method="POST" class="add-form" enctype="multipart/form-data"> 
+        <label for="Filenames">Choose a picture if you want to (.jpg, .jpeg, .png, .gif, .jfif, size less than 2MB):</label>
+        <input type="file" id="Filenames" name="Filenames" accept="image/*" /> <br><br>
+        <label for = "textPortion">Content* (10- 1500 characters maximum): </label> <br><br>
         <textarea type = 'text' id = 'textPortion' name="textPortion"> </textarea><br><br>
         <input type ="submit" value="Submit" id="grow-submit">
         </form>
         <button onclick="toggle()" id="cancel-button">Cancel</button>
-    
     </div>
 {{/if}}
