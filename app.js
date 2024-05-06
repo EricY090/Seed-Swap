@@ -115,7 +115,16 @@ app.use("/user", (req,res,next) => {
   }
 })
 
-//
+//Grow Middleware
+app.use("/grow", (req,res,next) => {
+  if(req.session.user){
+    next();
+  }
+  else{
+    return res.redirect('/login');
+  }
+})
+
 
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
