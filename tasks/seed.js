@@ -1122,6 +1122,11 @@ let img5 = './public/img/img5.jfif';
 let img6 = './public/img/img6.jfif';
 let img7 = './public/img/img7.jpg';
 let img8 = './public/img/img8.jpg';
+let img9 = './public/img/img9.jpg';
+let img10 = './public/img/img10.jfif';
+let img11 = './public/img/img11.jfif';
+let img12 = './public/img/img12.jfif';
+
 
 const convert = (dir) => {
   try {
@@ -1144,14 +1149,22 @@ try{
   img6 = convert(img6);
   img7 = convert(img7);
   img8 = convert(img8);
+  img9 = convert(img9);
+  img10 = convert(img10);
+  img11 = convert(img11);
+  img12 = convert(img12);
   await growData.createPost(ericyang, img1, "This is my goood pepper");
   await growData.createPost(ericyang, img2, "Looks good isn't it");
   await growData.createPost(BongJoonHo, img3, "Look at these cute pepper");
-  await growData.createPost(BongJoonHo, img7, "There are my babies");
-  await growData.createPost(BongJoonHo, img8, "Anyone who wants these peppers, pls contact me");
+  await growData.createPost(ChristopherNolan, img7, "There are my babies");
+  await growData.createPost(DavidCronenberg, img8, "Anyone who wants these peppers, pls contact me");
   await growData.createPost(AlanJPaluka, img6, "Hey!!! Look at how cute they are");
-  await growData.createPost(yangeric, img4, "First harvest in this season...");
-  await growData.createPost(yangeric, img5, "Yo! Check this out!");
+  await growData.createPost(MichaelMann, img4, "First harvest in this season...");
+  await growData.createPost(AkiraKurosawa, img5, "Yo! Check this out!");
+  await growData.createPost(AkiraKurosawa, img9, "Contact me if you want to trade them!");
+  await growData.createPost(IshiroHonda, img10, "Is there anyone who wants to trade with me :)");
+  await growData.createPost(AndrewLau, img11, "Check this out!");
+  await growData.createPost(JackieChan, img12, "Anybody interested?");
   console.log("Done adding grows for users")
 }catch(e){
   console.log(e);
