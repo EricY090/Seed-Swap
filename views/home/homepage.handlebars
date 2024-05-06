@@ -1,7 +1,59 @@
-<h1>User is Logged in, This is just a placeholder for the homepage</h1>
-<a id="logoutLink" href="/logout" class="logoutlink">Logout</a>
-<a id="pepperLink" href="/peppers" class="pepperLink">Peppers</a>
-<a id="matchingLink" href="/matches" class="matchingLink">Matches</a>
-<a id="tradelink" href="/trades" class="tradelink">Trading Page</a>
-<a id="moderatorLink" href="/moderator" class="moderatorLink">Moderator Page</a>
-<a id="growLink" href="/grow/{{user._id}}" class = "growLink">Grows</a>
+<h1 id="welcomeText">Welcome to Seed Swap!</h1>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col homepage-nav">
+            <a id="userLink" href="/user/{{user.username}}" class="btn btn-primary">View your profile</a>
+            <a id="pepperLink" href="/peppers" class="btn btn-primary">Browse Peppers</a>
+            <a id="matchingLink" href="/matches" class="btn btn-primary">View your matches</a>
+            <a id="tradeLink" href="/trades" class="btn btn-primary">Manage your trades</a>
+            <a id="growLink" href="/grow/{{user._id}}" class="btn btn-primary">Grow blog</a>
+            {{#if user.moderator}}
+                <a id="moderatorLink" href="/moderator" class="btn btn-primary">Moderator Page</a>
+            {{/if}}
+            <a id="logoutLink" href="/logout" class="btn btn-primary">Logout</a>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    {{#if user.wishlist.length}}
+                        <h3>Your Wishlist:</h3>
+                        <ul>
+                            {{#each user.wishlist}}
+                                <li>{{this}}</li>
+                            {{/each}}
+                        </ul>
+                    {{else}}
+                        <p>You don't have anything in your wishlist yet.</p>
+                        <p><a href="/peppers">Browse peppers</a> to add some!</p>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    {{#if user.inventory.length}}
+                        <h3>Your Inventory:</h3>
+                        <ul>
+                            {{#each user.inventory}}
+                                <li>{{this}}</li>
+                            {{/each}}
+                        </ul>
+                    {{else}}
+                        
+                        <p>You don't have anything in your inventory yet.</p>
+                        <p><a href="/peppers">Browse peppers</a> to add some!</p>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

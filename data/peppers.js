@@ -276,7 +276,7 @@ originCountryCode = pepperValidation.validateCountryCode(originCountryCode);
 
 const filterPeppersByProperties = async(propertiesObj) => {
   const pepperCollection = await peppers();
-  const queryingObj = {};
+  const queryingObj = {moderatorApproved: true};
   if(typeof propertiesObj !== 'object' || Array.isArray(propertiesObj)) throw "Invalid properties object provided!"
   try{
     for(const field of Object.keys(propertiesObj)){
@@ -303,7 +303,6 @@ const filterPeppersByProperties = async(propertiesObj) => {
     throw e;
   }
   if(Object.keys(queryingObj).length === 0) throw "No valid search criteria!";
-  console.log(queryingObj);
   const matches = await pepperCollection.find(queryingObj).toArray();
   matches.forEach((pepper) => {
     pepper._id = pepper._id.toString();

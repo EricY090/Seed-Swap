@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col user-page-links-btns">
             <a href="{{user.username}}/reviews" class="btn btn-primary">See this user's reviews</a>
-            <a href="{{user.username}}/glog" class="btn btn-primary">See this user's grow log</a>
+            <a href="/grow/{{user._id}}" class="btn btn-primary">See this user's grow log</a>
             <a href="/trades/initiate/{{user._id}}" class="btn btn-primary">Initiate a trade with this user</a>
         </div>
     </div>

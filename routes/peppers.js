@@ -4,6 +4,7 @@ import userspeppers from "../data/userspeppers.js";
 const router = Router();
 import session from "express-session";
 import pepperValidation from "../pepperValidation.js";
+import xss from 'xss';
 
 //add /pepper at some point;
 
@@ -41,7 +42,7 @@ router.route('/').post(async (req, res) => {
           if(x === 'heatLevel' && req.body['filterByHeat']){ //only add heat filter if the box is checked
             query_new[x] = parseInt(req.body[x]);
           } else if(x !== 'heatLevel'){
-            query_new[x] = req.body[x];
+            query_new[x] = xss(req.body[x]);
           }
         }
       }

@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb";
+import xss from "xss";
 // sourced from https://www.codeinwp.com/snippets/list-of-all-countries-html-select-javascript-and-json-format/
 const countrySet = [
   { name: "Albania", code: "AL" },
@@ -265,7 +266,7 @@ const validateBoolean = (bool, varName) => {
 };
 
 /**
- * does not do xss checking here.
+ * 
  * @param {string} username
  * @returns username
  * @throws {string} a myriad of error messages
@@ -275,6 +276,7 @@ const validateUsername = (username) => {
   if (typeof username !== "string") {
     throw "Username must be a string";
   }
+  username = xss(username);
   let usernameCopy = username;
   if (username.trim() !== usernameCopy) {
     throw "username started/ended with whitespace";
@@ -300,6 +302,7 @@ const validateUsername = (username) => {
 const validatePhoneNumber = (phoneNumber) => {
   if (typeof phoneNumber === "undefined") throw "Phone number is undefined";
   if (typeof phoneNumber !== "string") throw "Phone number is not a string";
+  phoneNumber = xss(phoneNumber);
   if (phoneNumber.trim().length < 10) throw "Phone number is too short";
   if (phoneNumber.trim().length > 15) throw "Phone number is too long";
   if (!/^\+?[0-9]+$/.test(phoneNumber)) throw "Phone number is not valid";
@@ -309,6 +312,7 @@ const validatePhoneNumber = (phoneNumber) => {
 const validateCity = (city) => {
   if (typeof city === "undefined") throw "City is undefined";
   if (typeof city !== "string") throw "City is not a string";
+  city = xss(city);
   if (city.trim().length === 0) throw "City is empty";
   if (city.length > 50) throw "City name is too long";
   return city;
@@ -379,6 +383,7 @@ const validateState = (state) => {
   if (typeof state === "undefined") throw "State is undefined";
   if (typeof state !== "string") throw "State is not a string";
   if (state.trim().length === 0) throw "State is empty";
+  state = xss(state)
   state = state.trim().toUpperCase();
   if (typeof USStates[state] === "undefined")
     throw `US State abbrev  ${state} does not exist`;
@@ -389,6 +394,7 @@ const validateCountryCode = (countryCode) => {
   if (typeof countryCode === "undefined") throw "Country is undefined";
   if (typeof countryCode !== "string") throw "Country is not a string";
   if (countryCode.trim().length != 2) throw "Country code is not 2 characters";
+  countryCode = xss(countryCode);
   countryCode = countryCode.trim().toUpperCase();
   let country = countrySet.find((c) => c.code === countryCode);
   if (typeof country === "undefined") throw "Country code is not valid";
@@ -400,9 +406,11 @@ const validateEmail = (email) => {
   if (typeof email !== "string") {
     throw "Email must be a string";
   }
+  email = email.trim();
   if (email.length === 0) {
     throw "Email must not be empty";
   }
+  email = xss(email);
   if (email.includes(" ")) {
     throw "Email must not contain spaces";
   }
@@ -432,6 +440,8 @@ const validateDiscord = (discord) => {
   if (typeof discord !== "string") {
     throw "Discord username must be a string";
   }
+  discord = discord.trim();
+  discord = xss(discord);
   if (discord.trim().length === 0) {
     throw "Discord username must not be empty";
   }

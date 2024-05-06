@@ -17,7 +17,7 @@ router
     try {
         unnaprovedPeppers = await peppersData.getAllPeppersUnappr();
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error });
     }
     if(unnaprovedPeppers.length === 0){
         res.status(200).render("moderator/moderator");
@@ -62,7 +62,7 @@ router
         try {
             await moderatorData.approvePepperById((req.session.user._id).toString(), pepperId, true);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({ error: error });
             return
         }
         return res.redirect("/moderator");
@@ -71,7 +71,7 @@ router
         try {
             await moderatorData.approvePepperById((req.session.user._id).toString(), pepperId, false);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({ error: error });
             return
         }
         return res.redirect("/moderator");

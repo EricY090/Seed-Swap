@@ -70,7 +70,7 @@ const createReview = async (reviewerName, revieweeName, shippingSpeed, packaging
     let newOverallExp = Number((totalOverallExp / totalReviews).toFixed(2));
     let ackObj2 = await usersCollection.updateOne({ username: revieweeName }, { $set: { avgRatingShipping: newShippingSpeed, avgRatingPackaging: newPackaging, avgRatingOverall: newOverallExp } });
     if (ackObj2.matchedCount === 0) throw "User not found";
-    if (ackObj2.modifiedCount === 0) throw "Average ratings not updated";
+    // if (ackObj2.modifiedCount === 0) throw "Average ratings not updated";
     let updatedUser
     try {
         updatedUser = await usersData.getUserByName(revieweeName);

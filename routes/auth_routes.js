@@ -74,7 +74,9 @@ router
     if (email != xss(email)){
       return res.status(400).render('auth/register', {error: "Email is an xss vulnerability" , hid:""});
     }
-    if(usersData.emailInUse(email)){
+    let emailInUse = await usersData.emailInUse(email);
+    if(emailInUse){
+      // console.log(`email ${email} is being chekced`)
       return res.status(400).render('auth/register', {error: "Email already in use" , hid:""});
     }
   }
