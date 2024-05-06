@@ -189,3 +189,7 @@ a{
     color: #4A5568;
     border: none
 }
+
+#grow-error {
+    color: red;
+}
