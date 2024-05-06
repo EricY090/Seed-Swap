@@ -17,7 +17,7 @@ const validatePepperName = (pepperName) => {
 };
 
 /**
- * empty arrays are allowed
+ * empty arrays are allowed. validatePeppername on all elements of arr
  * @param {string[]} alternativeNames
  * @returns {string[]} alternativeNames
  * @throws {string} undefined, not an array, invalid pepper names
@@ -39,7 +39,7 @@ const validateAlternativeNames = (alternativeNames) => {
 };
 
 /**
- *
+ * trim, lower case, xss check
  * @param {string} species
  * @returns {string} species
  * @throws {string}
@@ -77,7 +77,7 @@ const validateHeatLevel = (heatLevel) => {
 
 //peppers can have a color of black, brown, cream, golden, green, orange, pink, purple, red, white, yellow
 /**
- *
+ * trim, lower case, xss cleaning
  * @param {string} color
  * @returns {string} color
  * @throws {string}
@@ -99,6 +99,7 @@ const validateColor = (color) => {
   if (typeof color !== "string") throw "Color is not a string";
   if (color.trim().length === 0) throw "Color is an empty string";
   color = color.trim().toLowerCase();
+  color = xss(color);
   if (!capsicumColors.includes(color)) {
     throw "Color is not a valid pepper color";
   }
@@ -406,7 +407,7 @@ const countrySet = [
 ];
 
 /**
- *
+ * trim, upper case, xss clean
  * @param {string} countryCode
  * @returns {string} countryCode
  * @throws {string}
@@ -416,6 +417,7 @@ const validateCountryCode = (countryCode) => {
   if (typeof countryCode !== "string") throw "Country is not a string";
   if (countryCode.trim().length != 2) throw "Country code is not 2 characters";
   countryCode = countryCode.trim().toUpperCase();
+  countryCode = xss(countryCode);
   if (countryCode === "__") return countryCode;
   let country = countrySet.find((c) => c.code === countryCode);
   if (typeof country === "undefined") throw "Country code is not valid";
@@ -423,7 +425,7 @@ const validateCountryCode = (countryCode) => {
 };
 
 /**
- *
+ * trim, xss clean, check if valid object ID
  * @param {string} pepperId
  * @returns {string} pepperId
  * @throws {string}
@@ -434,10 +436,17 @@ const validatePepperId = (pepperId) => {
   if (typeof pepperId !== "string") throw "Pepper ID is not a string";
   if (pepperId.trim().length === 0) throw "Pepper ID is an empty string";
   pepperId = pepperId.trim();
+  pepperId = xss(pepperId);
   if (!ObjectId.isValid(pepperId)) throw "invalid object ID";
   return pepperId.trim();
 };
 
+/**
+ * validate a string of comma separated pepper names. trim, casing, xss cleaning
+ * @param {string} altNames, comma separated.
+ * @returns {string[]} altNamesArr
+ * @throws {string}
+ */
 const validateCommaSeparatedAltNames = (altNames) => {
   if (typeof altNames === "undefined") throw "altNames are undefined";
   if (typeof altNames !== "string") throw "altNames is not a string";
