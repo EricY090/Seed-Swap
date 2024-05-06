@@ -186,18 +186,4 @@ router
 
 });
 
-
-router
-.route('/:username/glog')
-.get(async (req, res) => {
-    try{
-        let user = await users.getUserByName(req.params.username);
-        user._id = user._id.toString();
-        res.render('users/glog', {user: user});
-    } catch (e) {
-        console.log(e);
-        res.status(404).json({error: "No guy!"})
-    }
-});
-
 export default router;
