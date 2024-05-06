@@ -218,7 +218,7 @@ router
       // actually have this redirect to error 404 page
       return res.redirect("/trades")
     } else {
-      return res.status(500).json({error: error.message});
+      return res.status(500).json({error: error});
     }
   }
   if(!req.body.initiatorSending){
@@ -227,16 +227,22 @@ router
   if(!req.body.receiverSending){
     return res.status(400).json({error: "receiverSending not provided"});
   }
-  let initiatorSending = tradesValidation.validatePepperStrOrArr(req.body.initiatorSending);
-  let receiverSending = tradesValidation.validatePepperStrOrArr(req.body.receiverSending);
-  // console.log(initiatorSending);
-  // console.log(receiverSending);
+
+  let initiatorSending
+  let receiverSending
+  try {
+    initiatorSending = tradesValidation.validatePepperStrOrArr(req.body.initiatorSending);
+    receiverSending = tradesValidation.validatePepperStrOrArr(req.body.receiverSending);
+  } catch (error) {
+    return res.status(500).json({error: error});
+  }
+
   try {
     let trade = await tradesData.initiateTrade(req.session.user._id.toString(), initiatorSending, receiverId, receiverSending);
     // console.log(trade);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({error: error.message});
+    return res.status(500).json({error: error});
   }
 
   return res.redirect("/trades");
