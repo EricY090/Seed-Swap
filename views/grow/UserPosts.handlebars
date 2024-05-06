@@ -27,9 +27,9 @@
     <div id = 'grow-error' hidden></div>
     <div id="grow-add">
         <form id = 'grow-form' name = 'grow-form' action="/grow/{{id}}" method="POST" class="add-form" enctype="multipart/form-data"> 
-        <label for="Filenames">Choose a picture (.jpg, .jpeg, .png, .gif, .jfif, size less than 2MB):</label>
+        <label for="Filenames">Choose a picture if you want to (.jpg, .jpeg, .png, .gif, .jfif, size less than 2MB):</label>
         <input type="file" id="Filenames" name="Filenames" accept="image/*" /> <br><br>
-        <label for = "textPortion">Content (10- 1500 characters maximum): </label> <br><br>
+        <label for = "textPortion">Content* (10- 1500 characters maximum): </label> <br><br>
         <textarea type = 'text' id = 'textPortion' name="textPortion"> </textarea><br><br>
         <input type ="submit" value="Submit" id="grow-submit">
         </form>
